@@ -1,0 +1,42 @@
+---
+
+- name: Install X pkgs
+  tags:
+    - arch
+    - packages
+  community.general.pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+      - xorg-xsetroot
+      - xorg-apps
+        # misc
+      - noto-fonts
+    update_cache: true
+    state: latest
+    reason: explicit
+
+- name: Graphics driver
+  block:
+    - name: Include multilib repository
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: "^#\\[multilib\\]\n#Include = /etc/pacman.d/mirrorlist"
+        replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
+
+    - name: Run the equivalent of "pacman -Sy" as a separate step
+      community.general.pacman:
+        update_cache: true
+
+          # TODO discover platform
+    - name: Install graphics drivers
+      community.general.pacman:
+        name:
+          - mesa
+          - vulkan-intel
+          - xf86-video-intel
+          - intel-media-driver
+          - lib32-mesa
+
+...

@@ -1,0 +1,10 @@
+---
+# TODO ensure snap installed
+
+- name: Install Snap packages
+  community.general.snap:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ lookup('file', '../files/snap.txt').splitlines() }}"
+
+...

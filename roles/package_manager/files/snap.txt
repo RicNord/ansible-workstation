@@ -1,0 +1,4 @@
+slack
+spotify
+storage-explorer
+vlc

@@ -1,0 +1,75 @@
+---
+
+- name: Install dmenu slock
+  tags: suckless
+  ansible.builtin.package:
+    name:
+      - dmenu
+      - slock
+    state: latest
+
+- name: Install dwm dependencies for Debian
+  tags: suckless
+  ansible.builtin.apt:
+    name:
+      - libxft-dev
+      - libx11-dev
+      - libxinerama-dev
+    state: latest
+  when: ansible_distribution == 'Debian'
+
+
+- name: Install suckless forks
+  tags:
+    - suckless
+  block:
+    - name: Copy dwm
+      ansible.builtin.copy:
+        src: dwm
+        dest: "{{ home }}/repos/usr"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+      register: dwm
+
+    - name: Install dwm
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/dwm"
+      when: dwm.changed
+
+
+    - name: Copy slstatus
+      ansible.builtin.copy:
+        src: slstatus
+        dest: "{{ home }}/repos/usr"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+      register: slstatus
+
+    - name: Install slstatus
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/slstatus"
+      when: slstatus.changed
+
+
+    - name: Copy st
+      ansible.builtin.copy:
+        src: st
+        dest: "{{ home }}/repos/usr"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+      register: st
+
+    - name: Install st
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/st"
+      when: st.changed
+...

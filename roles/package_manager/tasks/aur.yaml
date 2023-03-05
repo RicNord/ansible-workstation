@@ -1,0 +1,15 @@
+---
+
+- name: Install AUR packages
+  tags:
+    - arch
+    - packages
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  become: true
+  become_user: aur_builder
+  loop: "{{ lookup('file', 'files/aur.txt').splitlines() }}"
+
+...

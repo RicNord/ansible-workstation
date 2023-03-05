@@ -1,0 +1,44 @@
+---
+
+- name: Update packages
+  hosts: all
+  become: true
+  pre_tasks:
+
+    - name: Update apt packages
+      tags: always
+      ansible.builtin.apt:
+        upgrade: safe
+        update_cache: true
+      when: ansible_distribution == 'Debian'
+
+- name: Arch setup
+  hosts: all
+  become: true
+  roles:
+    - role: arch_setup
+      when: ansible_distribution == "Archlinux"
+
+- name: Misc install
+  hosts: all
+  become: true
+  roles:
+    - dotfiles
+    - package_manager
+    - prog_env
+    - neovim
+    - suckless
+
+- name: Gnome config
+  hosts: all
+  become: true
+  roles:
+    - role: gnome
+      when: ansible_distribution == 'Debian'
+
+- name: Systemd config
+  hosts: all
+  become: true
+  roles:
+    - systemd
+...

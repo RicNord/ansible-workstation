@@ -1,0 +1,20 @@
+---
+# AUR do not allow root to install pkgs, hence creation of this user.
+
+- name: Create the `aur_builder` user
+  become: true
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: true
+    group: wheel
+
+- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-aur_builder
+    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman,/usr/bin/makepkg'
+    create: true
+    mode: '644'
+    validate: 'visudo -cf %s'
+
+...

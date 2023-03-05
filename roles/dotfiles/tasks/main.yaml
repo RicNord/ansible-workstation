@@ -1,0 +1,9 @@
+---
+
+- name: System dotfiles
+  ansible.builtin.import_tasks: system.yaml
+
+- name: User dotfiles
+  ansible.builtin.import_tasks: user.yaml
+
+...

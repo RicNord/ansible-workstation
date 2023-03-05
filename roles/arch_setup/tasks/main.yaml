@@ -1,0 +1,17 @@
+---
+
+- name: Create user
+  tags:
+    - arch
+  ansible.builtin.import_tasks: user.yaml
+
+- name: Create AUR user
+  ansible.builtin.import_tasks: aur_user.yaml
+
+- name: Install yay
+  ansible.builtin.import_tasks: yay.yaml
+
+- name: Install Xorg
+  ansible.builtin.import_tasks: xorg.yaml
+
+...

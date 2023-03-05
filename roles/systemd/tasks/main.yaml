@@ -1,0 +1,25 @@
+---
+
+- name: Systemd services
+  tags:
+    systemd
+  block:
+    - name: Enable NetworkManager
+      ansible.builtin.systemd:
+        name: NetworkManager
+        state: started
+        enabled: true
+
+    - name: Enable bluetooth
+      ansible.builtin.systemd:
+        name: bluetooth.service
+        state: started
+        enabled: true
+
+    - name: Enable timesyncd
+      ansible.builtin.systemd:
+        name: systemd-timesyncd.service
+        state: started
+        enabled: true
+
+...

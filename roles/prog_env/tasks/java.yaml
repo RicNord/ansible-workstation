@@ -1,0 +1,25 @@
+---
+
+- name: Install Java
+  tags: java
+  community.general.pacman:
+    name:
+      - jre11-openjdk
+      - jdk11-openjdk
+    update_cache: true
+    state: latest
+    reason: explicit
+  when: ansible_os_family == 'Archlinux'
+
+- name: Install Java
+  tags:
+    - java
+  ansible.builtin.apt:
+    pkg:
+      - default-jre
+      - default-jdk
+    update_cache: true
+    state: latest
+  when: ansible_os_family == 'Debian'
+
+...

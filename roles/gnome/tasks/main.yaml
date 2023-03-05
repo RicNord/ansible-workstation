@@ -1,0 +1,46 @@
+---
+
+# TODO check if needed
+- name: Gnome settings
+  tags: gnome
+  ansible.builtin.shell: |
+    # Dark theme
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+
+    # Night light
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-last-coordinates (91.0, 181.0)
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-from 3.0
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-to 2.9999999999999999
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature uint32 2444
+
+    # Notification off
+    gsettings set org.gnome.desktop.notifications show-banners false
+
+    # Mouse
+    gsettings set org.gnome.desktop.peripherals.mouse speed 0.080882352941176405
+    gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+  become: true
+  become_user: "{{ user }}"
+
+- name: Install terminal profiles
+  tags: gnome
+  block:
+    - name: Copy gnome-terminal-profiles
+      ansible.builtin.copy:
+        src: gnome-terminal-profiles
+        dest: "{{ home }}/repos/usr"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+      register: gnome_terminal_profiles
+
+    - name: Import porfiles
+      ansible.builtin.shell:
+        cmd: bash ./import.sh
+        chdir: "{{ home }}/repos/usr/gnome-terminal-profiles/"
+      become: true
+      become_user: "{{ user }}"
+      when: gnome_terminal_profiles.changed

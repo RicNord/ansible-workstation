@@ -1,0 +1,41 @@
+---
+- name: Ensure existance of group {{ user }}
+  ansible.builtin.group:
+    name: "{{ user }}"
+    state: present
+
+- name: Ensure group wheel exists
+  ansible.builtin.group:
+    name: wheel
+    state: present
+
+- name: Create user
+  become: true
+  ansible.builtin.user:
+    name: "{{ user }}"
+    create_home: true
+    shell: /bin/bash
+    append: true
+    groups:
+      - wheel
+      - "{{ user }}"
+
+- name: Add to sudoers {{ user }}
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/01-{{ user }}
+    line: '{{ user }} ALL=(ALL:ALL) ALL'
+    create: true
+    mode: '644'
+    validate: 'visudo -cf %s'
+
+- name: Add wheel to sudoers
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/01-wheel
+    line: '%wheel ALL=(ALL:ALL) ALL'
+    create: true
+    mode: '644'
+    validate: 'visudo -cf %s'
+
+...
