@@ -1,0 +1,54 @@
+---
+
+- name: Install pyenv
+  tags:
+    - python
+    - pyenv
+  block:
+    - name: Clone repo
+      ansible.builtin.git:
+        repo: https://github.com/pyenv/pyenv.git
+        force: true
+        dest: "{{ home }}/.pyenv"
+
+    - name: Update .bash_ansible
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export PYENV_ROOT="$HOME/.pyenv"
+          export PATH="$PYENV_ROOT/bin:$PATH"
+          eval "$(pyenv init --path)"
+        marker: "# <!--- {mark} PYENV ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '777'
+
+- name: Install conda
+  ansible.builtin.get_url:
+    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    dest: "{{ home }}/miniconda.sh"
+    mode: '644'
+
+# TODO make a handler
+- name: Install miniconda
+  ansible.builtin.shell: |
+    bash {{ home }}/miniconda.sh -b -u -p {{ home }}/miniconda
+
+- name: Update .bash_ansible
+  ansible.builtin.blockinfile:
+    path: "{{ home }}/.bash_ansible"
+    block: |
+      export CONDA_AUTO_ACTIVATE_BASE=false
+    marker: "# <!--- {mark} CONDA ANSIBLE MANAGED BLOCK --->"
+    create: true
+    mode: '777'
+
+# END TODO
+
+- name: Pip install
+  ansible.builtin.pip:
+    name:
+      - virtualenv
+      - black
+      - databricks-cli
+
+...

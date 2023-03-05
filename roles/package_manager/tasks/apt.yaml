@@ -1,0 +1,188 @@
+---
+
+# Adding dependencies for installing apt keys
+- name: Adding depencnecies
+  tags:
+    - debian
+    - apt
+  ansible.builtin.apt:
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - wget
+      - apt-transport-https
+
+
+# Adding additional repositorys to APT
+# Microsoft
+- name: Add microsoft repo
+  block:
+    - name: Check if microsoft-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/microsoft-archive-keyring.gpg
+      register: ms_gpg
+
+    - name: Add microsoft-archive-keyring.gpg
+      when: not ms_gpg.stat.exists
+      block:
+        - name: Download gpg key
+          ansible.builtin.get_url:
+            url: https://packages.microsoft.com/keys/microsoft.asc
+            dest: /tmp/microsoft.asc
+            mode: '644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/microsoft-archive-keyring.gpg --dearmor /tmp/microsoft.asc
+
+    - name: Add azure-cli
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] \
+               https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
+        state: present
+        filename: azure-cli
+    - name: Add teams
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] \
+               https://packages.microsoft.com/repos/ms-teams/ stable main"
+        state: present
+        filename: teams
+    - name: Add vsCode
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] \
+               https://packages.microsoft.com/repos/code/ stable main"
+        state: present
+        filename: vscode
+
+## Google
+- name: Add google apt repository
+  block:
+    - name: Check if google-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/google-archive-keyring.gpg
+      register: google_gpg
+
+    - name: Add google-archive-keyring.gpg
+      when: not google_gpg.stat.exists
+      block:
+        - name: Download gpg key
+          ansible.builtin.get_url:
+            url: https://dl.google.com/linux/linux_signing_key.pub
+            dest: /tmp/google.gpg
+            mode: '644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/google-archive-keyring.gpg --dearmor /tmp/google.gpg
+
+    - name: Add repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-archive-keyring.gpg] \
+               https://dl.google.com/linux/chrome/deb/ stable main"
+        state: present
+        filename: google-chrome
+
+# Docker
+- name: Add docker apt repository
+  block:
+    - name: Check if docker-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/docker-archive-keyring.gpg
+      register: docker_gpg
+
+    - name: Add docker-archive-keyring.gpg
+      when: not docker_gpg.stat.exists
+      block:
+        - name: Download gpg key
+          ansible.builtin.get_url:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            dest: /tmp/docker.gpg
+            mode: '644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/docker-archive-keyring.gpg --dearmor /tmp/docker.gpg
+
+    - name: Add repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+               https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+
+# Hashicorp
+- name: Add hashicorp apt repository
+  block:
+    - name: Check if hashicorp-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+      register: hashicorp_gpg
+
+    - name: Add hashicorp-archive-keyring.gpg
+      when: not hashicorp_gpg.stat.exists
+      block:
+        - name: Download gpg key
+          ansible.builtin.get_url:
+            url: https://apt.releases.hashicorp.com/gpg
+            dest: /tmp/hashicorp.gpg
+            mode: '644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/hashicorp-archive-keyring.gpg --dearmor /tmp/hashicorp.gpg
+
+    - name: Add repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+               https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+        state: present
+        filename: hashicorp
+
+
+# # TODO CURRENTLY THE pubkey_7A3A762FAFD4A51F is not availible, Use Snap instead
+# # Spotify
+# - name: Add spotify apt repository
+#   block:
+#     - name: Check if spotify-archive-keyring.gpg already exist
+#       ansible.builtin.stat:
+#         path: /usr/share/keyrings/spotify-archive-keyring.gpg
+#       register: spotify_gpg
+#
+#     - name: Add spotify-archive-keyring.gpg
+#       block:
+#       - name: Download gpg key
+#         ansible.builtin.get_url:
+#           url: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
+#           dest: /tmp/spotify.gpg
+#           mode: '644'
+#
+#       - name: Add to keyring
+#         ansible.builtin.shell:
+#           cmd: gpg -o /usr/share/keyrings/spotify-archive-keyring.gpg --dearmor /tmp/spotify.gpg
+#       when: not spotify_gpg.stat.exists
+#
+#     - name: Add repo
+#       ansible.builtin.apt_repository:
+#         repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/spotify-archive-keyring.gpg] \
+#                http://repository.spotify.com stable non-free"
+#         state: present
+#         filename: spotify
+
+## Update and install packages
+- name: Run the equivalent of "apt-get update" as a separate step
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install packages
+  tags:
+    - debian
+    - packages
+  ansible.builtin.apt:
+    pkg: "{{ item }}"
+    update_cache: true
+    state: latest
+  loop: "{{ lookup('file', 'files/apt.txt').splitlines() }}"
+
+...

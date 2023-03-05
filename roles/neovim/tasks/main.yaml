@@ -1,0 +1,73 @@
+---
+- name: Add neovim apt repository
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Check if neovim-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/neovim-archive-keyring.gpg
+      register: neovim_gpg
+
+    - name: Add neovim-archive-keyring.gpg
+      when: not neovim_gpg.stat.exists
+      block:
+        - name: Copy neovim gpg key
+          ansible.builtin.copy:
+            src: neovim-ppa.gpg
+            dest: "/tmp/neovim-ppa.gpg"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+            mode: '0644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/neovim-archive-keyring.gpg --dearmor /tmp/neovim-ppa.gpg
+
+    - name: Add repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/neovim-archive-keyring.gpg] \
+               https://ppa.launchpadcontent.net/neovim-ppa/unstable/ubuntu jammy main"
+        state: present
+        filename: neovim
+
+    - name: Run the equivalent of "apt-get update" as a separate step
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install nvim
+      tags: nvim
+      ansible.builtin.apt:
+        name:
+          - neovim
+        state: latest
+        update_cache: true
+
+
+- name: Neovim on Arch
+  when: ansible_os_family == 'Archlinux'
+  block:
+    - name: Install nvim
+      kewlfft.aur.aur:
+        name: neovim-git
+        state: latest
+      become: true
+      become_user: aur_builder
+
+    - name: Install pynvim
+      community.general.pacman:
+        name: python-pynvim
+        state: latest
+
+- name: Copy Neovim repo
+  tags:
+    - nvim
+  block:
+    - name: Copy nvim config
+      ansible.builtin.copy:
+        src: nvim
+        dest: "{{ home }}/.config/"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+      register: nvim
+
+...

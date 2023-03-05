@@ -1,0 +1,62 @@
+---
+
+- name: Install Go Arch
+  tags: go
+  community.general.pacman:
+    name:
+      - go
+    update_cache: true
+    state: latest
+    reason: explicit
+  when: ansible_os_family == 'Archlinux'
+
+    # - name: Install Go Debian
+    #   tags:
+    #     - go
+    #   block:
+    #     - name: Add Go lang PPA repository
+    #       ansible.builtin.apt_repository:
+    #         repo: 'ppa:longsleep/golang-backports'
+
+- name: Add golang apt repository
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Check if golang-archive-keyring.gpg already exist
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/golang-archive-keyring.gpg
+      register: golang_gpg
+
+    - name: Add golang-archive-keyring.gpg
+      when: not golang_gpg.stat.exists
+      block:
+        - name: Copy golang gpg key
+          ansible.builtin.copy:
+            src: golang-ppa.gpg
+            dest: "/tmp/golang-ppa.gpg"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+            mode: '0644'
+
+        - name: Add to keyring
+          ansible.builtin.shell:
+            cmd: gpg -o /usr/share/keyrings/golang-archive-keyring.gpg --dearmor /tmp/golang-ppa.gpg
+
+    - name: Add repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/golang-archive-keyring.gpg] \
+               https://ppa.launchpadcontent.net/longsleep/golang-backports/ubuntu jammy main "
+        state: present
+        filename: golang
+
+    - name: Run the equivalent of "apt-get update" as a separate step
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Apt install go
+      ansible.builtin.apt:
+        pkg:
+          - golang-go
+        update_cache: true
+        state: latest
+
+...

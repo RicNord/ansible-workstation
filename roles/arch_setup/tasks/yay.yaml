@@ -1,0 +1,42 @@
+---
+
+- name: Install dependencies
+  tags:
+    - arch
+    - packages
+  community.general.pacman:
+    name:
+      - go
+    update_cache: true
+    state: latest
+    reason: explicit
+
+- name: Git clone yay
+  tags:
+    - arch
+  become: true
+  become_user: aur_builder
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: "/home/aur_builder/repos/usr/yay"
+  register: yay
+
+
+- name: Check if yay is installed
+  ansible.builtin.shell:
+    cmd: which yay
+    executable: /bin/bash
+  changed_when: false
+  register: yayinstalled
+  failed_when: yayinstalled.rc not in [0,1]
+
+# TODO make handler
+- name: Makepkg yay
+  become: true
+  become_user: aur_builder
+  ansible.builtin.shell:
+    cmd: makepkg -si --noconfirm
+    chdir: "/home/aur_builder/repos/usr/yay"
+  when: yay.changed or yayinstalled.rc == 1
+
+...

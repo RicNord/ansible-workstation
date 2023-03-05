@@ -1,0 +1,15 @@
+---
+
+- name: Install Python
+  ansible.builtin.import_tasks: python.yaml
+
+- name: Install Rust
+  ansible.builtin.import_tasks: rust.yaml
+
+- name: Install Java
+  ansible.builtin.import_tasks: java.yaml
+
+- name: Install go
+  ansible.builtin.import_tasks: go.yaml
+
+...

@@ -1,0 +1,23 @@
+---
+
+- name: Copy X system resources
+  tags:
+    - X
+  block:
+    - name: Copy Keyboard
+      ansible.builtin.copy:
+        src: dotfiles/02-keyboard.conf
+        dest: "/etc/X11/xorg.conf.d/"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+
+    - name: Copy touchpad
+      ansible.builtin.copy:
+        src: dotfiles/30-touchpad.conf
+        dest: "/etc/X11/xorg.conf.d/"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+
+...

@@ -1,0 +1,43 @@
+---
+- name: Rust on Arch
+  when: ansible_os_family == 'Archlinux'
+  block:
+    - name: Install Rust Arch
+      tags: rust
+      community.general.pacman:
+        name:
+          - rustup
+        update_cache: true
+        state: latest
+        reason: explicit
+
+    - name: Rustup
+      tags: rust
+      ansible.builtin.shell: |
+        rustup default stable
+      args:
+        executable: /bin/bash
+      become_user: "{{ user }}"
+
+
+- name: Install Rust Debian
+  community.general.snap:
+    name: rustup
+    state: present
+    classic: true
+  when: ansible_os_family == 'Debian'
+
+- name: Rustup
+  tags: rust
+  ansible.builtin.shell: |
+    rustup default stable
+  args:
+    executable: /bin/bash
+  become_user: "{{ user }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Install Rust package
+  community.general.cargo:
+    name:
+      - stylua
+  become_user: "{{ user }}"
