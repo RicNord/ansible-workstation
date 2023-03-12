@@ -45,5 +45,7 @@ traceroute
 tree
 unzip
 wget
+wmname
 xclip
 xsel
+xterm
