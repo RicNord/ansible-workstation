@@ -35,8 +35,9 @@
         name:
           - mesa
           - vulkan-intel
-          - xf86-video-intel
-          - intel-media-driver
+            #          These caused problems for applications on arch
+            #          - xf86-video-intel
+            #          - intel-media-driver
           - lib32-mesa
 
 ...
