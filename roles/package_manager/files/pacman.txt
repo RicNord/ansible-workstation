@@ -37,6 +37,7 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 pulsemixer
 ranger
+redshift
 slock
 terraform
 tldr
