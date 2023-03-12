@@ -9,6 +9,7 @@
 - git
 - python
 - python-pip
+- openssh (if ssh needed, eg git)
 
 # Execute on remote host
 On remote system install `openssh-server` on Ubnuntu `openssh` on Arch.

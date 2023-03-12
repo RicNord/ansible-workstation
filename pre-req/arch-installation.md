@@ -12,7 +12,7 @@ timedatectl set-timezone Europe/Stockholm
 
 ### Extra packages
 ```shell
-pacstrap -K /mnt base linux linux-firmware base-devel gvim
+pacstrap -K /mnt base linux-lts linux-firmware base-devel gvim
 ```
 if gpg keys invalid run
 ```shell
