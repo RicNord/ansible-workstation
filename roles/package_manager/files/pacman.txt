@@ -22,6 +22,7 @@ htop
 jq
 libreoffice-still
 macchanger
+maim
 make
 net-tools
 networkmanager
