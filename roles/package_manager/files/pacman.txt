@@ -24,6 +24,7 @@ libreoffice-still
 macchanger
 maim
 make
+man-db
 net-tools
 networkmanager
 networkmanager-openconnect
