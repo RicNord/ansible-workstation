@@ -1,3 +1,4 @@
+acpi
 alsa-utils
 arandr
 autorandr
@@ -34,6 +35,7 @@ okular
 openconnect
 openssh
 pandoc-cli
+pass
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
