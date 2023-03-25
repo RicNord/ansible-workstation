@@ -42,6 +42,8 @@ pulseaudio-bluetooth
 pulsemixer
 ranger
 redshift
+shellcheck
+shfmt
 slock
 terraform
 tldr
