@@ -11,6 +11,15 @@
         state: latest
         reason: explicit
 
+    - name: Update .bash_ansible
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export PATH="{{ home }}/.cargo/bin:$PATH"
+        marker: "# <!--- {mark} CARGO ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '777'
+
     - name: Rustup
       tags: rust
       ansible.builtin.shell: |
