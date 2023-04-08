@@ -20,7 +20,7 @@
           eval "$(pyenv init --path)"
         marker: "# <!--- {mark} PYENV ANSIBLE MANAGED BLOCK --->"
         create: true
-        mode: '777'
+        mode: '664'
 
 - name: Install conda
   ansible.builtin.get_url:
@@ -40,7 +40,7 @@
       export CONDA_AUTO_ACTIVATE_BASE=false
     marker: "# <!--- {mark} CONDA ANSIBLE MANAGED BLOCK --->"
     create: true
-    mode: '777'
+    mode: '664'
 
 # END TODO
 
