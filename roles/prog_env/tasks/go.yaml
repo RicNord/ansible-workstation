@@ -1,14 +1,30 @@
 ---
-
-- name: Install Go Arch
-  tags: go
-  community.general.pacman:
-    name:
-      - go
-    update_cache: true
-    state: latest
-    reason: explicit
+- name: Install go Arch
   when: ansible_os_family == 'Archlinux'
+  block:
+  - name: Install Go Arch
+    tags: go
+    community.general.pacman:
+      name:
+        - go
+      update_cache: true
+      state: latest
+      reason: explicit
+
+  - name: Update .bash_ansible
+    ansible.builtin.blockinfile:
+      path: "{{ home }}/.bash_ansible"
+      block: |
+        export PATH="$HOME/go/bin:$PATH"
+      marker: "# <!--- {mark} GO ANSIBLE MANAGED BLOCK --->"
+      create: true
+      mode: '664'
+
+  - name: Install yamlfmt
+    become: true
+    become_user: "{{ user }}"
+    ansible.builtin.shell: |
+      go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
     # - name: Install Go Debian
     #   tags:
