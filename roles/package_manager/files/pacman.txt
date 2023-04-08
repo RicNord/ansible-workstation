@@ -15,6 +15,7 @@ firefox
 fzf
 gimp
 git
+github-cli
 gnupg
 grub
 gvim
