@@ -4,6 +4,7 @@ arandr
 autorandr
 base-devel
 bash-completion
+bat
 bluez
 bluez-utils
 code
