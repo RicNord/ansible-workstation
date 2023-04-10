@@ -8,6 +8,7 @@ bluez
 bluez-utils
 code
 curl
+dkms
 dmenu
 efibootmgr
 filezilla
@@ -23,6 +24,7 @@ gzip
 htop
 jq
 libreoffice-still
+linux-lts-headers
 macchanger
 maim
 make
@@ -52,6 +54,8 @@ tmux
 traceroute
 tree
 unzip
+virtualbox
+virtualbox-host-dkms
 wget
 wmname
 xclip
