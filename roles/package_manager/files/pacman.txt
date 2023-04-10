@@ -11,6 +11,7 @@ curl
 dkms
 dmenu
 efibootmgr
+fd
 filezilla
 firefox
 fzf
@@ -45,6 +46,7 @@ pulseaudio-bluetooth
 pulsemixer
 ranger
 redshift
+ripgrep
 shellcheck
 shfmt
 slock
