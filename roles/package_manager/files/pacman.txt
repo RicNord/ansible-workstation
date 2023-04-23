@@ -54,6 +54,7 @@ slock
 terraform
 tldr
 tmux
+torbrowser-launcher
 traceroute
 tree
 unzip
