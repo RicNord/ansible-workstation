@@ -65,4 +65,6 @@ wmname
 xclip
 xsel
 xterm
+zathura
+zathura-pdf-poppler
 zip
