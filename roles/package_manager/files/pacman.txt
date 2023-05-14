@@ -35,6 +35,10 @@ net-tools
 networkmanager
 networkmanager-openconnect
 networkmanager-openvpn
+noto-fonts
+noto-fonts-ckj
+noto-fonts-emoji
+noto-fonts-extra
 npm
 okular
 openconnect
