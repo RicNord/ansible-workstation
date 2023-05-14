@@ -3,3 +3,4 @@ azuredatastudio-bin
 brave-bin
 google-chrome
 neovim-git
+powershell
