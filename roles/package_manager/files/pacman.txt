@@ -44,6 +44,7 @@ okular
 openconnect
 openssh
 pandoc-cli
+parallel
 pass
 pulseaudio
 pulseaudio-alsa
