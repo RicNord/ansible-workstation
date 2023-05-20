@@ -64,9 +64,11 @@ tmux
 torbrowser-launcher
 traceroute
 tree
+unrar
 unzip
 virtualbox
 virtualbox-host-dkms
+vlc
 wget
 wmname
 xclip
