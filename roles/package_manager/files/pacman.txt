@@ -57,6 +57,7 @@ shellcheck
 shfmt
 slock
 terraform
+thefuck
 tldr
 tmux
 torbrowser-launcher
