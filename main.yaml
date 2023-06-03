@@ -1,16 +1,20 @@
----
-
 - name: Update packages
   hosts: all
   become: true
   pre_tasks:
 
-    - name: Update apt packages
+    - name: Apt update && apt upgrade
+      when: ansible_distribution == 'Debian'
       tags: always
       ansible.builtin.apt:
         upgrade: safe
         update_cache: true
-      when: ansible_distribution == 'Debian'
+
+    - name: Pacman -Syu
+      when: ansible_distribution == "Archlinux"
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
 
 - name: Arch setup
   hosts: all
@@ -41,4 +45,3 @@
   become: true
   roles:
     - systemd
-...
