@@ -11,6 +11,8 @@ code
 curl
 dkms
 dmenu
+docker
+docker-compose
 efibootmgr
 fd
 filezilla
@@ -68,6 +70,7 @@ tree
 unrar
 unzip
 virtualbox
+virtualbox-guest-iso
 virtualbox-host-dkms
 vlc
 wget
