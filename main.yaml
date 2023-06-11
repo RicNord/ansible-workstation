@@ -31,7 +31,13 @@
     - package_manager
     - prog_env
     - neovim
-    - suckless
+
+- name: Arch setup
+  hosts: all
+  become: true
+  roles:
+    - role: suckless
+      when: ansible_distribution == "Archlinux"
 
 - name: Gnome config
   hosts: all
