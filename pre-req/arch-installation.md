@@ -54,4 +54,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ```
 
+#### Virtualbox
+Virutalization for intel CPU, append to `/etc/default/grub`
+
+`GRUB_CMDLINE_LINUX_DEFAULT="... ibt=off"`
+
+then regenerate `grub-mkconfig -o /boot/grub/grub.cfg`
+
 ## Reboot and unplug install-medium
