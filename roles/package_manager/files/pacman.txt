@@ -9,6 +9,7 @@ bluez
 bluez-utils
 code
 curl
+discord
 dkms
 dmenu
 docker
