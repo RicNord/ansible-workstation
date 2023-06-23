@@ -63,6 +63,7 @@ shellcheck
 shfmt
 slock
 terraform
+terragrunt
 thefuck
 tldr
 tmux
