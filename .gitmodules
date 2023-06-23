@@ -17,3 +17,9 @@
 [submodule "roles/suckless/files/slstatus"]
 	path = roles/suckless/files/slstatus
 	url = https://github.com/RicNord/slstatus.git
+[submodule "roles/suckless/files/sent"]
+	path = roles/suckless/files/sent
+	url = https://github.com/RicNord/sent.git
+[submodule "roles/suckless/files/farbfeld"]
+	path = roles/suckless/files/farbfeld
+	url = https://github.com/RicNord/farbfeld.git
