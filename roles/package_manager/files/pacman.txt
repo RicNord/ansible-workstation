@@ -58,6 +58,7 @@ qbittorrent
 ranger
 redshift
 ripgrep
+rsync
 shellcheck
 shfmt
 slock
