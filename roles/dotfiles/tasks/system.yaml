@@ -1,23 +1,26 @@
----
-
-- name: Copy X system resources
-  tags:
-    - X
+- name: Install rsync
   block:
-    - name: Copy Keyboard
-      ansible.builtin.copy:
-        src: dotfiles/02-keyboard.conf
-        dest: "/etc/X11/xorg.conf.d/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Archlinux rsync
+      when: ansible_distribution == "Archlinux"
+      community.general.pacman:
+        name: rsync
+        state: present
+        update_cache: false
+        reason: explicit
 
-    - name: Copy touchpad
-      ansible.builtin.copy:
-        src: dotfiles/30-touchpad.conf
-        dest: "/etc/X11/xorg.conf.d/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Debian rsync
+      when: ansible_distribution == "Debian"
+      ansible.builtin.apt:
+        pkg: rsync
+        state: present
 
-...
+- name: Sync etc/ dotfiles
+  become: true
+  ansible.posix.synchronize:
+    src: dotfiles/etc/
+    dest: etc/
+    delete: false
+    dirs: false
+    mode: "push"
+    rsync_opts:
+      - "--include=etc/"

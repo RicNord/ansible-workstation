@@ -1,83 +1,27 @@
----
-
-- name: Copy X resources
-  tags:
-    - X
+- name: Install rsync
   block:
-    - name: Copy xinitrc
-      ansible.builtin.copy:
-        src: dotfiles/.xinitrc
-        dest: "{{ home }}/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Archlinux rsync
+      when: ansible_distribution == "Archlinux"
+      community.general.pacman:
+        name: rsync
+        state: present
+        update_cache: false
+        reason: explicit
 
-    - name: Copy xprofile
-      ansible.builtin.copy:
-        src: dotfiles/.xprofile
-        dest: "{{ home }}/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Debian rsync
+      when: ansible_distribution == "Debian"
+      ansible.builtin.apt:
+        pkg: rsync
+        state: present
 
-    - name: Copy XCompose
-      ansible.builtin.copy:
-        src: dotfiles/.XCompose
-        dest: "{{ home }}/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
-
-- name: Copy bash config
-  tags:
-    - bash
-  block:
-    - name: Copy bashrc
-      ansible.builtin.copy:
-        src: dotfiles/.bashrc
-        dest: "{{ home }}/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
-
-    - name: Copy bash_aliases
-      ansible.builtin.copy:
-        src: dotfiles/.bash_aliases
-        dest: "{{ home }}/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
-
-- name: Copy .gitconfig
-  ansible.builtin.copy:
-    src: dotfiles/.gitconfig
+- name: Sync home/ dotfiles
+  ansible.posix.synchronize:
+    src: dotfiles/
     dest: "{{ home }}/"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: '0644'
-
-- name: Copy .ssh/config
-  ansible.builtin.copy:
-    src: dotfiles/.ssh/config
-    dest: "{{ home }}/.ssh/"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: '0644'
-
-- name: Copy vsCode
-  ansible.builtin.copy:
-    src: dotfiles/.config/Code/User
-    dest: "{{ home }}/.config/Code/"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: '0644'
-
-- name: Copy vimrc
-  ansible.builtin.copy:
-    src: dotfiles/.vimrc
-    dest: "{{ home }}/.vimrc"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: '0644'
-
-...
+    delete: false
+    dirs: false
+    mode: "push"
+    rsync_opts:
+      - "--exclude=deploy.sh"
+      - "--exclude=README.md"
+      - "--exclude=etc"

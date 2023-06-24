@@ -27,7 +27,7 @@
   hosts: all
   become: true
   roles:
-    #    - dotfiles
+    - dotfiles
     - package_manager
     - prog_env
     - neovim
