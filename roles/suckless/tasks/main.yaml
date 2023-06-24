@@ -1,35 +1,44 @@
----
-
 - name: Install dmenu slock
   tags: suckless
   ansible.builtin.package:
     name:
       - dmenu
       - slock
-    state: latest
+    state: present
 
-- name: Install dwm dependencies for Debian
-  tags: suckless
-  ansible.builtin.apt:
-    name:
-      - libxft-dev
-      - libx11-dev
-      - libxinerama-dev
-    state: latest
-  when: ansible_distribution == 'Debian'
-
-
-- name: Install suckless forks
+- name: Install suckless dwm/st dependencies
   tags:
     - suckless
   block:
-    - name: Copy dwm
-      ansible.builtin.copy:
-        src: dwm
-        dest: "{{ home }}/repos/usr"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Install st/dwm dependencies for Debian
+      when: ansible_distribution == 'Debian'
+      tags: suckless
+      ansible.builtin.apt:
+        name:
+          - libxft-dev
+          - libx11-dev
+          - libxinerama-dev
+        state: present
+
+    - name: Install st/dwm dependencies for Arch
+      when: ansible_distribution == 'Archlinux'
+      tags: suckless
+      community.general.pacman:
+        name:
+          - libx11
+        state: present
+        reason: explicit
+
+- name: Install suckless dwm
+  tags:
+    - suckless
+  block:
+    - name: Clone dwm
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/dwm.git'
+        dest: "{{ home }}/repos/usr/dwm"
+        clone: true
+        update: true
       register: dwm
 
     - name: Install dwm
@@ -39,14 +48,16 @@
         path: "{{ home }}/repos/usr/dwm"
       when: dwm.changed
 
-
-    - name: Copy slstatus
-      ansible.builtin.copy:
-        src: slstatus
-        dest: "{{ home }}/repos/usr"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+- name: Install suckless slstatus
+  tags:
+    - suckless
+  block:
+    - name: Clone slstatus
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/slstatus.git'
+        dest: "{{ home }}/repos/usr/slstatus"
+        clone: true
+        update: true
       register: slstatus
 
     - name: Install slstatus
@@ -56,14 +67,16 @@
         path: "{{ home }}/repos/usr/slstatus"
       when: slstatus.changed
 
-
-    - name: Copy st
-      ansible.builtin.copy:
-        src: st
-        dest: "{{ home }}/repos/usr"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+- name: Install suckless st
+  tags:
+    - suckless
+  block:
+    - name: Clone st
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/st.git'
+        dest: "{{ home }}/repos/usr/st"
+        clone: true
+        update: true
       register: st
 
     - name: Install st
@@ -72,4 +85,79 @@
       vars:
         path: "{{ home }}/repos/usr/st"
       when: st.changed
-...
+
+- name: Install suckless farbfeld
+  tags:
+    - suckless
+  block:
+    - name: Install farbfeld dependencies for Arch
+      when: ansible_distribution == 'Archlinux'
+      tags: suckless
+      community.general.pacman:
+        name:
+          - libpng
+          - libjpeg-turbo
+        state: present
+        reason: explicit
+
+    - name: Install farbfeld dependencies for Debian
+      when: ansible_distribution == 'Debian'
+      tags: suckless
+      ansible.builtin.apt:
+        name:
+          - libpng-dev
+          - libjepeg8
+        state: present
+
+    - name: Clone farbfeld
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/farbfeld.git'
+        dest: "{{ home }}/repos/usr/farbfeld"
+        clone: true
+        update: true
+      register: farbfeld
+
+    - name: Install farbfeld
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/farbfeld"
+      when: farbfeld.changed
+
+- name: Install suckless sent
+  tags:
+    - suckless
+  block:
+    - name: Install sent dependencies for Arch
+      when: ansible_distribution == 'Archlinux'
+      tags: suckless
+      community.general.pacman:
+        name:
+          - libx11
+          - xft
+        state: present
+        reason: explicit
+
+    - name: Install sent dependencies for Debian
+      when: ansible_distribution == 'Debian'
+      tags: suckless
+      ansible.builtin.apt:
+        name:
+          - libxft-dev
+          - libx11-dev
+        state: present
+
+    - name: Clone sent
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/sent.git'
+        dest: "{{ home }}/repos/usr/sent"
+        clone: true
+        update: true
+      register: sent
+
+    - name: Install sent
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/sent"
+      when: sent.changed
