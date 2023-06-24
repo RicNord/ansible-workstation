@@ -1,8 +1,5 @@
----
-# TODO move to handler
 - name: Make install
   ansible.builtin.command:
     cmd: make clean install
     chdir: "{{ path }}"
   become: true
-...
