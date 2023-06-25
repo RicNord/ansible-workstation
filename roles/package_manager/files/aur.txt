@@ -2,5 +2,6 @@ azure-cli
 azuredatastudio-bin
 brave-bin
 google-chrome
+marp-cli-bin
 neovim-git
 powershell
