@@ -6,3 +6,4 @@ marp-cli-bin
 neovim-git
 powershell
 slack-desktop
+spotify
