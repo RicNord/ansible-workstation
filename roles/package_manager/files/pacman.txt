@@ -54,6 +54,8 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 pulsemixer
 python-pip
+python-pipenv
+python-virtualenv
 qbittorrent
 ranger
 redshift
