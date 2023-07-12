@@ -39,7 +39,7 @@ networkmanager
 networkmanager-openconnect
 networkmanager-openvpn
 noto-fonts
-noto-fonts-ckj
+noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
 npm
