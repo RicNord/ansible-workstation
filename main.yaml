@@ -23,12 +23,17 @@
     - role: arch_setup
       when: ansible_distribution == "Archlinux"
 
-- name: Misc install
+- name: Package manager
   hosts: all
   become: true
   roles:
-    - dotfiles
     - package_manager
+
+- name: Programing languages
+  hosts: all
+  become: {{ user }}
+  roles:
+    - dotfiles
     - prog_env
     - neovim
 
