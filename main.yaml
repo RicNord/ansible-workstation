@@ -31,7 +31,7 @@
 
 - name: Programing languages
   hosts: all
-  become: "{{ user }}"
+  become_user: "{{ user }}"
   roles:
     - dotfiles
     - prog_env
