@@ -134,7 +134,7 @@
       community.general.pacman:
         name:
           - libx11
-          - xft
+          - libxft
         state: present
         reason: explicit
 
