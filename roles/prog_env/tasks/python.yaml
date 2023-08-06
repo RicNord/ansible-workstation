@@ -43,12 +43,4 @@
     mode: '664'
 
 # END TODO
-
-- name: Pip install
-  ansible.builtin.pip:
-    name:
-      - virtualenv
-      - black
-      - databricks-cli
-
 ...
