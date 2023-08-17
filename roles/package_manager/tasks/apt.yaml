@@ -181,8 +181,7 @@
     - packages
   ansible.builtin.apt:
     pkg: "{{ item }}"
-    update_cache: true
-    state: latest
+    state: present
   loop: "{{ lookup('file', 'files/apt.txt').splitlines() }}"
 
 ...
