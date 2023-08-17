@@ -1,4 +1,3 @@
----
 - name: Ensure existance of group {{ user }}
   ansible.builtin.group:
     name: "{{ user }}"
@@ -16,9 +15,9 @@
     create_home: true
     shell: /bin/bash
     append: true
+    group: "{{ user }}"
     groups:
       - wheel
-      - "{{ user }}"
 
 - name: Add to sudoers {{ user }}
   become: true
@@ -37,5 +36,3 @@
     create: true
     mode: '644'
     validate: 'visudo -cf %s'
-
-...
