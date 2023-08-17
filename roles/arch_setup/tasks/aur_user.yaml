@@ -1,4 +1,3 @@
----
 # AUR do not allow root to install pkgs, hence creation of this user.
 
 - name: Create the `aur_builder` user
@@ -16,5 +15,3 @@
     create: true
     mode: '644'
     validate: 'visudo -cf %s'
-
-...
