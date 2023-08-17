@@ -15,9 +15,17 @@
         state: present
 
 - name: Sync home/ dotfiles
+  become: true
+  become_user: "{{ user }}"
   ansible.posix.synchronize:
     src: dotfiles/
     dest: "{{ home }}/"
+    archive: false
+    group: false
+    owner: false
+    perms: false
+    recursive: true
+    times: false
     delete: false
     dirs: false
     mode: "push"

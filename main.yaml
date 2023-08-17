@@ -31,6 +31,7 @@
 
 - name: Programing languages
   hosts: all
+  become: true
   become_user: "{{ user }}"
   roles:
     - dotfiles
