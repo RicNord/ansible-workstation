@@ -1,4 +1,3 @@
----
 - name: Add neovim apt repository
   when: ansible_os_family == 'Debian'
   block:
@@ -24,8 +23,7 @@
 
     - name: Add repo
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/neovim-archive-keyring.gpg] \
-               https://ppa.launchpadcontent.net/neovim-ppa/unstable/ubuntu jammy main"
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/neovim-archive-keyring.gpg] https://ppa.launchpadcontent.net/neovim-ppa/unstable/ubuntu {{ ansible_distribution_release }} main"
         state: present
         filename: neovim
 
@@ -38,9 +36,8 @@
       ansible.builtin.apt:
         name:
           - neovim
-        state: latest
+        state: present
         update_cache: true
-
 
 - name: Neovim on Arch
   when: ansible_os_family == 'Archlinux'
@@ -48,14 +45,14 @@
     - name: Install nvim
       kewlfft.aur.aur:
         name: neovim-git
-        state: latest
+        state: present
       become: true
       become_user: aur_builder
 
     - name: Install pynvim
       community.general.pacman:
         name: python-pynvim
-        state: latest
+        state: present
 
 - name: Copy Neovim repo
   tags:
@@ -69,5 +66,3 @@
         group: "{{ user }}"
         mode: '0644'
       register: nvim
-
-...
