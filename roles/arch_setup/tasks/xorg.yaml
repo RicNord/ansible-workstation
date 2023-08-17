@@ -1,4 +1,3 @@
----
 
 - name: Install X pkgs
   tags:
@@ -35,9 +34,7 @@
         name:
           - mesa
           - vulkan-intel
-            #          These caused problems for applications on arch
+            #          These caused problems for electron applications
             #          - xf86-video-intel
             #          - intel-media-driver
           - lib32-mesa
-
-...
