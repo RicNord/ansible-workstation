@@ -1,38 +1,38 @@
----
 - name: Install go Arch
   when: ansible_os_family == 'Archlinux'
   block:
-  - name: Install Go Arch
-    tags: go
-    community.general.pacman:
-      name:
-        - go
-      update_cache: true
-      state: latest
-      reason: explicit
+    - name: Install Go Arch
+      tags: go
+      community.general.pacman:
+        name:
+          - go
+        state: present
+        reason: explicit
 
-  - name: Update .bash_ansible
-    ansible.builtin.blockinfile:
-      path: "{{ home }}/.bash_ansible"
-      block: |
-        export PATH="$HOME/go/bin:$PATH"
-      marker: "# <!--- {mark} GO ANSIBLE MANAGED BLOCK --->"
-      create: true
-      mode: '664'
+    - name: Update .bash_ansible
+      become: true
+      become_user: "{{ user }}"
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export PATH="$HOME/go/bin:$PATH"
+        marker: "# <!--- {mark} GO ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '664'
 
-  - name: Install yamlfmt
-    become: true
-    become_user: "{{ user }}"
-    ansible.builtin.shell: |
-      go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+    - name: Install yamlfmt
+      become: true
+      become_user: "{{ user }}"
+      ansible.builtin.shell: |
+        go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
-    # - name: Install Go Debian
-    #   tags:
-    #     - go
-    #   block:
-    #     - name: Add Go lang PPA repository
-    #       ansible.builtin.apt_repository:
-    #         repo: 'ppa:longsleep/golang-backports'
+      # - name: Install Go Debian
+      #   tags:
+      #     - go
+      #   block:
+      #     - name: Add Go lang PPA repository
+      #       ansible.builtin.apt_repository:
+      #         repo: 'ppa:longsleep/golang-backports'
 
 - name: Add golang apt repository
   when: ansible_os_family == 'Debian'
@@ -59,8 +59,7 @@
 
     - name: Add repo
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/golang-archive-keyring.gpg] \
-               https://ppa.launchpadcontent.net/longsleep/golang-backports/ubuntu jammy main "
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/golang-archive-keyring.gpg] https://ppa.launchpadcontent.net/longsleep/golang-backports/ubuntu {{ ansible_distribution_release }} main "
         state: present
         filename: golang
 
@@ -72,7 +71,4 @@
       ansible.builtin.apt:
         pkg:
           - golang-go
-        update_cache: true
-        state: latest
-
-...
+        state: present
