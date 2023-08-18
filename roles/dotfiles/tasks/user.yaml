@@ -28,6 +28,7 @@
     times: false
     delete: false
     dirs: false
+    checksum: true
     mode: "push"
     rsync_opts:
       - "--exclude=.git"
