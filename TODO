@@ -1,2 +1,3 @@
-- Fix home dir files permissions
-- deployment of /etc dots
+- non X server deployment
+- wsl?
+- debian/ubuntu update pkg
