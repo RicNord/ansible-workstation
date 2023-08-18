@@ -1,4 +1,3 @@
----
 - name: Rust on Arch
   when: ansible_os_family == 'Archlinux'
   block:
@@ -7,8 +6,7 @@
       community.general.pacman:
         name:
           - rustup
-        update_cache: true
-        state: latest
+        state: present
         reason: explicit
 
     - name: Update .bash_ansible
@@ -27,7 +25,6 @@
       args:
         executable: /bin/bash
       become_user: "{{ user }}"
-
 
 - name: Install Rust Debian
   community.general.snap:
