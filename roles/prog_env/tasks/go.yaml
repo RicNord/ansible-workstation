@@ -64,10 +64,12 @@
         filename: golang
 
     - name: Run the equivalent of "apt-get update" as a separate step
+      become: true
       ansible.builtin.apt:
         update_cache: true
 
     - name: Apt install go
+      become: true
       ansible.builtin.apt:
         pkg:
           - golang-go
