@@ -15,6 +15,7 @@ dkms
 dmenu
 docker
 docker-compose
+dunst
 efibootmgr
 fd
 filezilla
