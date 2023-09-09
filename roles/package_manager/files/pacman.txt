@@ -17,6 +17,7 @@ docker
 docker-compose
 dunst
 efibootmgr
+entr
 fd
 filezilla
 firefox
