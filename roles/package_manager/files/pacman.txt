@@ -22,6 +22,7 @@ fd
 filezilla
 firefox
 fzf
+gdb
 gimp
 git
 github-cli
