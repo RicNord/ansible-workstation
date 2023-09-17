@@ -1,3 +1,6 @@
 - non X server deployment
 - wsl?
 - debian/ubuntu update pkg
+- changed in ubuntu run
+    - install minconda
+    - install rustup
