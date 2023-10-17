@@ -1,0 +1,17 @@
+- name: Install dotnet runtime
+  when: ansible_os_family == 'Archlinux'
+  tags: dotnet
+  community.general.pacman:
+    name:
+      - dotnet-runtime
+    state: present
+    reason: explicit
+
+- name: Install dotnet runtime
+  when: ansible_os_family == 'Debian'
+  tags:
+    - dotnet
+  ansible.builtin.apt:
+    pkg:
+      - dotnet-runtime-7.0
+    state: present
