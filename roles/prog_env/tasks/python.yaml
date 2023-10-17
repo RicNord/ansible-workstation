@@ -4,6 +4,22 @@
     - python
     - pyenv
   block:
+    - name: Pyenv apt packages for building new version
+      when: ansible_os_family == 'Debian'
+      tags:
+        - debian
+        - apt
+      ansible.builtin.apt:
+        pkg:
+          - libffi-dev
+          - libbz2-dev
+          - libncurses5-dev
+          - libreadline-dev
+          - libblzma-dev
+          - libsqlite3-dev
+          - libsas12-dev
+        state: present
+
     - name: Clone repo
       ansible.builtin.git:
         repo: https://github.com/pyenv/pyenv.git
