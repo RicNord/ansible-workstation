@@ -3,7 +3,8 @@
   tags: java
   community.general.pacman:
     name:
-      - jre11-openjdk
+      - jdk-openjdk
+      - jdk17-openjdk
       - jdk11-openjdk
     state: present
     reason: explicit
@@ -14,7 +15,6 @@
     - java
   ansible.builtin.apt:
     pkg:
-      - default-jre
       - default-jdk
     state: present
   when: ansible_os_family == 'Debian'
