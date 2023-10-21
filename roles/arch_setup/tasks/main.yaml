@@ -1,5 +1,3 @@
----
-
 - name: Create user
   tags:
     - arch
@@ -14,4 +12,5 @@
 - name: Install Xorg
   ansible.builtin.import_tasks: xorg.yaml
 
-...
+- name: Install batstat
+  ansible.builtin.import_tasks: batstat.yaml
