@@ -1,0 +1,26 @@
+- name: Install and enable batstat
+  tags: systemd
+  block:
+    - name: Clone batstat
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/batstat.git'
+        dest: "{{ home }}/repos/usr/batstat"
+        clone: true
+        update: true
+      register: batstat
+
+    - name: Install batstat
+      ansible.builtin.import_tasks:
+        file: make_install.yaml
+      vars:
+        path: "{{ home }}/repos/usr/batstat"
+      when: batstat.changed
+
+    - name: Enable batstat
+      ansible.builtin.systemd:
+        name: batstat
+        daemon_reload: true
+        no_block: true
+        state: started
+        enabled: true
+        scope: user
