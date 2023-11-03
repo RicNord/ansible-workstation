@@ -1,0 +1,21 @@
+- name: Install X pkgs
+  tags:
+    - arch
+    - packages
+  community.general.pacman:
+    name:
+      - light
+    state: present
+    reason: explicit
+
+- name: Ensure existance of group video
+  ansible.builtin.group:
+    name: video
+    state: present
+
+- name: Add {{ user }} to home
+  ansible.builtin.user:
+    name: "{{ user }}"
+    append: true
+    groups:
+      - video

@@ -12,5 +12,8 @@
 - name: Install Xorg
   ansible.builtin.import_tasks: xorg.yaml
 
+- name: Install Light
+  ansible.builtin.import_tasks: light.yaml
+
 - name: Install batstat
   ansible.builtin.import_tasks: batstat.yaml
