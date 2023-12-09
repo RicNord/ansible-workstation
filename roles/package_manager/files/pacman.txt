@@ -42,6 +42,7 @@ maim
 make
 man-db
 moreutils
+ncdu
 net-tools
 networkmanager
 networkmanager-openconnect
