@@ -17,3 +17,6 @@
 
 - name: Install batstat
   ansible.builtin.import_tasks: batstat.yaml
+
+- name: Touch .meta_root
+  ansible.builtin.import_tasks: meta_root.yaml
