@@ -72,6 +72,7 @@ ranger
 redshift
 ripgrep
 rsync
+sequoia-sq
 shellcheck
 shfmt
 slock
