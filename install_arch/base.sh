@@ -93,4 +93,4 @@ echo -e "${BBlue}arch-chroot /mnt and execute ./chroot.sh $DISK\n${NC}"
 cp ./chroot.sh /mnt \
     && chmod +x /mnt/chroot.sh
 
-arch-chroot /mnt /bin/bash ./chroot.sh
+arch-chroot /mnt /bin/bash ./chroot.sh "$DISK"
