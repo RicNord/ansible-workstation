@@ -3,7 +3,7 @@
 - Arch (btw)
 - Ubuntu
 
-> Current [inventory](.inventory) file use `localhost` as target system
+> Current [inventory](./inventory) file use `localhost` as target system
 
 ## Usage
 If this is the first time you clone the repo and you did not use
