@@ -1,9 +1,24 @@
----
+- name: Git clone dotfiles
+  ansible.builtin.git:
+    repo: 'https://github.com/RicNord/dotfiles.git'
+    dest: "{{ home }}/repos/usr/dotfiles"
+    clone: true
+    update: true
+  register: dotfiles
+  become_user: "{{ user }}"
 
-- name: System dotfiles
-  ansible.builtin.import_tasks: system.yaml
+- name: Deploy user dotfiles
+  ansible.builtin.command: /bin/bash ./deploy.sh -fv
+  become: true
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ home }}/repos/usr/dotfiles"
+  when: dotfiles.changed
 
-- name: User dotfiles
-  ansible.builtin.import_tasks: user.yaml
-
-...
+- name: Deploy system dotfiles
+  ansible.builtin.command: /bin/bash ./deploy.sh -efv
+  become: true
+  become_user: root
+  args:
+    chdir: "{{ home }}/repos/usr/dotfiles"
+  when: dotfiles.changed
