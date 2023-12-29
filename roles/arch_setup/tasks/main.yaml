@@ -14,9 +14,3 @@
 
 - name: Install Light
   ansible.builtin.import_tasks: light.yaml
-
-- name: Install batstat
-  ansible.builtin.import_tasks: batstat.yaml
-
-- name: Touch .meta_root
-  ansible.builtin.import_tasks: meta_root.yaml

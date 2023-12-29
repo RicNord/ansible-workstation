@@ -161,3 +161,6 @@
       vars:
         path: "{{ home }}/repos/usr/sent"
       when: sent.changed
+
+- name: Install batstat
+  ansible.builtin.import_tasks: batstat.yaml
