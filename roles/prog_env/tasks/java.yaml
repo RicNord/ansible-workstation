@@ -8,6 +8,8 @@
       - jdk11-openjdk
     state: present
     reason: explicit
+  become: true
+  become_user: root
   when: ansible_os_family == 'Archlinux'
 
 - name: Install Java
@@ -17,4 +19,6 @@
     pkg:
       - default-jdk
     state: present
+  become: true
+  become_user: root
   when: ansible_os_family == 'Debian'

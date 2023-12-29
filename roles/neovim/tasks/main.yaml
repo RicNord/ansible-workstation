@@ -38,6 +38,8 @@
           - neovim
         state: present
         update_cache: true
+      become: true
+      become_user: root
 
 - name: Neovim on Arch
   when: ansible_os_family == 'Archlinux'
@@ -53,6 +55,8 @@
       community.general.pacman:
         name: python-pynvim
         state: present
+      become: true
+      become_user: root
 
 - name: Copy Neovim repo
   tags:
