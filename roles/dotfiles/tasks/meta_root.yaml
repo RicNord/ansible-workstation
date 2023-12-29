@@ -2,7 +2,7 @@
   ansible.builtin.file:
     path: "{{ home }}/repos/usr/"
     state: directory
-    mode: 0664
+    mode: 0764
 
 - name: Create .meta_root for usr repo
   ansible.builtin.copy:
