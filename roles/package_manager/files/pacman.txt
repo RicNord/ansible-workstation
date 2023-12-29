@@ -85,9 +85,6 @@ traceroute
 tree
 unrar
 unzip
-virtualbox
-virtualbox-guest-iso
-virtualbox-host-dkms
 vlc
 wget
 wmname

@@ -7,3 +7,16 @@
     state: present
     reason: explicit
   loop: "{{ lookup('file', 'files/pacman.txt').splitlines() }}"
+
+- name: Install virtualbox
+  tags:
+    - arch
+    - packages
+  community.general.pacman:
+    name:
+      - linux-headers
+      - virtualbox-host-modules-arch
+      - virtualbox-guest-iso
+      - virtualbox
+    state: present
+    reason: explicit
