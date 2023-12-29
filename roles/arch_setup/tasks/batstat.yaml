@@ -28,7 +28,7 @@
         file: make_install.yaml
       vars:
         path: "{{ home }}/repos/usr/batstat"
-      when: batstat.changed or not batexist.exists
+      when: batstat.changed or not batexist.stat.exists
 
     - name: Enable batstat
       ansible.builtin.systemd:
@@ -38,4 +38,3 @@
         state: started
         enabled: true
         scope: user
-      become_user: "{{ user }}"
