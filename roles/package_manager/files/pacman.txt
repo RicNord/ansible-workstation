@@ -28,7 +28,6 @@ git
 github-cli
 glib2
 gnupg
-gobject
 grub
 gvim
 gzip
@@ -36,7 +35,7 @@ htop
 jq
 libnotify
 libreoffice-still
-linux-lts-headers
+linux-headers
 macchanger
 maim
 make
