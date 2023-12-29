@@ -6,6 +6,8 @@
       - go
     state: present
     reason: explicit
+  become: true
+  become_user: root
 
 - name: Git clone yay
   tags:

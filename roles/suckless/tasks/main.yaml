@@ -46,6 +46,8 @@
         clone: true
         update: true
       register: dwm
+      become: true
+      become_user: "{{ user }}"
 
     - name: Install dwm
       ansible.builtin.import_tasks:
@@ -65,6 +67,8 @@
         clone: true
         update: true
       register: slstatus
+      become: true
+      become_user: "{{ user }}"
 
     - name: Install slstatus
       ansible.builtin.import_tasks:
@@ -84,6 +88,8 @@
         clone: true
         update: true
       register: st
+      become: true
+      become_user: "{{ user }}"
 
     - name: Install st
       ansible.builtin.import_tasks:
@@ -126,6 +132,8 @@
         clone: true
         update: true
       register: farbfeld
+      become: true
+      become_user: "{{ user }}"
 
     - name: Install farbfeld
       ansible.builtin.import_tasks:
@@ -168,6 +176,8 @@
         clone: true
         update: true
       register: sent
+      become: true
+      become_user: "{{ user }}"
 
     - name: Install sent
       ansible.builtin.import_tasks:

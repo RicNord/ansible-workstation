@@ -19,6 +19,8 @@
         marker: "# <!--- {mark} CARGO ANSIBLE MANAGED BLOCK --->"
         create: true
         mode: '664'
+        owner: "{{ user }}"
+        group: "{{ user }}"
 
     - name: Rustup
       tags: rust

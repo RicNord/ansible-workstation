@@ -24,4 +24,6 @@
   when: dotfiles.changed
 
 - name: Install .meta_root
+  become: true
+  become_user: "{{ user }}"
   ansible.builtin.import_tasks: meta_root.yaml
