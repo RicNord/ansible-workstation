@@ -1,19 +1,19 @@
 - name: Create usr repo if not exist
   ansible.builtin.file:
-    path: "{{ user }}/repos/usr/"
+    path: "{{ home }}/repos/usr/"
     state: directory
     mode: 0664
 
 - name: Create .meta_root for usr repo
   ansible.builtin.copy:
     content: ""
-    dest: "{{ user }}/repos/usr/.meta_root"
+    dest: "{{ home }}/repos/usr/.meta_root"
     force: false
     mode: 0664
 
 - name: Create .meta_root for repos
   ansible.builtin.copy:
     content: ""
-    dest: "{{ user }}/repos/.meta_root"
+    dest: "{{ home }}/repos/.meta_root"
     force: false
     mode: 0664
