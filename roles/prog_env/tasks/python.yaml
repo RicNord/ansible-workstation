@@ -25,6 +25,8 @@
         repo: https://github.com/pyenv/pyenv.git
         force: true
         dest: "{{ home }}/.pyenv"
+      become: true
+      become_user: "{{ user }}"
 
     - name: Update .bash_ansible
       ansible.builtin.blockinfile:
@@ -36,12 +38,16 @@
         marker: "# <!--- {mark} PYENV ANSIBLE MANAGED BLOCK --->"
         create: true
         mode: '664'
+        owner: "{{ user }}"
+        group: "{{ user }}"
 
 - name: Install conda
   ansible.builtin.get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     dest: "{{ home }}/miniconda.sh"
     mode: '644'
+    owner: "{{ user }}"
+    group: "{{ user }}"
 
 # TODO make a handler
 - name: Install miniconda
@@ -56,3 +62,5 @@
     marker: "# <!--- {mark} CONDA ANSIBLE MANAGED BLOCK --->"
     create: true
     mode: '664'
+    owner: "{{ user }}"
+    group: "{{ user }}"
