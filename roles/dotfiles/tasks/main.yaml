@@ -22,3 +22,6 @@
   args:
     chdir: "{{ home }}/repos/usr/dotfiles"
   when: dotfiles.changed
+
+- name: Install .meta_root
+  ansible.builtin.import_tasks: meta_root.yaml
