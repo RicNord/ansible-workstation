@@ -1,6 +1,14 @@
 - name: Install and enable batstat
   tags: systemd
   block:
+    - name: Install libnotify
+      community.general.pacman:
+        name: libnotify
+        state: present
+        reason: explicit
+      become: true
+      become_user: root
+
     - name: Clone batstat
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/batstat.git'
@@ -8,13 +16,19 @@
         clone: true
         update: true
       register: batstat
+      become_user: "{{ user }}"
+
+    - name: Check if batstat exists
+      ansible.builtin.stat:
+        path: /usr/local/bin/batstat
+      register: batexist
 
     - name: Install batstat
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
         path: "{{ home }}/repos/usr/batstat"
-      when: batstat.changed
+      when: batstat.changed or not batexist.exists
 
     - name: Enable batstat
       ansible.builtin.systemd:
@@ -24,3 +38,4 @@
         state: started
         enabled: true
         scope: user
+      become_user: "{{ user }}"
