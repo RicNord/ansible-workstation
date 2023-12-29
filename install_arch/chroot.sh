@@ -61,7 +61,7 @@ mkinitcpio -p linux
 echo -e "${BBlue}GRUB set-up ${NC}"
 pacman -S grub efibootmgr
 
-UUID=$(cryptsetup luksDump "/dev/nvme0n1p3" | grep UUID | awk '{print $2}')
+UUID=$(cryptsetup luksDump "${DISK}p3" | grep UUID | awk '{print $2}')
 GRUBCMD="\"cryptdevice=UUID=$UUID:cryptlvm root=/dev/vg/root cryptkey=rootfs:$LUKS_KEYS\""
 sed -i "s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=${GRUBCMD}|g" /etc/default/grub
 sed -i '/GRUB_ENABLE_CRYPTODISK/s/^#//g' /etc/default/grub
