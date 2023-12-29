@@ -40,7 +40,6 @@
 
 - name: Arch setup
   hosts: all
-  become: true
   roles:
     - role: suckless
       when: ansible_distribution == "Archlinux"
