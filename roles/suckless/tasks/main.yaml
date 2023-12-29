@@ -5,6 +5,8 @@
       - dmenu
       - slock
     state: present
+  become: true
+  become_user: root
 
 - name: Install suckless dwm/st dependencies
   tags:
@@ -19,6 +21,8 @@
           - libx11-dev
           - libxinerama-dev
         state: present
+      become: true
+      become_user: root
 
     - name: Install st/dwm dependencies for Arch
       when: ansible_distribution == 'Archlinux'
@@ -28,6 +32,8 @@
           - libx11
         state: present
         reason: explicit
+      become: true
+      become_user: root
 
 - name: Install suckless dwm
   tags:
@@ -99,6 +105,8 @@
           - libjpeg-turbo
         state: present
         reason: explicit
+      become: true
+      become_user: root
 
     - name: Install farbfeld dependencies for Debian
       when: ansible_distribution == 'Debian'
@@ -108,6 +116,8 @@
           - libpng-dev
           - libjepeg8
         state: present
+      become: true
+      become_user: root
 
     - name: Clone farbfeld
       ansible.builtin.git:
@@ -137,6 +147,8 @@
           - libxft
         state: present
         reason: explicit
+      become: true
+      become_user: root
 
     - name: Install sent dependencies for Debian
       when: ansible_distribution == 'Debian'
@@ -146,6 +158,8 @@
           - libxft-dev
           - libx11-dev
         state: present
+      become: true
+      become_user: root
 
     - name: Clone sent
       ansible.builtin.git:
