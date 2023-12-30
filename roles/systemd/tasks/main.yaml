@@ -16,6 +16,8 @@
         enabled: true
         daemon_reload: true
 
+- name: Logind config
+  ansible.builtin.import_tasks: logind.yaml
 
 - name: Systemd services
   tags: systemd

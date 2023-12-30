@@ -14,6 +14,3 @@
 
 - name: Install Light
   ansible.builtin.import_tasks: light.yaml
-
-- name: Logind conf
-  ansible.builtin.import_tasks: logind.yaml
