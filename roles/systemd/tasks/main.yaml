@@ -3,8 +3,8 @@
   block:
     - name: Copy slock on sleep unit file
       ansible.builtin.copy:
-        src: slock.service
-        dest: /etc/systemd/system/slock.service
+        src: slock@.service
+        dest: /etc/systemd/system/slock@.service
         owner: root
         group: root
       become: true
@@ -12,8 +12,7 @@
 
     - name: Enable Slock service
       ansible.builtin.systemd:
-        name: slock.service
-        state: started
+        name: slock@{{ user }}.service
         enabled: true
         daemon_reload: true
 
