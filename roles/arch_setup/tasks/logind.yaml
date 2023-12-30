@@ -1,0 +1,24 @@
+- name: Copy logind.d/*.conf files
+  become: true
+  become_user: root
+  block:
+    - name: Ensures /etc/logind.d/ dir exists
+      ansible.builtin.file:
+        path: /etc/logind.d/
+        state: directory
+        group: root
+        owner: root
+
+    - name: Copy idle action
+      ansible.builtin.copy:
+        src: 01-idle-action.conf
+        dest: "/etc/logind.d/01-idle-action.conf"
+        group: root
+        owner: root
+
+    - name: Copy lid switch
+      ansible.builtin.copy:
+        src: 02-lid-switch.conf
+        dest: "/etc/logind.d/02-lid-switch.conf"
+        group: root
+        owner: root
