@@ -42,6 +42,6 @@
 - name: Block TTY and killing of X server
   ansible.builtin.copy:
     src: 10-x-hardening.conf
-    dest: "/etc/x11/xorg.conf.d/10-x-hardening.conf"
+    dest: "/etc/X11/xorg.conf.d/10-x-hardening.conf"
   become: true
   become_user: root
