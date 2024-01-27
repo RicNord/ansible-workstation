@@ -1,3 +1,6 @@
+- CI
+- incus VM?
+- Decide on submodules or git clone for consistency
 - non X server deployment
 - wsl?
 - debian/ubuntu update pkg
