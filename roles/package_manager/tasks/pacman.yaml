@@ -48,10 +48,12 @@
       - gvim
       - gzip
       - htop
+      - incus
       - jq
       - libnotify
       - libreoffice-still
       - linux-headers
+      - lxc
       - macchanger
       - maim
       - make
