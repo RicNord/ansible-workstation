@@ -64,6 +64,7 @@
       - networkmanager
       - networkmanager-openconnect
       - networkmanager-openvpn
+      - nmap
       - noto-fonts
       - noto-fonts-cjk
       - noto-fonts-emoji
