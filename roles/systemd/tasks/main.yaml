@@ -31,8 +31,8 @@
     - name: Enable bluetooth
       ansible.builtin.systemd:
         name: bluetooth.service
-        state: started
-        enabled: true
+        state: stopped
+        enabled: false
 
     - name: Enable timesyncd
       ansible.builtin.systemd:
