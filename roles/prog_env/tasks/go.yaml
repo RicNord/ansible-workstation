@@ -3,6 +3,7 @@
   block:
     - name: Install Go Arch
       tags: go
+      become: true
       community.general.pacman:
         name:
           - go

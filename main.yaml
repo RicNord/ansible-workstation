@@ -29,14 +29,19 @@
   roles:
     - package_manager
 
-- name: Programing languages
+- name: User env
   hosts: all
   become: true
   become_user: "{{ user }}"
   roles:
     - dotfiles
-    - prog_env
     - neovim
+
+- name: Programing languages
+  hosts: all
+  become: true
+  roles:
+    - prog_env
 
 - name: Arch setup
   hosts: all
