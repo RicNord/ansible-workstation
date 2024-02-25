@@ -104,6 +104,7 @@
       - tree
       - unrar
       - unzip
+      - virt-viewer
       - vlc
       - wget
       - wmname
