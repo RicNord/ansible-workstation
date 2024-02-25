@@ -18,7 +18,6 @@
       - azure-cli
       - google-chrome
       - neovim-git
-      - slack-desktop
     state: present
   become: true
   become_user: aur_builder
