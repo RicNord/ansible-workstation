@@ -15,7 +15,6 @@
     - packages
   kewlfft.aur.aur:
     name:
-      - azure-cli
       - google-chrome
       - neovim-git
     state: present
