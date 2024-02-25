@@ -1,12 +1,13 @@
-- name: Install X pkgs
+- name: Install light package
   tags:
     - arch
     - packages
-  community.general.pacman:
+  kewlfft.aur.aur:
     name:
       - light
     state: present
-    reason: explicit
+  become: true
+  become_user: aur_builder
 
 - name: Ensure existance of group video
   ansible.builtin.group:
