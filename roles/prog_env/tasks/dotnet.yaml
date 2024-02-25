@@ -6,6 +6,7 @@
       - dotnet-runtime
     state: present
     reason: explicit
+  become: true
 
 - name: Install dotnet runtime
   when: ansible_os_family == 'Debian'
@@ -15,3 +16,4 @@
     pkg:
       - dotnet-runtime-7.0
     state: present
+  become: true
