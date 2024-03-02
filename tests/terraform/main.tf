@@ -14,7 +14,7 @@ provider "incus" {
 
 resource "incus_project" "project" {
   name        = "ansible-ws-tst"
-  description = "Test profile for ansible workstation setup"
+  description = "Test project for ansible workstation setup"
   config = {
 
     # Features
@@ -22,7 +22,7 @@ resource "incus_project" "project" {
     "features.images"          = false
     "features.profiles"        = true
     "features.storage.buckets" = true
-    "features.networks"        = true
+    "features.networks"        = false
     "features.networks.zones"  = true
 
     # Limits
@@ -51,16 +51,17 @@ resource "incus_network" "test-net" {
 }
 
 resource "incus_storage_pool" "test-pool" {
-  name   = "ansible-test-pool"
-  driver = "dir"
+  name    = "ansible-test-pool"
+  project = incus_project.project.name
+  driver  = "dir"
   config = {
     source = "/var/lib/incus/storage-pools/ansible-test-pool"
   }
-
 }
 
 resource "incus_profile" "test-profile" {
-  name = "test-profile"
+  name    = "test-profile"
+  project = incus_project.project.name
 
   device {
     name = "incus01"
@@ -72,8 +73,9 @@ resource "incus_profile" "test-profile" {
 }
 
 resource "incus_volume" "arch-vm-volume" {
-  name = "arch-vm-volume"
-  pool = incus_storage_pool.test-pool.name
+  name    = "arch-vm-volume"
+  project = incus_project.project.name
+  pool    = incus_storage_pool.test-pool.name
   config = {
     size = "50GB"
   }
@@ -82,6 +84,7 @@ resource "incus_volume" "arch-vm-volume" {
 
 resource "incus_instance" "arch-vm" {
   name      = "arch-vm"
+  project   = incus_project.project.name
   image     = "images:archlinux"
   type      = "virtual-machine"
   ephemeral = true
