@@ -10,6 +10,20 @@
         upgrade: safe
         update_cache: true
 
+    - name: Pacman.conf multilib
+      when: ansible_distribution == "Archlinux"
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: "^#\\[multilib\\]\n#Include = /etc/pacman.d/mirrorlist"
+        replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
+
+    - name: Pacman.conf ParallelDownloads
+      when: ansible_distribution == "Archlinux"
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: "^#ParallelDownloads.*$"
+        replace: "ParallelDownloads = 15"
+
     - name: Pacman -Syu
       when: ansible_distribution == "Archlinux"
       community.general.pacman:
