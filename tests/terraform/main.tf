@@ -13,8 +13,8 @@ provider "incus" {
 }
 
 resource "incus_project" "project" {
-  name        = "ansible-ws-tst"
-  description = "Test project for ansible workstation setup"
+  name        = "ansible-ws"
+  description = "Test ansible ws"
   config = {
 
     # Features
@@ -110,4 +110,3 @@ resource "incus_instance" "arch-vm" {
     memory = "8GB"
   }
 }
-
