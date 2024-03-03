@@ -100,6 +100,16 @@ resource "incus_instance" "arch-vm" {
     }
   }
 
+  device {
+    name = "shared"
+    type = "disk"
+    properties = {
+      source = incus_volume.arch-vm-volume.name
+      pool = incus_storage_pool.test-pool.name
+      path   = "/tmp"
+    }
+  }
+
   config = {
     "boot.autostart"      = false
     "security.secureboot" = false
