@@ -77,7 +77,6 @@
       - noto-fonts-extra
       - npm
       - nsxiv
-      - okular
       - openconnect
       - openssh
       - pandoc-cli
