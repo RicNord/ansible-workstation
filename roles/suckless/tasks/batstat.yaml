@@ -30,7 +30,13 @@
         path: "{{ home }}/repos/usr/batstat"
       when: batstat.changed or not batexist.stat.exists
 
+    - name: Register uid of {{ user }}
+      command: id -u {{ user }}
+      register: uid
+
     - name: Enable batstat
+      become: True
+      become_user: "{{ user }}"
       ansible.builtin.systemd:
         name: batstat
         daemon_reload: true
@@ -38,3 +44,5 @@
         state: started
         enabled: true
         scope: user
+      environment:
+        XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}
