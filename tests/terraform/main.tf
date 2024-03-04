@@ -97,6 +97,7 @@ resource "incus_instance" "arch-vm" {
     properties = {
       path = "/"
       pool = incus_storage_pool.test-pool.name
+      size = "30GB"
     }
   }
 
