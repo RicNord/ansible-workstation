@@ -79,7 +79,15 @@ resource "incus_volume" "arch-vm-volume" {
   config = {
     size = "50GB"
   }
+}
 
+resource "incus_volume" "ubuntu-vm-volume" {
+  name    = "ubuntu-vm-volume"
+  project = incus_project.project.name
+  pool    = incus_storage_pool.test-pool.name
+  config = {
+    size = "50GB"
+  }
 }
 
 resource "incus_instance" "arch-vm" {
@@ -106,7 +114,47 @@ resource "incus_instance" "arch-vm" {
     type = "disk"
     properties = {
       source = incus_volume.arch-vm-volume.name
+      pool   = incus_storage_pool.test-pool.name
+      path   = "/tmp"
+    }
+  }
+
+  config = {
+    "boot.autostart"      = false
+    "security.secureboot" = false
+  }
+
+  limits = {
+    cpu    = 6
+    memory = "8GB"
+  }
+}
+
+resource "incus_instance" "ubuntu-vm" {
+  name      = "ubuntu-vm"
+  project   = incus_project.project.name
+  image     = "images:ubuntu/jammy"
+  type      = "virtual-machine"
+  ephemeral = true
+  running   = true
+  profiles  = [incus_profile.test-profile.name]
+
+  device {
+    name = "root"
+    type = "disk"
+    properties = {
+      path = "/"
       pool = incus_storage_pool.test-pool.name
+      size = "30GB"
+    }
+  }
+
+  device {
+    name = "shared"
+    type = "disk"
+    properties = {
+      source = incus_volume.ubuntu-vm-volume.name
+      pool   = incus_storage_pool.test-pool.name
       path   = "/tmp"
     }
   }
