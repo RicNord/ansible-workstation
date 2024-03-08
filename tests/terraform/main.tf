@@ -169,3 +169,37 @@ resource "incus_instance" "ubuntu-vm" {
     memory = "8GB"
   }
 }
+
+resource "incus_instance" "ubuntu-container" {
+  name      = "ubuntu-container"
+  project   = incus_project.project.name
+  image     = "images:ubuntu/jammy"
+  type      = "container"
+  ephemeral = true
+  running   = true
+  profiles  = [incus_profile.test-profile.name]
+
+  device {
+    name = "root"
+    type = "disk"
+    properties = {
+      path = "/"
+      pool = incus_storage_pool.test-pool.name
+      size = "30GB"
+    }
+  }
+
+  device {
+    name = "shared"
+    type = "disk"
+    properties = {
+      source = incus_volume.ubuntu-vm-volume.name
+      pool   = incus_storage_pool.test-pool.name
+      path   = "/tmp"
+    }
+  }
+
+  config = {
+    "boot.autostart"      = false
+  }
+}
