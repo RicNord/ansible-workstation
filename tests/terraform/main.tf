@@ -139,7 +139,7 @@ resource "incus_instance" "arch-vm" {
 resource "incus_instance" "arch-container" {
   name      = "arch-container"
   project   = incus_project.project.name
-  image     = "images:archlinux"
+  image     = "images:archlinux/cloud"
   type      = "container"
   ephemeral = true
   running   = true
@@ -166,7 +166,13 @@ resource "incus_instance" "arch-container" {
   }
 
   config = {
-    "boot.autostart" = false
+    "boot.autostart"       = false
+    "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
+  }
+
+  provisioner "local-exec" {
+    command     = "incus exec ${incus_instance.arch-container.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 
