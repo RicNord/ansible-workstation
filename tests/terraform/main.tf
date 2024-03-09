@@ -93,7 +93,7 @@ resource "incus_volume" "ubuntu-vm-volume" {
 resource "incus_instance" "arch-vm" {
   name      = "arch-vm"
   project   = incus_project.project.name
-  image     = "images:archlinux"
+  image     = "images:archlinux/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
@@ -120,13 +120,19 @@ resource "incus_instance" "arch-vm" {
   }
 
   config = {
-    "boot.autostart"      = false
-    "security.secureboot" = false
+    "boot.autostart"       = false
+    "security.secureboot"  = false
+    "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
   }
 
   limits = {
     cpu    = 6
     memory = "8GB"
+  }
+
+  provisioner "local-exec" {
+    command     = "incus exec ${incus_instance.arch-vm.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then exit 0; else exit 1; fi"
+    interpreter = ["/bin/bash", "-c"]
   }
 }
 
@@ -160,7 +166,7 @@ resource "incus_instance" "arch-container" {
   }
 
   config = {
-    "boot.autostart"      = false
+    "boot.autostart" = false
   }
 }
 
@@ -234,6 +240,6 @@ resource "incus_instance" "ubuntu-container" {
   }
 
   config = {
-    "boot.autostart"      = false
+    "boot.autostart" = false
   }
 }
