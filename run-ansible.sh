@@ -10,7 +10,7 @@ UUID=$(uuidgen)
 ANSIBLE_VENV_PATH="/tmp/.ansible-venv/$UUID"
 
 echo -e "${BBlue}Create viritual enviormant at: $ANSIBLE_VENV_PATH ${NC}"
-python -m venv "$ANSIBLE_VENV_PATH"
+python3 -m venv "$ANSIBLE_VENV_PATH"
 source "$ANSIBLE_VENV_PATH/bin/activate"
 
 echo -e "${BBlue}Pip install requirements ${NC}"
@@ -20,4 +20,9 @@ echo -e "${BBlue}Ansible galaxy install ${NC}"
 ansible-galaxy install -r ansible_galaxy.yaml
 
 echo -e "${BBlue}Run ansible playbook ${NC}"
-ansible-playbook main.yaml -K
+USER_ID=$(id -u)
+if [ "$USER_ID" -ne 0 ]; then
+    ansible-playbook main.yaml -K
+else
+    ansible-playbook main.yaml
+fi
