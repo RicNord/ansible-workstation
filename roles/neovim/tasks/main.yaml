@@ -1,5 +1,7 @@
 - name: Add neovim apt repository
   when: ansible_os_family == 'Debian'
+  become: true
+  become_user: root
   block:
     - name: Check if neovim-archive-keyring.gpg already exist
       ansible.builtin.stat:
