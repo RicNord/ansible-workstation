@@ -1,0 +1,7 @@
+#cloud-config
+packages:
+  - git
+  - build-essential
+  - uuid-runtime
+  - python3-venv
+timezone: Europe/Stockholm
