@@ -17,7 +17,7 @@
           - libreadline-dev
           - liblzma-dev
           - libsqlite3-dev
-          - libsas12-dev
+          - libsasl2-dev
         state: present
 
     - name: Clone repo
