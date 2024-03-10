@@ -13,8 +13,6 @@
           ansible.builtin.copy:
             src: neovim-ppa.gpg
             dest: "/tmp/neovim-ppa.gpg"
-            owner: "{{ user }}"
-            group: "{{ user }}"
             mode: '0644'
 
         - name: Add to keyring
