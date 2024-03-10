@@ -90,6 +90,24 @@ resource "incus_volume" "ubuntu-vm-volume" {
   }
 }
 
+resource "incus_volume" "arch-container-volume" {
+  name    = "arch-container-volume"
+  project = incus_project.project.name
+  pool    = incus_storage_pool.test-pool.name
+  config = {
+    size = "50GB"
+  }
+}
+
+resource "incus_volume" "ubuntu-container-volume" {
+  name    = "ubuntu-container-volume"
+  project = incus_project.project.name
+  pool    = incus_storage_pool.test-pool.name
+  config = {
+    size = "50GB"
+  }
+}
+
 resource "incus_instance" "arch-vm" {
   name      = "arch-vm"
   project   = incus_project.project.name
@@ -109,15 +127,15 @@ resource "incus_instance" "arch-vm" {
     }
   }
 
-  device {
-    name = "shared"
-    type = "disk"
-    properties = {
-      source = incus_volume.arch-vm-volume.name
-      pool   = incus_storage_pool.test-pool.name
-      path   = "/tmp"
-    }
-  }
+  #  device {
+  #    name = "shared"
+  #    type = "disk"
+  #    properties = {
+  #      source = incus_volume.arch-vm-volume.name
+  #      pool   = incus_storage_pool.test-pool.name
+  #      path   = "/tmp"
+  #    }
+  #  }
 
   config = {
     "boot.autostart"       = false
@@ -155,15 +173,15 @@ resource "incus_instance" "arch-container" {
     }
   }
 
-  device {
-    name = "shared"
-    type = "disk"
-    properties = {
-      source = incus_volume.ubuntu-vm-volume.name
-      pool   = incus_storage_pool.test-pool.name
-      path   = "/tmp"
-    }
-  }
+  #  device {
+  #    name = "shared"
+  #    type = "disk"
+  #    properties = {
+  #      source = incus_volume.arch-container-volume.name
+  #      pool   = incus_storage_pool.test-pool.name
+  #      path   = "/tmp"
+  #    }
+  #  }
 
   config = {
     "boot.autostart"       = false
@@ -179,7 +197,7 @@ resource "incus_instance" "arch-container" {
 resource "incus_instance" "ubuntu-vm" {
   name      = "ubuntu-vm"
   project   = incus_project.project.name
-  image     = "images:ubuntu/jammy"
+  image     = "images:ubuntu/jammy/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
@@ -195,19 +213,25 @@ resource "incus_instance" "ubuntu-vm" {
     }
   }
 
-  device {
-    name = "shared"
-    type = "disk"
-    properties = {
-      source = incus_volume.ubuntu-vm-volume.name
-      pool   = incus_storage_pool.test-pool.name
-      path   = "/tmp"
-    }
-  }
+  #  device {
+  #    name = "shared"
+  #    type = "disk"
+  #    properties = {
+  #      source = incus_volume.ubuntu-vm-volume.name
+  #      pool   = incus_storage_pool.test-pool.name
+  #      path   = "/tmp"
+  #    }
+  #  }
 
   config = {
-    "boot.autostart"      = false
-    "security.secureboot" = false
+    "boot.autostart"       = false
+    "security.secureboot"  = false
+    "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
+  }
+
+  provisioner "local-exec" {
+    command     = "incus exec ${incus_instance.ubuntu-vm.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    interpreter = ["/bin/bash", "-c"]
   }
 
   limits = {
@@ -219,7 +243,7 @@ resource "incus_instance" "ubuntu-vm" {
 resource "incus_instance" "ubuntu-container" {
   name      = "ubuntu-container"
   project   = incus_project.project.name
-  image     = "images:ubuntu/jammy"
+  image     = "images:ubuntu/jammy/cloud"
   type      = "container"
   ephemeral = true
   running   = true
@@ -235,17 +259,23 @@ resource "incus_instance" "ubuntu-container" {
     }
   }
 
-  device {
-    name = "shared"
-    type = "disk"
-    properties = {
-      source = incus_volume.ubuntu-vm-volume.name
-      pool   = incus_storage_pool.test-pool.name
-      path   = "/tmp"
-    }
-  }
+  #  device {
+  #    name = "shared"
+  #    type = "disk"
+  #    properties = {
+  #      source = incus_volume.ubuntu-container-volume.name
+  #      pool   = incus_storage_pool.test-pool.name
+  #      path   = "/tmp"
+  #    }
+  #  }
 
   config = {
-    "boot.autostart" = false
+    "boot.autostart"       = false
+    "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
+  }
+
+  provisioner "local-exec" {
+    command     = "incus exec ${incus_instance.ubuntu-container.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    interpreter = ["/bin/bash", "-c"]
   }
 }
