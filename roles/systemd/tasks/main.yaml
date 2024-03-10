@@ -22,6 +22,9 @@
 - name: Systemd services
   tags: systemd
   block:
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+
     - name: Enable NetworkManager
       when: ansible_distribution == "Archlinux"
       ansible.builtin.systemd:
@@ -34,6 +37,7 @@
         name: bluetooth.service
         state: stopped
         enabled: false
+      when: "'bluetooth' in services"
 
     - name: Enable timesyncd
       ansible.builtin.systemd:
