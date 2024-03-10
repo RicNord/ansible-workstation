@@ -30,6 +30,12 @@
         update_cache: true
         upgrade: true
 
+- name: Create {{ user }}
+  hosts: all
+  become: true
+  roles:
+    - role: user
+
 - name: Arch setup
   hosts: all
   become: true
