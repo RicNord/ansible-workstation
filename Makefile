@@ -4,3 +4,12 @@ gen-req:
 
 install:
 	/bin/bash ./run-ansible.sh
+
+test:
+	bash -c "tests/test-runner.sh"
+
+clean-instance:
+	bash -c "incus list --project ansible-ws --format csv --columns n | xargs incus delete --force --project ansible-ws"
+
+clean: clean-instance
+	bash -c "terraform -chdir=tests/terraform destroy -auto-approve"
