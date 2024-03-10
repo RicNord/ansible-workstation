@@ -1,9 +1,64 @@
 #!/bin/bash
 
-cd ./terraform/ && terraform apply -auto-approve
-incus exec --project ansible-ws arch-vm -- bash -c "pacman -S --noconfirm git base-devel reflector"
-incus exec --project ansible-ws arch-vm -- bash -c "reflector --delay 3 -c 'se,dk,no,fi,ge,nl' -f 20 --sort=rate -p https --save '/etc/pacman.d/mirrorlist'"
-incus exec --project ansible-ws arch-vm -- bash -c "cd /tmp \
-    && git clone --shallow-submodules --recurse-submodules --depth 1 https://github.com/ricnord/ansible-workstation \
-    ; cd ansible-workstation \
-    && make install"
+# Bash "stric mode"
+set -euo pipefail
+
+INSTANCE_LIST=''
+_CURRENT_DIR="$(dirname "$0")"
+
+function usage() {
+    cat <<EOF
+    Usage: $0 [ -i instance1,instance2... ]
+
+    -i    comma separeated list of instances
+
+EOF
+    exit 1
+}
+
+# Parse args
+while getopts "i:" opt; do
+    case "${opt}" in
+        i) INSTANCE_LIST=$OPTARG ;;
+        *) usage ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+terraform_apply() {
+    terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve
+}
+
+run_ansible() {
+    incus exec "$1" --project ansible-ws -- bash -c "\
+        git clone \
+        --shallow-submodules \
+        --recurse-submodules \
+        --depth 1 \
+        https://github.com/ricnord/ansible-workstation \
+        /tmp/ansible-workstation "
+    incus exec --project ansible-ws "$1" -- bash -c "\
+        make \
+        -C /tmp/ansible-workstation \
+        install"
+}
+
+get_projects() {
+    ALL_INSTANCES=$(incus list --project ansible-ws --format csv --columns n)
+}
+
+terraform_apply
+
+get_projects
+
+export -f run_ansible
+
+if [ -n "${INSTANCE_LIST}" ]; then
+    echo running selected instances
+    echo "$INSTANCE_LIST"
+    parallel --delimiter "," run_ansible ::: "$INSTANCE_LIST"
+else
+    echo running all instances
+    echo "$ALL_INSTANCES"
+    parallel run_ansible ::: "$ALL_INSTANCES"
+fi
