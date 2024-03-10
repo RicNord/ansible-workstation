@@ -15,7 +15,7 @@
           - libbz2-dev
           - libncurses5-dev
           - libreadline-dev
-          - libblzma-dev
+          - liblzma-dev
           - libsqlite3-dev
           - libsas12-dev
         state: present
