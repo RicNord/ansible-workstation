@@ -1,13 +1,13 @@
 #cloud-config
+runcmd:
+  - [pacman, -S, --noconfirm, --quiet, reflector]
+  - [reflector, --delay, '3', --country, 'se,dk,no,fi,ge,nl', --fastest, '10', --sort, 'rate', --protocol, 'https', --save, '/etc/pacman.d/mirrorlist']
 packages:
   - git
   - base-devel
-  - reflector
   - archlinux-keyring
   - linux
   - linux-firmware
   - networkmanager
   - gvim
 timezone: Europe/Stockholm
-runcmd:
-  - [reflector, --delay, 3, --country, 'se,dk,no,fi,ge,nl', --fastest, 10, --sort, 'rate', --protocol, 'https', --save, '/etc/pacman.d/mirrorlist']
