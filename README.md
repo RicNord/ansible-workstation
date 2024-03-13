@@ -16,18 +16,6 @@ If this is the first time you clone the repo and you did not use
 Default User created in the set-up is `nord`, this can be changed in the
 [group_vars/workstations.yaml](./group_vars/workstations.yaml) file.
 
-## Dependencies
-
-- python
-- git
-- make
-- uuidgen
-
-[Tests]
-
-- incus
-- terraform
-
 ### Install arch
 
 See arch installation [README](./install_arch/README.md).
@@ -41,6 +29,18 @@ See arch installation [README](./install_arch/README.md).
 `make test`
 
 see [tests](./tests/)
+
+## Dependencies
+
+- python
+- git
+- make
+- uuidgen
+
+[Tests]
+
+- incus
+- terraform
 
 ## Development
 
