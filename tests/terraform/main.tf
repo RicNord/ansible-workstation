@@ -109,6 +109,7 @@ resource "incus_volume" "ubuntu-container-volume" {
 }
 
 resource "incus_instance" "arch-vm" {
+  count     = var.arch-vm ? 1 : 0
   name      = "arch-vm"
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
@@ -149,12 +150,13 @@ resource "incus_instance" "arch-vm" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.arch-vm.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${incus_instance.arch-vm[0].name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
 
 resource "incus_instance" "arch-container" {
+  count     = var.arch-container ? 1 : 0
   name      = "arch-container"
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
@@ -189,12 +191,13 @@ resource "incus_instance" "arch-container" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.arch-container.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${incus_instance.arch-container[0].name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
 
 resource "incus_instance" "ubuntu-vm" {
+  count     = var.ubuntu-vm ? 1 : 0
   name      = "ubuntu-vm"
   project   = incus_project.project.name
   image     = "images:ubuntu/jammy/cloud"
@@ -230,7 +233,7 @@ resource "incus_instance" "ubuntu-vm" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.ubuntu-vm.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${incus_instance.ubuntu-vm[0].name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 
@@ -241,6 +244,7 @@ resource "incus_instance" "ubuntu-vm" {
 }
 
 resource "incus_instance" "ubuntu-container" {
+  count     = var.ubuntu-container ? 1 : 0
   name      = "ubuntu-container"
   project   = incus_project.project.name
   image     = "images:ubuntu/jammy/cloud"
@@ -275,7 +279,7 @@ resource "incus_instance" "ubuntu-container" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.ubuntu-container.name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${incus_instance.ubuntu-container[0].name} --project ${incus_project.project.name} -- cloud-init status --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
