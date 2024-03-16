@@ -26,7 +26,12 @@ done
 shift $((OPTIND - 1))
 
 terraform_apply() {
-    terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve
+    if [ -n "${INSTANCE_LIST}" ]; then
+        FORMATTED_INSTANCE_LIST=\"${INSTANCE_LIST//,/\",\"}\"
+    else
+        FORMATTED_INSTANCE_LIST=
+    fi
+    eval terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve -var="'instance-list=[${FORMATTED_INSTANCE_LIST}]'"
 }
 
 run_ansible() {

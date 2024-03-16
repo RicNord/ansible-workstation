@@ -109,7 +109,7 @@ resource "incus_volume" "ubuntu-container-volume" {
 }
 
 resource "incus_instance" "arch-vm" {
-  count     = var.arch-vm ? 1 : 0
+  count     = contains(var.instance-list, "arch-vm") || length(var.instance-list) == 0 ? 1 : 0
   name      = "arch-vm"
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
@@ -156,7 +156,7 @@ resource "incus_instance" "arch-vm" {
 }
 
 resource "incus_instance" "arch-container" {
-  count     = var.arch-container ? 1 : 0
+  count     = contains(var.instance-list, "arch-container") || length(var.instance-list) == 0 ? 1 : 0
   name      = "arch-container"
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
@@ -197,7 +197,7 @@ resource "incus_instance" "arch-container" {
 }
 
 resource "incus_instance" "ubuntu-vm" {
-  count     = var.ubuntu-vm ? 1 : 0
+  count     = contains(var.instance-list, "ubuntu-vm") || length(var.instance-list) == 0 ? 1 : 0
   name      = "ubuntu-vm"
   project   = incus_project.project.name
   image     = "images:ubuntu/jammy/cloud"
@@ -244,7 +244,7 @@ resource "incus_instance" "ubuntu-vm" {
 }
 
 resource "incus_instance" "ubuntu-container" {
-  count     = var.ubuntu-container ? 1 : 0
+  count     = contains(var.instance-list, "ubuntu-container") || length(var.instance-list) == 0 ? 1 : 0
   name      = "ubuntu-container"
   project   = incus_project.project.name
   image     = "images:ubuntu/jammy/cloud"
