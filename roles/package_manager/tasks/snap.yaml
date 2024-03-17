@@ -1,10 +1,17 @@
----
 # TODO ensure snap installed
 
 - name: Install Snap packages
   community.general.snap:
-    name: "{{ item }}"
+    name:
+      - slack
+      - spotify
+      - storage-explorer
+      - vlc
     state: present
-  loop: "{{ lookup('file', '../files/snap.txt').splitlines() }}"
 
-...
+- name: Install Snap packages classic
+  community.general.snap:
+    name:
+      - alacritty
+    classic: true
+    state: present

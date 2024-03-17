@@ -1,3 +1,4 @@
+alacritty
 slack
 spotify
 storage-explorer
