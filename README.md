@@ -24,18 +24,11 @@ See arch installation [README](./install_arch/README.md).
 
 `make install`
 
-### Run tests
-
-`make test`
-
-see [tests](./tests/)
-
 ## Dependencies
 
 - python
 - git
 - make
-- uuidgen
 
 [Tests]
 
@@ -44,4 +37,10 @@ see [tests](./tests/)
 
 ## Development
 
-*Optionally* use `pipenv` to manage python enviorment.
+*Optionally* use `pipenv` to manage python environment.
+
+### Run tests
+
+`make test`
+
+See [tests](./tests/)
