@@ -72,42 +72,6 @@ resource "incus_profile" "test-profile" {
   }
 }
 
-resource "incus_volume" "arch-vm-volume" {
-  name    = "arch-vm-volume"
-  project = incus_project.project.name
-  pool    = incus_storage_pool.test-pool.name
-  config = {
-    size = "50GB"
-  }
-}
-
-resource "incus_volume" "ubuntu-vm-volume" {
-  name    = "ubuntu-vm-volume"
-  project = incus_project.project.name
-  pool    = incus_storage_pool.test-pool.name
-  config = {
-    size = "50GB"
-  }
-}
-
-resource "incus_volume" "arch-container-volume" {
-  name    = "arch-container-volume"
-  project = incus_project.project.name
-  pool    = incus_storage_pool.test-pool.name
-  config = {
-    size = "50GB"
-  }
-}
-
-resource "incus_volume" "ubuntu-container-volume" {
-  name    = "ubuntu-container-volume"
-  project = incus_project.project.name
-  pool    = incus_storage_pool.test-pool.name
-  config = {
-    size = "50GB"
-  }
-}
-
 resource "incus_instance" "arch-vm" {
   count     = contains(var.instance-list, "arch-vm") || length(var.instance-list) == 0 ? 1 : 0
   name      = "arch-vm"
@@ -127,16 +91,6 @@ resource "incus_instance" "arch-vm" {
       size = "30GB"
     }
   }
-
-  #  device {
-  #    name = "shared"
-  #    type = "disk"
-  #    properties = {
-  #      source = incus_volume.arch-vm-volume.name
-  #      pool   = incus_storage_pool.test-pool.name
-  #      path   = "/tmp"
-  #    }
-  #  }
 
   config = {
     "boot.autostart"       = false
@@ -175,16 +129,6 @@ resource "incus_instance" "arch-container" {
     }
   }
 
-  #  device {
-  #    name = "shared"
-  #    type = "disk"
-  #    properties = {
-  #      source = incus_volume.arch-container-volume.name
-  #      pool   = incus_storage_pool.test-pool.name
-  #      path   = "/tmp"
-  #    }
-  #  }
-
   config = {
     "boot.autostart"       = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
@@ -215,16 +159,6 @@ resource "incus_instance" "ubuntu-vm" {
       size = "30GB"
     }
   }
-
-  #  device {
-  #    name = "shared"
-  #    type = "disk"
-  #    properties = {
-  #      source = incus_volume.ubuntu-vm-volume.name
-  #      pool   = incus_storage_pool.test-pool.name
-  #      path   = "/tmp"
-  #    }
-  #  }
 
   config = {
     "boot.autostart"       = false
@@ -262,16 +196,6 @@ resource "incus_instance" "ubuntu-container" {
       size = "30GB"
     }
   }
-
-  #  device {
-  #    name = "shared"
-  #    type = "disk"
-  #    properties = {
-  #      source = incus_volume.ubuntu-container-volume.name
-  #      pool   = incus_storage_pool.test-pool.name
-  #      path   = "/tmp"
-  #    }
-  #  }
 
   config = {
     "boot.autostart"       = false
