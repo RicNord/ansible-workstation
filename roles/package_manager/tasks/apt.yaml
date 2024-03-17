@@ -173,10 +173,78 @@
     update_cache: true
 
 - name: Install packages
-  tags:
-    - debian
-    - packages
   ansible.builtin.apt:
-    pkg: "{{ item }}"
+    pkg:
+      - arandr
+      - autorandr
+      - azure-cli
+      - bat
+      - code
+      - curl
+      - dmenu
+      - dunst
+      - fd-find
+      - filezilla
+      - fzf
+      - gdb
+      - gimp
+      - git
+        #      - github-cli
+      - libglib2.0-dev
+      - gnupg
+      - google-chrome-stable
+      - gzip
+      - htop
+      - htop
+        #      - incus # official in 24.04 (nobel)
+      - jq
+      - libnotify-dev
+      - lxc
+      - macchanger
+      - maim
+      - make
+      - man-db
+      - moreutils
+      - ncdu
+      - net-tools
+      - nmap
+      - npm
+        #      - nsxiv # official in 24.04
+      - openconnect
+      - openssh-client
+      - pandoc
+      - parallel
+      - pass
+      - pulsemixer
+      - python3-neovim
+      - qbittorrent
+      - ranger
+      - redshift
+      - ripgrep
+      - rsync
+      - sq
+      - shellcheck
+      - shfmt
+      - slock
+      - snapd
+      - terraform
+        #      - terragrunt # TODO Manual install
+      - thefuck
+      - tldr
+      - tmux
+      - torbrowser-launcher
+      - traceroute
+      - tree
+      - unifont
+      - unrar
+      - unzip
+      - vim-gtk3
+      - virt-viewer
+      - xclip
+      - xsel
+      - xsel
+      - xterm
+      - zathura
+      - zathura-pdf-poppler
+      - zip
     state: present
-  loop: "{{ lookup('file', 'files/apt.txt').splitlines() }}"
