@@ -36,6 +36,9 @@ terraform_apply() {
 
 run_ansible() {
     incus exec "$1" --project ansible-ws -- bash -c "\
+        rm -rf /tmp/ansible-workstation
+        "
+    incus exec "$1" --project ansible-ws -- bash -c "\
         git clone \
         --single-branch \
         --branch $(git branch --show-current) \
