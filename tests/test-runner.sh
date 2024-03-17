@@ -37,6 +37,8 @@ terraform_apply() {
 run_ansible() {
     incus exec "$1" --project ansible-ws -- bash -c "\
         git clone \
+        --single-branch \
+        --branch $(git branch --show-current) \
         --shallow-submodules \
         --recurse-submodules \
         --depth 1 \
