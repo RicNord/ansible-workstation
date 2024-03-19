@@ -114,34 +114,24 @@
         group: root
         mode: '0644'
 
-# # TODO CURRENTLY THE pubkey_7A3A762FAFD4A51F is not availible, Use Snap instead
-# # Spotify
-# - name: Add spotify apt repository
-#   block:
-#     - name: Check if spotify-archive-keyring.gpg already exist
-#       ansible.builtin.stat:
-#         path: /usr/share/keyrings/spotify-archive-keyring.gpg
-#       register: spotify_gpg
-#
-#     - name: Add spotify-archive-keyring.gpg
-#       block:
-#       - name: Download gpg key
-#         ansible.builtin.get_url:
-#           url: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
-#           dest: /tmp/spotify.gpg
-#           mode: '644'
-#
-#       - name: Add to keyring
-#         ansible.builtin.shell:
-#           cmd: gpg -o /usr/share/keyrings/spotify-archive-keyring.gpg --dearmor /tmp/spotify.gpg
-#       when: not spotify_gpg.stat.exists
-#
-#     - name: Add repo
-#       ansible.builtin.apt_repository:
-#         repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/spotify-archive-keyring.gpg] \
-#                http://repository.spotify.com stable non-free"
-#         state: present
-#         filename: spotify
+# Spotify
+- name: Add spotify apt repository
+  block:
+    - name: Copy spotify.pgp
+      ansible.builtin.copy:
+        src: spotify.pgp
+        dest: /etc/apt/keyrings/spotify.pgp
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Add spotify
+      ansible.builtin.template:
+        src: spotify.sources.jinja
+        dest: /etc/apt/sources.list.d/spotify.sources
+        owner: root
+        group: root
+        mode: '0644'
 
 ## Update and install packages
 - name: Run the equivalent of "apt-get update" as a separate step
