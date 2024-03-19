@@ -1,25 +1,3 @@
-[submodule "roles/suckless/files/dwm"]
-	path = roles/suckless/files/dwm
-	url = https://github.com/RicNord/dwm.git
-[submodule "roles/suckless/files/st"]
-	path = roles/suckless/files/st
-	url = https://github.com/RicNord/st.git
-    branch = main
-[submodule "roles/neovim/files/nvim"]
-	path = roles/neovim/files/nvim
-	url = https://github.com/RicNord/nvim.git
-[submodule "roles/dotfiles/files/dotfiles"]
-	path = roles/dotfiles/files/dotfiles
-	url = https://github.com/RicNord/dotfiles.git
 [submodule "roles/gnome/files/gnome-terminal-profiles"]
 	path = roles/gnome/files/gnome-terminal-profiles
 	url = https://github.com/RicNord/gnome-terminal-profiles.git
-[submodule "roles/suckless/files/slstatus"]
-	path = roles/suckless/files/slstatus
-	url = https://github.com/RicNord/slstatus.git
-[submodule "roles/suckless/files/sent"]
-	path = roles/suckless/files/sent
-	url = https://github.com/RicNord/sent.git
-[submodule "roles/suckless/files/farbfeld"]
-	path = roles/suckless/files/farbfeld
-	url = https://github.com/RicNord/farbfeld.git
