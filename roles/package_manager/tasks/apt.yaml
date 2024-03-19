@@ -212,6 +212,7 @@
       - shfmt
       - slock
       - snapd
+      - spotify-client
       - terraform
       #      - terragrunt # TODO Manual install
       - thefuck
