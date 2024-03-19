@@ -20,6 +20,14 @@
     group: root
     mode: '0755'
 
+- name: Add post invoke script to delete automatically created sources.list files
+  ansible.builtin.template:
+    src: 100post-invoke
+    dest: /etc/apt/apt.conf.d/100post-invoke
+    owner: root
+    group: root
+    mode: '0644'
+
 # Adding additional repositorys to APT
 # Microsoft
 - name: Add microsoft repo
@@ -40,14 +48,6 @@
         group: root
         mode: '0644'
 
-    - name: Add vscode.list cause it will be created automatically otherwise
-      ansible.builtin.template:
-        src: vscode.list
-        dest: /etc/apt/sources.list.d/vscode.list
-        owner: root
-        group: root
-        mode: '0644'
-
     - name: Add vscode
       ansible.builtin.template:
         src: vscode.sources.jinja
@@ -57,31 +57,24 @@
         mode: '0644'
 
 ## Google
-- name: Add google apt repository
+- name: Add google repo
   block:
-    - name: Check if google-archive-keyring.gpg already exist
-      ansible.builtin.stat:
-        path: /usr/share/keyrings/google-archive-keyring.gpg
-      register: google_gpg
+    - name: Copy google.pgp
+      ansible.builtin.copy:
+        src: google.pgp
+        dest: /etc/apt/keyrings/google.pgp
+        owner: root
+        group: root
+        mode: '0755'
 
-    - name: Add google-archive-keyring.gpg
-      when: not google_gpg.stat.exists
-      block:
-        - name: Download gpg key
-          ansible.builtin.get_url:
-            url: https://dl.google.com/linux/linux_signing_key.pub
-            dest: /tmp/google.gpg
-            mode: '644'
 
-        - name: Add to keyring
-          ansible.builtin.shell:
-            cmd: gpg -o /usr/share/keyrings/google-archive-keyring.gpg --dearmor /tmp/google.gpg
-
-    - name: Add repo
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-archive-keyring.gpg] https://dl.google.com/linux/chrome/deb/ stable main"
-        state: present
-        filename: google-chrome
+    - name: Add google-chrome
+      ansible.builtin.template:
+        src: google-chrome.sources.jinja
+        dest: /etc/apt/sources.list.d/google-chrome.sources
+        owner: root
+        group: root
+        mode: '0644'
 
 # Docker
 - name: Add docker apt repository
