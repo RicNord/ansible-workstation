@@ -20,6 +20,14 @@
     group: root
     mode: '0755'
 
+- name: Add post invoke script to delete automatically created sources.list files
+  ansible.builtin.template:
+    src: 100post-invoke
+    dest: /etc/apt/apt.conf.d/100post-invoke
+    owner: root
+    group: root
+    mode: '0644'
+
 # Adding additional repositorys to APT
 # Microsoft
 - name: Add microsoft repo
@@ -36,14 +44,6 @@
       ansible.builtin.template:
         src: azure-cli.sources.jinja
         dest: /etc/apt/sources.list.d/azure-cli.sources
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: Add vscode.list cause it will be created automatically otherwise
-      ansible.builtin.template:
-        src: vscode.list
-        dest: /etc/apt/sources.list.d/vscode.list
         owner: root
         group: root
         mode: '0644'
@@ -66,6 +66,7 @@
         owner: root
         group: root
         mode: '0755'
+
 
     - name: Add google-chrome
       ansible.builtin.template:
