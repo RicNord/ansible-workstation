@@ -23,48 +23,24 @@
         owner: "{{ user }}"
         group: "{{ user }}"
 
-    - name: Install yamlfmt
-      become: true
-      become_user: "{{ user }}"
-      ansible.builtin.shell: |
-        go install github.com/google/yamlfmt/cmd/yamlfmt@latest
-
-      # - name: Install Go Debian
-      #   tags:
-      #     - go
-      #   block:
-      #     - name: Add Go lang PPA repository
-      #       ansible.builtin.apt_repository:
-      #         repo: 'ppa:longsleep/golang-backports'
-
 - name: Add golang apt repository
   when: ansible_os_family == 'Debian'
   block:
-    - name: Check if golang-archive-keyring.gpg already exist
-      ansible.builtin.stat:
-        path: /usr/share/keyrings/golang-archive-keyring.gpg
-      register: golang_gpg
+    - name: Copy golang-ppa.pgp
+      ansible.builtin.copy:
+        src: golang-ppa.pgp
+        dest: /etc/apt/keyrings/golang-ppa.pgp
+        owner: root
+        group: root
+        mode: '0755'
 
-    - name: Add golang-archive-keyring.gpg
-      when: not golang_gpg.stat.exists
-      block:
-        - name: Copy golang gpg key
-          ansible.builtin.copy:
-            src: golang-ppa.gpg
-            dest: "/tmp/golang-ppa.gpg"
-            owner: "{{ user }}"
-            group: "{{ user }}"
-            mode: '0644'
-
-        - name: Add to keyring
-          ansible.builtin.shell:
-            cmd: gpg -o /usr/share/keyrings/golang-archive-keyring.gpg --dearmor /tmp/golang-ppa.gpg
-
-    - name: Add repo
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/golang-archive-keyring.gpg] https://ppa.launchpadcontent.net/longsleep/golang-backports/ubuntu {{ ansible_distribution_release }} main "
-        state: present
-        filename: golang
+    - name: Add golang
+      ansible.builtin.template:
+        src: golang.sources.jinja
+        dest: /etc/apt/sources.list.d/golang.sources
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Run the equivalent of "apt-get update" as a separate step
       become: true
@@ -77,3 +53,9 @@
         pkg:
           - golang-go
         state: present
+
+- name: Install yamlfmt
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: |
+    go install github.com/google/yamlfmt/cmd/yamlfmt@latest
