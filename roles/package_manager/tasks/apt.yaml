@@ -79,29 +79,21 @@
 # Docker
 - name: Add docker apt repository
   block:
-    - name: Check if docker-archive-keyring.gpg already exist
-      ansible.builtin.stat:
-        path: /usr/share/keyrings/docker-archive-keyring.gpg
-      register: docker_gpg
+    - name: Copy docker.pgp
+      ansible.builtin.copy:
+        src: docker.pgp
+        dest: /etc/apt/keyrings/docker.pgp
+        owner: root
+        group: root
+        mode: '0755'
 
-    - name: Add docker-archive-keyring.gpg
-      when: not docker_gpg.stat.exists
-      block:
-        - name: Download gpg key
-          ansible.builtin.get_url:
-            url: https://download.docker.com/linux/ubuntu/gpg
-            dest: /tmp/docker.gpg
-            mode: '644'
-
-        - name: Add to keyring
-          ansible.builtin.shell:
-            cmd: gpg -o /usr/share/keyrings/docker-archive-keyring.gpg --dearmor /tmp/docker.gpg
-
-    - name: Add repo
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-        state: present
-        filename: docker
+    - name: Add docker
+      ansible.builtin.template:
+        src: docker.sources.jinja
+        dest: /etc/apt/sources.list.d/docker.sources
+        owner: root
+        group: root
+        mode: '0644'
 
 # Hashicorp
 - name: Add hashicorp apt repository
