@@ -30,7 +30,7 @@
 
 # Adding additional repositorys to APT
 # Microsoft
-- name: Add microsoft repo
+- name: Add microsoft apt repository
   block:
     - name: Copy microsoft.pgp
       ansible.builtin.copy:
@@ -57,7 +57,7 @@
         mode: '0644'
 
 ## Google
-- name: Add google repo
+- name: Add google apt repository
   block:
     - name: Copy google.pgp
       ansible.builtin.copy:
@@ -98,30 +98,21 @@
 # Hashicorp
 - name: Add hashicorp apt repository
   block:
-    - name: Check if hashicorp-archive-keyring.gpg already exist
-      ansible.builtin.stat:
-        path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
-      register: hashicorp_gpg
+    - name: Copy hashicorp.pgp
+      ansible.builtin.copy:
+        src: hashicorp.pgp
+        dest: /etc/apt/keyrings/hashicorp.pgp
+        owner: root
+        group: root
+        mode: '0755'
 
-    - name: Add hashicorp-archive-keyring.gpg
-      when: not hashicorp_gpg.stat.exists
-      block:
-        - name: Download gpg key
-          ansible.builtin.get_url:
-            url: https://apt.releases.hashicorp.com/gpg
-            dest: /tmp/hashicorp.gpg
-            mode: '644'
-
-        - name: Add to keyring
-          ansible.builtin.shell:
-            cmd: gpg -o /usr/share/keyrings/hashicorp-archive-keyring.gpg --dearmor /tmp/hashicorp.gpg
-
-    - name: Add repo
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
-        state: present
-        filename: hashicorp
-
+    - name: Add hashicorp
+      ansible.builtin.template:
+        src: hashicorp.sources.jinja
+        dest: /etc/apt/sources.list.d/hashicorp.sources
+        owner: root
+        group: root
+        mode: '0644'
 
 # # TODO CURRENTLY THE pubkey_7A3A762FAFD4A51F is not availible, Use Snap instead
 # # Spotify
@@ -174,14 +165,14 @@
       - gdb
       - gimp
       - git
-        #      - github-cli
+      #      - github-cli
       - libglib2.0-dev
       - gnupg
       - google-chrome-stable
       - gzip
       - htop
       - htop
-        #      - incus # official in 24.04 (nobel)
+      #      - incus # official in 24.04 (nobel)
       - jq
       - libnotify-dev
       - lxc
@@ -194,7 +185,7 @@
       - net-tools
       - nmap
       - npm
-        #      - nsxiv # official in 24.04
+      #      - nsxiv # official in 24.04
       - openconnect
       - openssh-client
       - pandoc
@@ -213,7 +204,7 @@
       - slock
       - snapd
       - terraform
-        #      - terragrunt # TODO Manual install
+      #      - terragrunt # TODO Manual install
       - thefuck
       - tldr
       - tmux
