@@ -133,6 +133,25 @@
         group: root
         mode: '0644'
 
+# github
+- name: Add github apt repository
+  block:
+    - name: Copy github.pgp
+      ansible.builtin.copy:
+        src: github.pgp
+        dest: /etc/apt/keyrings/github.pgp
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Add github-cli
+      ansible.builtin.template:
+        src: github-cli.sources.jinja
+        dest: /etc/apt/sources.list.d/github-cli.sources
+        owner: root
+        group: root
+        mode: '0644'
+
 ## Update and install packages
 - name: Run the equivalent of "apt-get update" as a separate step
   ansible.builtin.apt:
@@ -155,7 +174,7 @@
       - gdb
       - gimp
       - git
-      #      - github-cli
+      - gh
       - libglib2.0-dev
       - gnupg
       - google-chrome-stable
