@@ -2,12 +2,11 @@
   when: ansible_os_family == 'Debian'
   become: true
   become_user: root
-- name: Add neovim apt repository
   block:
     - name: Copy neovim.pgp
       ansible.builtin.copy:
-        src: neovim.pgp
-        dest: /etc/apt/keyrings/neovim.pgp
+        src: neovim-ppa.pgp
+        dest: /etc/apt/keyrings/neovim-ppa.pgp
         owner: root
         group: root
         mode: '0755'
@@ -57,15 +56,22 @@
       become: true
       become_user: root
 
-- name: Copy Neovim repo
-  tags:
-    - nvim
+- name: Install neovim config
   block:
-    - name: Copy nvim config
-      ansible.builtin.copy:
-        src: nvim
-        dest: "{{ home }}/.config/"
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        mode: '0644'
+    - name: Clone nvim
+      ansible.builtin.git:
+        repo: 'https://github.com/RicNord/nvim.git'
+        dest: "{{ home }}/repos/usr/.ansible/nvim"
+        clone: true
+        update: true
       register: nvim
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Deploy nvim config
+      ansible.builtin.command:
+        cmd: ./deploy-repo.sh
+      args:
+        chdir: "{{ home }}/repos/usr/.ansible/nvim"
+      when: nvim.changed
+      become_user: "{{ user }}"
