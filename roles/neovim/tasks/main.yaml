@@ -2,30 +2,23 @@
   when: ansible_os_family == 'Debian'
   become: true
   become_user: root
+- name: Add neovim apt repository
   block:
-    - name: Check if neovim-archive-keyring.gpg already exist
-      ansible.builtin.stat:
-        path: /usr/share/keyrings/neovim-archive-keyring.gpg
-      register: neovim_gpg
+    - name: Copy neovim.pgp
+      ansible.builtin.copy:
+        src: neovim.pgp
+        dest: /etc/apt/keyrings/neovim.pgp
+        owner: root
+        group: root
+        mode: '0755'
 
-    - name: Add neovim-archive-keyring.gpg
-      when: not neovim_gpg.stat.exists
-      block:
-        - name: Copy neovim gpg key
-          ansible.builtin.copy:
-            src: neovim-ppa.gpg
-            dest: "/tmp/neovim-ppa.gpg"
-            mode: '0644'
-
-        - name: Add to keyring
-          ansible.builtin.shell:
-            cmd: gpg -o /usr/share/keyrings/neovim-archive-keyring.gpg --dearmor /tmp/neovim-ppa.gpg
-
-    - name: Add repo
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/neovim-archive-keyring.gpg] https://ppa.launchpadcontent.net/neovim-ppa/unstable/ubuntu {{ ansible_distribution_release }} main"
-        state: present
-        filename: neovim
+    - name: Add neovim.sources
+      ansible.builtin.template:
+        src: neovim.sources.jinja
+        dest: /etc/apt/sources.list.d/neovim.sources
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Run the equivalent of "apt-get update" as a separate step
       ansible.builtin.apt:
