@@ -14,41 +14,62 @@
   ansible.builtin.shell:
     cmd: yes | pacman -S iptables-nft
 
-- name: Install packman packages
+- name: Install pacman X packages
+  tags:
+    - X
+  community.general.pacman:
+    name:
+      - arandr # Frontend for xrandr
+      - autorandr # Auto detect connected displays
+      - code # Bloat
+      - discord
+      - dmenu
+      - dunst # Notification deamon
+      - filezilla # FTP SFTP client
+      - firefox
+      - gimp
+      - libnotify # Send desktop notifications
+      - libreoffice-still
+      - maim # take screenshots
+      - nsxiv # Suckless image viwer
+      - qbittorrent
+      - redshift
+      - slock
+      - torbrowser-launcher
+      - virt-viewer # Used by incus for RDP to consol
+      - vlc
+      - wmname # Set the name of your window manager
+      - zathura
+      - zathura-pdf-poppler
+    state: present
+    reason: explicit
+
+- name: Install pacman packages
   tags:
     - arch
     - packages
   community.general.pacman:
     name:
-      - acpi
+      - acpi # Power Managment - reacts to events
       - alacritty
-      - alsa-utils
-      - arandr
-      - autorandr
+      - alsa-utils # Sound utils, TODO remove
       - base-devel
       - bash-completion
       - bat
-      - bluez
-      - bluez-utils
-      - code
+      - bluez # Bluetooth, TODO make optional
+      - bluez-utils # Bluetooth, TODO make optional
       - curl
-      - discord
-      - dkms
-      - dmenu
+      - dkms # Dynamic Kernel Module Support, used by eg. viritual box
       - docker
       - docker-compose
-      - dunst
       - efibootmgr
-      - entr
-      - fd
-      - filezilla
-      - firefox
+      - entr # Run arbitrary commands when files change
+      - fd # Find alternative
       - fzf
       - gdb
-      - gimp
       - git
       - github-cli
-      - glib2
+      - glib2 # Low level core lib
       - gnupg
       - grub
       - gvim
@@ -56,27 +77,23 @@
       - htop
       - incus
       - jq
-      - libnotify
-      - libreoffice-still
       - linux-headers
       - lxc
       - macchanger
-      - maim
       - make
       - man-db
       - moreutils
-      - ncdu
+      - ncdu # Ncurses disk analyser
       - net-tools
       - networkmanager
       - networkmanager-openconnect
       - networkmanager-openvpn
       - nmap
-      - noto-fonts
-      - noto-fonts-cjk
-      - noto-fonts-emoji
-      - noto-fonts-extra
-      - npm
-      - nsxiv
+      - noto-fonts-cjk # TODO maybe move large dependancy
+      - noto-fonts-emoji # TODO maybe move large dependancy
+      - noto-fonts-extra # TODO maybe move large dependancy
+      - noto-fonts # TODO maybe move large dependancy
+      - npm # TODO move this
       - openconnect
       - openssh
       - pandoc-cli
@@ -84,46 +101,38 @@
       - pass
       - pulseaudio
       - pulseaudio-alsa
-      - pulseaudio-bluetooth
+      - pulseaudio-bluetooth # TODO make optional
       - pulsemixer
       - python-pip
       - python-pipenv
       - python-tox
       - python-virtualenv
-      - qbittorrent
       - ranger
-      - redshift
       - ripgrep
       - rsync
-      - sequoia-sq
+      - sequoia-sq # gpg alternative
       - shellcheck
       - shfmt
-      - slock
       - terraform
       - terragrunt
       - thefuck
       - tldr
       - tmux
-      - torbrowser-launcher
       - traceroute
       - tree
       - unrar
       - unzip
-      - virt-viewer
-      - vlc
       - wget
-      - wmname
-      - xclip
-      - xsel
+      - xclip # x clipboard
+      - xsel # x clipboard
       - xterm
-      - zathura
-      - zathura-pdf-poppler
       - zip
     state: present
     reason: explicit
 
 - name: Install virtualbox
   tags:
+    - X
     - arch
     - packages
   community.general.pacman:
