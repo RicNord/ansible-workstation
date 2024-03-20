@@ -1,14 +1,3 @@
-#- name: Install AUR packages
-#  tags:
-#    - arch
-#    - packages
-#  kewlfft.aur.aur:
-#    name: "{{ item }}"
-#    state: present
-#  become: true
-#  become_user: aur_builder
-#  loop: "{{ lookup('file', 'files/aur.txt').splitlines() }}"
-
 - name: Install AUR X packages
   tags:
     - X

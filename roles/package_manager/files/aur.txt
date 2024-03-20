@@ -1,4 +1,0 @@
-azure-cli
-google-chrome
-neovim-git
-slack-desktop

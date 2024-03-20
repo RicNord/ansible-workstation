@@ -1,8 +1,4 @@
----
-
 - name: Apt pkgs
-  tags:
-    - debian
   ansible.builtin.import_tasks: apt.yaml
   when: ansible_os_family == 'Debian'
 
@@ -17,5 +13,3 @@
 - name: AUR pkgs
   ansible.builtin.import_tasks: aur.yaml
   when: ansible_os_family == 'Archlinux'
-
-...
