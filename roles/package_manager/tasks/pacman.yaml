@@ -1,13 +1,3 @@
-#- name: Install packman packages
-#  tags:
-#    - arch
-#    - packages
-#  community.general.pacman:
-#    name: "{{ item }}"
-#    state: present
-#    reason: explicit
-#  loop: "{{ lookup('file', 'files/pacman.txt').splitlines() }}"
-
 # iptables are included in base package, and will conflict with nft, needs
 # confirmation to be removed.
 - name: Use iptables-nft

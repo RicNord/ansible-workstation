@@ -1,5 +1,0 @@
-alacritty
-slack
-spotify
-storage-explorer
-vlc
