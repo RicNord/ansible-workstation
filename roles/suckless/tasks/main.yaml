@@ -42,7 +42,7 @@
     - name: Clone dwm
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/dwm.git'
-        dest: "{{ home }}/repos/usr/dwm"
+        dest: "{{ home }}/repos/usr/.ansible/dwm"
         clone: true
         update: true
       register: dwm
@@ -53,7 +53,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/dwm"
+        path: "{{ home }}/repos/usr/.ansible/dwm"
       when: dwm.changed
 
 - name: Install suckless slstatus
@@ -63,7 +63,7 @@
     - name: Clone slstatus
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/slstatus.git'
-        dest: "{{ home }}/repos/usr/slstatus"
+        dest: "{{ home }}/repos/usr/.ansible/slstatus"
         clone: true
         update: true
       register: slstatus
@@ -74,7 +74,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/slstatus"
+        path: "{{ home }}/repos/usr/.ansible/slstatus"
       when: slstatus.changed
 
 - name: Install suckless st
@@ -84,7 +84,7 @@
     - name: Clone st
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/st.git'
-        dest: "{{ home }}/repos/usr/st"
+        dest: "{{ home }}/repos/usr/.ansible/st"
         clone: true
         update: true
       register: st
@@ -95,7 +95,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/st"
+        path: "{{ home }}/repos/usr/.ansible/st"
       when: st.changed
 
 - name: Install suckless farbfeld
@@ -128,7 +128,7 @@
     - name: Clone farbfeld
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/farbfeld.git'
-        dest: "{{ home }}/repos/usr/farbfeld"
+        dest: "{{ home }}/repos/usr/.ansible/farbfeld"
         clone: true
         update: true
       register: farbfeld
@@ -139,7 +139,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/farbfeld"
+        path: "{{ home }}/repos/usr/.ansible/farbfeld"
       when: farbfeld.changed
 
 - name: Install suckless sent
@@ -172,7 +172,7 @@
     - name: Clone sent
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/sent.git'
-        dest: "{{ home }}/repos/usr/sent"
+        dest: "{{ home }}/repos/usr/.ansible/sent"
         clone: true
         update: true
       register: sent
@@ -183,7 +183,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/sent"
+        path: "{{ home }}/repos/usr/.ansible/sent"
       when: sent.changed
 
 - name: Install batstat

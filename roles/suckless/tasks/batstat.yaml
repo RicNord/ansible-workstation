@@ -12,7 +12,7 @@
     - name: Clone batstat
       ansible.builtin.git:
         repo: 'https://github.com/RicNord/batstat.git'
-        dest: "{{ home }}/repos/usr/batstat"
+        dest: "{{ home }}/repos/usr/.ansible/batstat"
         clone: true
         update: true
       register: batstat
@@ -27,7 +27,7 @@
       ansible.builtin.import_tasks:
         file: make_install.yaml
       vars:
-        path: "{{ home }}/repos/usr/batstat"
+        path: "{{ home }}/repos/usr/.ansible/batstat"
       when: batstat.changed or not batexist.stat.exists
 
         #    - name: Register uid of {{ user }}

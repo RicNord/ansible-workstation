@@ -40,7 +40,7 @@
     - name: Import porfiles
       ansible.builtin.shell:
         cmd: bash ./import.sh
-        chdir: "{{ home }}/repos/usr/gnome-terminal-profiles/"
+        chdir: "{{ home }}/repos/usr/.ansible/gnome-terminal-profiles/"
       become: true
       become_user: "{{ user }}"
       when: gnome_terminal_profiles.changed

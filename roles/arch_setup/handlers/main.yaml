@@ -3,4 +3,4 @@
   become_user: aur_builder
   ansible.builtin.shell:
     cmd: makepkg -si --noconfirm
-    chdir: "/home/aur_builder/repos/usr/yay"
+    chdir: "/home/aur_builder/repos/usr/.ansible/yay"
