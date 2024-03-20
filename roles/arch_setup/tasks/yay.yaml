@@ -16,7 +16,7 @@
   become_user: aur_builder
   ansible.builtin.git:
     repo: https://aur.archlinux.org/yay.git
-    dest: "/home/aur_builder/repos/usr/yay"
+    dest: "/home/aur_builder/repos/usr/.ansible/yay"
     clone: true
     update: true
   register: yay

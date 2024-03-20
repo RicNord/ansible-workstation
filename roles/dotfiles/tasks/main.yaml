@@ -1,7 +1,7 @@
 - name: Git clone dotfiles
   ansible.builtin.git:
     repo: 'https://github.com/RicNord/dotfiles.git'
-    dest: "{{ home }}/repos/usr/dotfiles"
+    dest: "{{ home }}/repos/usr/.ansible/dotfiles"
     clone: true
     update: true
   register: dotfiles
@@ -12,7 +12,7 @@
   become: true
   become_user: "{{ user }}"
   args:
-    chdir: "{{ home }}/repos/usr/dotfiles"
+    chdir: "{{ home }}/repos/usr/.ansible/dotfiles"
   when: dotfiles.changed
 
 - name: Deploy system dotfiles
@@ -20,7 +20,7 @@
   become: true
   become_user: root
   args:
-    chdir: "{{ home }}/repos/usr/dotfiles"
+    chdir: "{{ home }}/repos/usr/.ansible/dotfiles"
   when: dotfiles.changed
 
 - name: Install .meta_root
