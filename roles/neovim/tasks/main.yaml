@@ -28,6 +28,7 @@
       ansible.builtin.apt:
         name:
           - neovim
+          - python3-neovim
         state: present
         update_cache: true
       become: true
