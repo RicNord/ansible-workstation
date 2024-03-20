@@ -156,81 +156,103 @@
 - name: Run the equivalent of "apt-get update" as a separate step
   ansible.builtin.apt:
     update_cache: true
-
-- name: Install packages
+- name: Install apt X packages
+  tags:
+    - X
   ansible.builtin.apt:
     pkg:
-      - arandr
-      - autorandr
-      - azure-cli
-      - bat
-      - code
-      - curl
+      - arandr # Frontend for xrandr
+      - autorandr # Auto detect connected displays
+      - code # Bloat
       - dmenu
-      - dunst
+      - dunst # Notification deamon
+      - filezilla # FTP SFTP client
+      - firefox
+      - gimp
+      - google-chrome-stable
+      - libnotify-dev # Send desktop notifications
+      - libreoffice
+      - maim # take screenshots
+      #      - nsxiv # official in 24.04
+      - qbittorrent
+      - redshift
+      - slock
+      - spotify-client
+      - torbrowser-launcher
+      - virt-viewer # Used by incus for RDP to consol
+      # Missing in ubuntu pkg manager - wmname # Set the name of your window manager
+      - zathura
+      - zathura-pdf-poppler
+    state: present
+
+- name: Install apt packages
+  ansible.builtin.apt:
+    pkg:
+      - acpi # Power Managment - reacts to events
+      - azure-cli
+      - bash-completion
+      - bat
+      - build-essential
+      - curl
+      - dkms # Dynamic Kernel Module Support, used by eg. viritual box
+      - docker-ce # Docker engine
+      - docker-ce-cli # Docker engine
+      - containerd.io # Docker engine
+      - docker-buildx-plugin # Docker engine
+      - docker-compose-plugin # Docker engine
+      - entr # Run arbitrary commands when files change
       - fd-find
-      - filezilla
       - fzf
       - gdb
-      - gimp
       - git
       - gh
       - libglib2.0-dev
       - gnupg
-      - google-chrome-stable
+      - grub
       - gzip
-      - htop
       - htop
       #      - incus # official in 24.04 (nobel)
       - jq
-      - libnotify-dev
+      - linux-headers-generic
       - lxc
       - macchanger
-      - maim
       - make
       - man-db
       - moreutils
-      - ncdu
+      - ncdu # Ncurses disk analyser
       - net-tools
+      # - networkmanager?
       - nmap
-      - npm
-      #      - nsxiv # official in 24.04
+      - npm # TODO move this
       - openconnect
       - openssh-client
       - pandoc
       - parallel
       - pass
       - pulsemixer
-      - python3-neovim
-      - qbittorrent
+      - python3-pip
+      - python3-viritualenv
+      - python3-pipenv
+      - tox
       - ranger
-      - redshift
       - ripgrep
       - rsync
-      - sq
+      - sq # gpg alternative
       - shellcheck
       - shfmt
-      - slock
-      - snapd
-      - spotify-client
       - terraform
       #      - terragrunt # TODO Manual install
       - thefuck
       - tldr
       - tmux
-      - torbrowser-launcher
       - traceroute
       - tree
-      - unifont
+      - unifont # font pkg
       - unrar
       - unzip
       - vim-gtk3
-      - virt-viewer
-      - xclip
-      - xsel
-      - xsel
+      - xclip # x clipboard
+      - xsel # x clipboard
       - xterm
-      - zathura
-      - zathura-pdf-poppler
       - zip
     state: present

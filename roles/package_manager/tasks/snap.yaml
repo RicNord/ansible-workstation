@@ -1,10 +1,14 @@
-# TODO ensure snap installed
+- name: Install snapd
+  ansible.builtin.apt:
+    pkg:
+      - snapd
+    state: present
 
 - name: Install Snap packages
+  tags:
+    - X
   community.general.snap:
     name:
-      - slack
-      - spotify
       - storage-explorer
       - vlc
     state: present

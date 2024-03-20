@@ -71,7 +71,7 @@
       - github-cli
       - glib2 # Low level core lib
       - gnupg
-      - grub
+      - grub # Possibly remove for here
       - gvim
       - gzip
       - htop
