@@ -1,5 +1,7 @@
 - name: Systemd Slock
-  tags: systemd
+  tags:
+    - X
+    - systemd
   block:
     - name: Copy slock on sleep unit file
       ansible.builtin.copy:
@@ -32,7 +34,7 @@
         state: started
         enabled: true
 
-    - name: Enable bluetooth
+    - name: Disable bluetooth
       ansible.builtin.systemd:
         name: bluetooth.service
         state: stopped

@@ -44,7 +44,7 @@
 - name: Install conda
   ansible.builtin.get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    dest: "{{ home }}/miniconda.sh"
+    dest: "{{ home }}/repos/usr/.ansible/miniconda.sh"
     mode: '644'
     owner: "{{ user }}"
     group: "{{ user }}"
@@ -52,7 +52,7 @@
 # TODO make a handler
 - name: Install miniconda
   ansible.builtin.shell: |
-    bash {{ home }}/miniconda.sh -b -u -p {{ home }}/miniconda
+    bash {{ home }}/repos/usr/.ansible/miniconda.sh -b -u -p {{ home }}/miniconda
 
 - name: Update .bash_ansible
   ansible.builtin.blockinfile:
