@@ -230,8 +230,8 @@
       - pass
       - pulsemixer
       - python3-pip
-      - python3-viritualenv
-      - python3-pipenv
+      # TODO - python3-viritualenv
+      # TODO - python3-pipenv
       - tox
       - ranger
       - ripgrep
