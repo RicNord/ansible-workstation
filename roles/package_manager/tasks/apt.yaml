@@ -208,7 +208,6 @@
       - gh
       - libglib2.0-dev
       - gnupg
-      - grub
       - gzip
       - htop
       #      - incus # official in 24.04 (nobel)
