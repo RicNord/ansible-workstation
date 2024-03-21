@@ -65,9 +65,10 @@
 
 - name: Arch setup
   hosts: all
+  tags:
+    - X
   roles:
     - role: suckless
-      when: ansible_distribution == "Archlinux"
 
 - name: Gnome config
   hosts: all

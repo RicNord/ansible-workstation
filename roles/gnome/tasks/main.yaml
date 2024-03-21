@@ -1,8 +1,9 @@
----
 
 # TODO check if needed
 - name: Gnome settings
-  tags: gnome
+  tags:
+    - X
+    - gnome
   ansible.builtin.shell: |
     # Dark theme
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
@@ -26,7 +27,9 @@
   become_user: "{{ user }}"
 
 - name: Install terminal profiles
-  tags: gnome
+  tags:
+    - X
+    - gnome
   block:
     - name: Copy gnome-terminal-profiles
       ansible.builtin.copy:

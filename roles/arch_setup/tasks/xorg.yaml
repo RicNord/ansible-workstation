@@ -1,6 +1,7 @@
 
 - name: Install X pkgs
   tags:
+    - X
     - arch
     - packages
   community.general.pacman:
@@ -12,11 +13,12 @@
       - xorg-apps
         # misc
       - noto-fonts
-    update_cache: true
-    state: latest
+    state: present
     reason: explicit
 
 - name: Graphics driver
+  tags:
+    - X
   block:
     - name: Include multilib repository
       ansible.builtin.replace:
@@ -40,6 +42,8 @@
           - lib32-mesa
 
 - name: Block TTY and killing of X server
+  tags:
+    - X
   ansible.builtin.copy:
     src: 10-x-hardening.conf
     dest: "/etc/X11/xorg.conf.d/10-x-hardening.conf"

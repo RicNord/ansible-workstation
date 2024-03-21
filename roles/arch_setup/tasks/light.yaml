@@ -1,7 +1,7 @@
 - name: Install light package
   tags:
-    - arch
     - packages
+    - X
   kewlfft.aur.aur:
     name:
       - light
@@ -10,11 +10,15 @@
   become_user: aur_builder
 
 - name: Ensure existance of group video
+  tags:
+    - X
   ansible.builtin.group:
     name: video
     state: present
 
 - name: Add {{ user }} to home
+  tags:
+    - X
   ansible.builtin.user:
     name: "{{ user }}"
     append: true
