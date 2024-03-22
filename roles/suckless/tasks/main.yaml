@@ -13,7 +13,7 @@
     - suckless
   block:
     - name: Install st/dwm dependencies for Debian
-      when: ansible_distribution == 'Debian'
+      when: ansible_os_family == 'Debian'
       tags: suckless
       ansible.builtin.apt:
         name:
@@ -25,7 +25,7 @@
       become_user: root
 
     - name: Install st/dwm dependencies for Arch
-      when: ansible_distribution == 'Archlinux'
+      when: ansible_os_family == 'Archlinux'
       tags: suckless
       community.general.pacman:
         name:
@@ -103,7 +103,7 @@
     - suckless
   block:
     - name: Install farbfeld dependencies for Arch
-      when: ansible_distribution == 'Archlinux'
+      when: ansible_os_family == 'Archlinux'
       tags: suckless
       community.general.pacman:
         name:
@@ -115,7 +115,7 @@
       become_user: root
 
     - name: Install farbfeld dependencies for Debian
-      when: ansible_distribution == 'Debian'
+      when: ansible_os_family == 'Debian'
       tags: suckless
       ansible.builtin.apt:
         name:
@@ -147,7 +147,7 @@
     - suckless
   block:
     - name: Install sent dependencies for Arch
-      when: ansible_distribution == 'Archlinux'
+      when: ansible_os_family == 'Archlinux'
       tags: suckless
       community.general.pacman:
         name:
@@ -159,7 +159,7 @@
       become_user: root
 
     - name: Install sent dependencies for Debian
-      when: ansible_distribution == 'Debian'
+      when: ansible_os_family == 'Debian'
       tags: suckless
       ansible.builtin.apt:
         name:

@@ -28,7 +28,7 @@
       ansible.builtin.service_facts:
 
     - name: Enable NetworkManager
-      when: ansible_distribution == "Archlinux"
+      when: ansible_os_family == "Archlinux"
       ansible.builtin.systemd:
         name: NetworkManager
         state: started

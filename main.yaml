@@ -4,28 +4,28 @@
   pre_tasks:
 
     - name: Apt update && apt upgrade
-      when: ansible_distribution == 'Debian'
+      when: ansible_os_family == 'Debian'
       tags: always
       ansible.builtin.apt:
         upgrade: safe
         update_cache: true
 
     - name: Pacman.conf multilib
-      when: ansible_distribution == "Archlinux"
+      when: ansible_os_family == "Archlinux"
       ansible.builtin.replace:
         path: /etc/pacman.conf
         regexp: "^#\\[multilib\\]\n#Include = /etc/pacman.d/mirrorlist"
         replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
 
     - name: Pacman.conf ParallelDownloads
-      when: ansible_distribution == "Archlinux"
+      when: ansible_os_family == "Archlinux"
       ansible.builtin.replace:
         path: /etc/pacman.conf
         regexp: "^#ParallelDownloads.*$"
         replace: "ParallelDownloads = 15"
 
     - name: Pacman -Syu
-      when: ansible_distribution == "Archlinux"
+      when: ansible_os_family == "Archlinux"
       community.general.pacman:
         update_cache: true
         upgrade: true
@@ -41,7 +41,7 @@
   become: true
   roles:
     - role: arch_setup
-      when: ansible_distribution == "Archlinux"
+      when: ansible_os_family == "Archlinux"
 
 - name: Package manager
   hosts: all
@@ -75,7 +75,7 @@
   become: true
   roles:
     - role: gnome
-      when: ansible_distribution == 'Debian'
+      when: ansible_os_family == 'Debian'
 
 - name: Systemd config
   hosts: all
