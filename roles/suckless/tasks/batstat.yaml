@@ -1,11 +1,20 @@
 - name: Install and enable batstat
   tags: systemd
   block:
-    - name: Install libnotify
+    - name: Install libnotify Pacman
+      when: ansible_os_family == 'Archlinux'
       community.general.pacman:
         name: libnotify
         state: present
         reason: explicit
+      become: true
+      become_user: root
+
+    - name: Install libnotify APT
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: libnotify-dev
+        state: present
       become: true
       become_user: root
 
