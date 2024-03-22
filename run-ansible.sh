@@ -7,6 +7,9 @@ RECREATE_VENV=false
 ANSIBLE_VENV_PATH="/tmp/.ansible-venv"
 XORG=true
 VERBOSE=false
+_CURRENT_DIR="$(dirname "$0")"
+ANSIBLE_CONFIG="$(dirname "$0")"
+export ANSIBLE_CONFIG
 
 function usage() {
     cat <<EOF
@@ -44,10 +47,10 @@ python3 -m venv "$ANSIBLE_VENV_PATH"
 source "$ANSIBLE_VENV_PATH/bin/activate"
 
 echo -e "${BBlue}Pip install requirements ${NC}"
-pip install -r ./requirements.txt
+pip install -r "${_CURRENT_DIR}/requirements.txt"
 
 echo -e "${BBlue}Ansible galaxy install ${NC}"
-ansible-galaxy install -r ansible_galaxy.yaml
+ansible-galaxy install -r "${_CURRENT_DIR}/ansible_galaxy.yaml"
 
 echo -e "${BBlue}Run ansible playbook ${NC}"
 
@@ -65,4 +68,4 @@ args=()
 
 echo -e "${BBlue}ansible-playbook args: ${NC}" "${args[@]}"
 
-ansible-playbook "${args[@]}" -- main.yaml
+ansible-playbook "${args[@]}" -- "${_CURRENT_DIR}/main.yaml"
