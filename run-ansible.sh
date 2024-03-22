@@ -5,21 +5,27 @@ set -eo pipefail
 
 RECREATE_VENV=false
 ANSIBLE_VENV_PATH="/tmp/.ansible-venv"
+XORG=true
+VERBOSE=false
 
 function usage() {
     cat <<EOF
-    Usage: $0 [ -c ]
+    Usage: $0 [ -c ] [ -x BOOLEAN ] [ -v ]
 
     -c    clean run, recreates viritual enviorment
+    -x    If Xorg is intended to run on machine. Booelan; defaults to true
+    -v    Verbose
 
 EOF
     exit 1
 }
 
 # Parse args
-while getopts ":c" opt; do
+while getopts ":cvx:" opt; do
     case "${opt}" in
         c) RECREATE_VENV=true ;;
+        x) XORG=$OPTARG ;;
+        v) VERBOSE=true ;;
         *) usage ;;
     esac
 done
@@ -44,9 +50,19 @@ echo -e "${BBlue}Ansible galaxy install ${NC}"
 ansible-galaxy install -r ansible_galaxy.yaml
 
 echo -e "${BBlue}Run ansible playbook ${NC}"
-USER_ID=$(id -u)
-if [ "$USER_ID" -ne 0 ]; then
-    ansible-playbook main.yaml -K
-else
-    ansible-playbook main.yaml
-fi
+
+# Build up args for ansible-playbook
+args=()
+
+# Check for root
+[ "$(id -u)" -ne 0 ] && args+=('--ask-become-pass')
+
+# Check for VERBOSE
+[ "$VERBOSE" == true ] && args+=('--verbose')
+
+# Check for XORG
+[ "$XORG" == false ] && args+=('--skip-tags=X')
+
+echo -e "${BBlue}ansible-playbook args: ${NC}" "${args[@]}"
+
+ansible-playbook "${args[@]}" -- main.yaml
