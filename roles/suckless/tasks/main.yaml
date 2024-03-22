@@ -120,7 +120,7 @@
       ansible.builtin.apt:
         name:
           - libpng-dev
-          - libjepeg8
+          - libjpeg8
         state: present
       become: true
       become_user: root
