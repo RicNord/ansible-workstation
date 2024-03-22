@@ -70,12 +70,12 @@
   roles:
     - role: suckless
 
-- name: Gnome config
-  hosts: all
-  become: true
-  roles:
-    - role: gnome
-      when: ansible_os_family == 'Debian'
+      #- name: Gnome config
+      #  hosts: all
+      #  become: true
+      #  roles:
+      #    - role: gnome
+      #      when: ansible_os_family == 'Debian'
 
 - name: Systemd config
   hosts: all
