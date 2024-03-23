@@ -35,6 +35,11 @@ terraform_apply() {
 }
 
 run_ansible() {
+    args=()
+    args=('-v')
+    # Check for container
+    [[ "$1" == *"container"* ]] && args+=('-x false')
+
     incus exec "$1" --project ansible-ws -- bash -c "\
         rm -rf /tmp/ansible-workstation
         "
@@ -48,9 +53,9 @@ run_ansible() {
         https://github.com/ricnord/ansible-workstation \
         /tmp/ansible-workstation "
     incus exec --project ansible-ws "$1" -- bash -c "\
-        make \
-        -C /tmp/ansible-workstation \
-        install"
+        chmod u+x /tmp/ansible-workstation/run-ansible.sh"
+    incus exec --project ansible-ws "$1" -- bash -c "\
+        /tmp/ansible-workstation/run-ansible.sh ${args[*]}"
 }
 
 get_projects() {
