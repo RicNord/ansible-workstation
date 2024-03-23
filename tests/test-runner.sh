@@ -6,6 +6,10 @@ set -euo pipefail
 INSTANCE_LIST=''
 _CURRENT_DIR="$(dirname "$0")"
 
+# Colors
+BBlue='\033[1;34m'
+NC='\033[0m' # NO COLOR
+
 function usage() {
     cat <<EOF
     Usage: $0 [ -i instance1,instance2... ]
@@ -69,11 +73,32 @@ get_projects
 export -f run_ansible
 
 if [ -n "${INSTANCE_LIST}" ]; then
-    echo running selected instances
+    echo -e "${BBlue}Testing selected instances... \n${NC}"
     echo "$INSTANCE_LIST"
-    parallel --delimiter "," run_ansible ::: "$INSTANCE_LIST"
+    printf "\n"
+    echo -e "${BBlue}Running... Completed output availibe at: \n${NC}"
+    parallel \
+        --delimiter "," \
+        --tagstring '{}' \
+        --output-as-files \
+        --joblog /tmp/.ansible-ws-test.log \
+        run_ansible ::: "$INSTANCE_LIST"
+
+    printf "\n"
+    echo -e "${BBlue}Test result log: ${NC}"
+    column -t /tmp/.ansible-ws-test.log
 else
-    echo running all instances
+    echo -e "${BBlue}Testing all instances... \n${NC}"
     echo "$ALL_INSTANCES"
-    parallel run_ansible ::: "$ALL_INSTANCES"
+    printf "\n"
+    echo -e "${BBlue}Running... Completed output availibe at: \n${NC}"
+    parallel \
+        --tagstring '{}' \
+        --output-as-files \
+        --joblog /tmp/.ansible-ws-test.log \
+        run_ansible ::: "$ALL_INSTANCES"
+
+    printf "\n"
+    echo -e "${BBlue}Test result log: \n${NC}"
+    column -t /tmp/.ansible-ws-test.log
 fi
