@@ -173,7 +173,6 @@
       - libnotify-dev # Send desktop notifications
       - libreoffice
       - maim # take screenshots
-      #      - nsxiv # official in 24.04
       - qbittorrent
       - redshift
       - slock
@@ -210,7 +209,6 @@
       - gnupg
       - gzip
       - htop
-      #      - incus # official in 24.04 (nobel)
       - jq
       - linux-headers-generic
       - lxc
@@ -254,4 +252,18 @@
       - xsel # x clipboard
       - xterm
       - zip
+    state: present
+
+- name: Install apt packages 24.04+
+  when: ansible_distribution_version is version('24.04', '>=')
+  ansible.builtin.apt:
+    pkg:
+      - incus
+    state: present
+
+- name: Install apt X packages 24.04+
+  when: ansible_distribution_version is version('24.04', '>=')
+  ansible.builtin.apt:
+    pkg:
+      - nsxiv
     state: present
