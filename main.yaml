@@ -4,13 +4,16 @@
   pre_tasks:
 
     - name: Apt update && apt upgrade
+      tags:
+        - Debian
       when: ansible_os_family == 'Debian'
-      tags: always
       ansible.builtin.apt:
         upgrade: safe
         update_cache: true
 
     - name: Pacman.conf multilib
+      tags:
+        - Archlinux
       when: ansible_os_family == "Archlinux"
       ansible.builtin.replace:
         path: /etc/pacman.conf
@@ -18,6 +21,8 @@
         replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
 
     - name: Pacman.conf ParallelDownloads
+      tags:
+        - Archlinux
       when: ansible_os_family == "Archlinux"
       ansible.builtin.replace:
         path: /etc/pacman.conf
@@ -25,6 +30,8 @@
         replace: "ParallelDownloads = 15"
 
     - name: Pacman -Syu
+      tags:
+        - Archlinux
       when: ansible_os_family == "Archlinux"
       community.general.pacman:
         update_cache: true
@@ -37,6 +44,8 @@
     - role: user
 
 - name: Arch setup
+  tags:
+    - Archlinux
   hosts: all
   become: true
   roles:
@@ -63,7 +72,7 @@
   roles:
     - prog_env
 
-- name: Arch setup
+- name: Suckless
   hosts: all
   tags:
     - X

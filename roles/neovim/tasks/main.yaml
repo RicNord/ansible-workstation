@@ -1,4 +1,6 @@
 - name: Add neovim apt repository
+  tags:
+    - Debian
   when: ansible_os_family == 'Debian'
   become: true
   become_user: root
@@ -35,6 +37,8 @@
       become_user: root
 
 - name: Neovim on Arch
+  tags:
+    - Archlinux
   when: ansible_os_family == 'Archlinux'
   block:
     - name: Install nvim

@@ -3,6 +3,8 @@
   block:
     - name: Install libnotify Pacman
       when: ansible_os_family == 'Archlinux'
+      tags:
+        - Archlinux
       community.general.pacman:
         name: libnotify
         state: present
@@ -12,6 +14,8 @@
 
     - name: Install libnotify APT
       when: ansible_os_family == 'Debian'
+      tags:
+        - Debian
       ansible.builtin.apt:
         name: libnotify-dev
         state: present

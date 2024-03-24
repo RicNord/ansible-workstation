@@ -1,6 +1,8 @@
 - name: Install Lua
+  tags:
+    - Archlinux
+    - lua
   when: ansible_os_family == 'Archlinux'
-  tags: Lua
   community.general.pacman:
     name:
       - luarocks
@@ -8,9 +10,10 @@
     reason: explicit
 
 - name: Install Lua
-  when: ansible_os_family == 'Debian'
   tags:
-    - Lua
+    - Debian
+    - lua
+  when: ansible_os_family == 'Debian'
   ansible.builtin.apt:
     pkg:
       - luarocks

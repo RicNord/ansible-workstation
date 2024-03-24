@@ -29,6 +29,8 @@
 
     - name: Enable NetworkManager
       when: ansible_os_family == "Archlinux"
+      tags:
+        - Archlinux
       ansible.builtin.systemd:
         name: NetworkManager
         state: started
