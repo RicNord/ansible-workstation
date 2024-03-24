@@ -1,4 +1,6 @@
 - name: Rust on Arch
+  tags:
+    - Archlinux
   when: ansible_os_family == 'Archlinux'
   block:
     - name: Install Rust Arch
@@ -31,11 +33,13 @@
       become_user: "{{ user }}"
 
 - name: Install Rust Debian
+  tags:
+    - Debian
+  when: ansible_os_family == 'Debian'
   community.general.snap:
     name: rustup
     state: present
     classic: true
-  when: ansible_os_family == 'Debian'
 
 - name: Rustup
   tags: rust

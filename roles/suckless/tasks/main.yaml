@@ -1,5 +1,4 @@
 - name: Install dmenu slock
-  tags: suckless
   ansible.builtin.package:
     name:
       - dmenu
@@ -9,12 +8,11 @@
   become_user: root
 
 - name: Install suckless dwm/st dependencies
-  tags:
-    - suckless
   block:
     - name: Install st/dwm dependencies for Debian
       when: ansible_os_family == 'Debian'
-      tags: suckless
+      tags:
+        - Debian
       ansible.builtin.apt:
         name:
           - libxft-dev
@@ -26,7 +24,8 @@
 
     - name: Install st/dwm dependencies for Arch
       when: ansible_os_family == 'Archlinux'
-      tags: suckless
+      tags:
+        - Archlinux
       community.general.pacman:
         name:
           - libx11
@@ -36,8 +35,6 @@
       become_user: root
 
 - name: Install suckless dwm
-  tags:
-    - suckless
   block:
     - name: Clone dwm
       ansible.builtin.git:
@@ -57,8 +54,6 @@
       when: dwm.changed
 
 - name: Install suckless slstatus
-  tags:
-    - suckless
   block:
     - name: Clone slstatus
       ansible.builtin.git:
@@ -78,8 +73,6 @@
       when: slstatus.changed
 
 - name: Install suckless st
-  tags:
-    - suckless
   block:
     - name: Clone st
       ansible.builtin.git:
@@ -99,12 +92,11 @@
       when: st.changed
 
 - name: Install suckless farbfeld
-  tags:
-    - suckless
   block:
     - name: Install farbfeld dependencies for Arch
       when: ansible_os_family == 'Archlinux'
-      tags: suckless
+      tags:
+        - Archlinux
       community.general.pacman:
         name:
           - libpng
@@ -116,7 +108,8 @@
 
     - name: Install farbfeld dependencies for Debian
       when: ansible_os_family == 'Debian'
-      tags: suckless
+      tags:
+        - Debian
       ansible.builtin.apt:
         name:
           - libpng-dev
@@ -143,12 +136,11 @@
       when: farbfeld.changed
 
 - name: Install suckless sent
-  tags:
-    - suckless
   block:
     - name: Install sent dependencies for Arch
       when: ansible_os_family == 'Archlinux'
-      tags: suckless
+      tags:
+        - Archlinux
       community.general.pacman:
         name:
           - libx11
@@ -160,7 +152,8 @@
 
     - name: Install sent dependencies for Debian
       when: ansible_os_family == 'Debian'
-      tags: suckless
+      tags:
+        - Debian
       ansible.builtin.apt:
         name:
           - libxft-dev

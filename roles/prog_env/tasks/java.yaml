@@ -1,6 +1,8 @@
 
 - name: Install Java
-  tags: java
+  tags:
+    - Archlinux
+    - java
   community.general.pacman:
     name:
       - jdk-openjdk
@@ -14,6 +16,7 @@
 
 - name: Install Java
   tags:
+    - Debian
     - java
   ansible.builtin.apt:
     pkg:

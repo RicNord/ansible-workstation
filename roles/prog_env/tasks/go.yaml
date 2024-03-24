@@ -1,4 +1,6 @@
 - name: Install go Arch
+  tags:
+    - Archlinux
   when: ansible_os_family == 'Archlinux'
   block:
     - name: Install Go Arch
@@ -24,6 +26,8 @@
         group: "{{ user }}"
 
 - name: Add golang apt repository
+  tags:
+    - Debian
   when: ansible_os_family == 'Debian'
   block:
     - name: Copy golang-ppa.pgp
@@ -54,6 +58,7 @@
           - golang-go
         state: present
 
+# TODO move this
 - name: Install yamlfmt
   become: true
   become_user: "{{ user }}"
