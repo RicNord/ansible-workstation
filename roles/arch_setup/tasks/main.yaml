@@ -3,9 +3,3 @@
 
 - name: Install yay
   ansible.builtin.import_tasks: yay.yaml
-
-- name: Install Xorg
-  ansible.builtin.import_tasks: xorg.yaml
-
-- name: Install Light
-  ansible.builtin.import_tasks: light.yaml

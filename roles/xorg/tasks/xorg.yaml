@@ -1,0 +1,57 @@
+- name: Graphics driver
+  when: ansible_os_family == 'Archlinux'
+  tags:
+    - X
+    - Archlinux
+  block:
+    - name: Install Arch X pkgs
+      community.general.pacman:
+        name:
+          - xorg-server
+          - xorg-xinit
+          - xorg-xrandr
+          - xorg-xsetroot
+          - xorg-apps
+          # misc
+          - noto-fonts
+        state: present
+        reason: explicit
+
+    - name: Include multilib repository
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: "^#\\[multilib\\]\n#Include = /etc/pacman.d/mirrorlist"
+        replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
+
+    - name: Run the equivalent of "pacman -Sy" as a separate step
+      community.general.pacman:
+        update_cache: true
+
+      # TODO Add AMD
+    - name: Intel graphics
+      when: '"Intel" in ansible_processor[0]'
+      block:
+        - name: Install intel graphics drivers
+          community.general.pacman:
+            name:
+              - mesa
+              - vulkan-intel
+              - lib32-mesa
+
+        - name: Ensure absent intel pkgs
+          community.general.pacman:
+            name:
+              # These caused problems for electron applications and not recommended
+              - xf86-video-intel
+              - intel-media-driver
+            state: absent
+
+
+- name: Block TTY and killing of X server
+  tags:
+    - X
+  ansible.builtin.copy:
+    src: 10-x-hardening.conf
+    dest: "/etc/X11/xorg.conf.d/10-x-hardening.conf"
+  become: true
+  become_user: root

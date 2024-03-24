@@ -1,6 +1,4 @@
 - name: Install dependencies
-  tags:
-    - arch
   community.general.pacman:
     name:
       - go
@@ -10,8 +8,6 @@
   become_user: root
 
 - name: Git clone yay
-  tags:
-    - arch
   become: true
   become_user: aur_builder
   ansible.builtin.git:

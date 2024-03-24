@@ -52,6 +52,14 @@
     - role: arch_setup
       when: ansible_os_family == "Archlinux"
 
+- name: Xorg
+  tags:
+    - X
+  hosts: all
+  become: true
+  roles:
+    - role: xorg
+
 - name: Package manager
   hosts: all
   become: true
