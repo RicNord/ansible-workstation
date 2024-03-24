@@ -46,6 +46,15 @@
               - intel-media-driver
             state: absent
 
+- name: Ensures /etc/X11/xorg.conf.d dir exists
+  ansible.builtin.file:
+    path: /etc/X11/xorg.conf.d
+    state: directory
+    group: root
+    owner: root
+    mode: '0755'
+  become: true
+  become_user: root
 
 - name: Block TTY and killing of X server
   tags:
