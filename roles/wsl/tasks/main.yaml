@@ -1,0 +1,8 @@
+- name: Add wsl.conf
+  when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
+  ansible.builtin.template:
+    src: wsl.conf
+    dest: /etc/wsl.conf
+    owner: root
+    group: root
+    mode: '0644'
