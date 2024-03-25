@@ -12,6 +12,13 @@
       - wget
       - apt-transport-https
 
+- name: Get DPKG architecture
+  ansible.builtin.shell:
+    cmd: dpkg --print-architecture
+  register: dpkg_architecture
+  changed_when: false
+  check_mode: no
+
 - name: Create /etc/apt/keyrings directory if it does not exist
   ansible.builtin.file:
     path: /etc/apt/keyrings
