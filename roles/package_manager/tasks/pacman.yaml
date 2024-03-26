@@ -94,9 +94,6 @@
       - pulseaudio-bluetooth # TODO make optional
       - pulsemixer
       - python-pip
-      - python-pipenv
-      - python-tox
-      - python-virtualenv
       - ranger
       - ripgrep
       - rsync
