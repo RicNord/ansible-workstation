@@ -82,7 +82,7 @@ if [ -n "${INSTANCE_LIST}" ]; then
         --tagstring '{}' \
         --output-as-files \
         --joblog /tmp/.ansible-ws-test.log \
-        run_ansible ::: "$INSTANCE_LIST"
+        run_ansible ::: "$INSTANCE_LIST" || true
 
     printf "\n"
     echo -e "${BBlue}Test result log: ${NC}"
@@ -96,7 +96,7 @@ else
         --tagstring '{}' \
         --output-as-files \
         --joblog /tmp/.ansible-ws-test.log \
-        run_ansible ::: "$ALL_INSTANCES"
+        run_ansible ::: "$ALL_INSTANCES" || true
 
     printf "\n"
     echo -e "${BBlue}Test result log: \n${NC}"
