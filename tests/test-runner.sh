@@ -76,11 +76,11 @@ if [ -n "${INSTANCE_LIST}" ]; then
     echo -e "${BBlue}Testing selected instances... \n${NC}"
     echo "$INSTANCE_LIST"
     printf "\n"
-    echo -e "${BBlue}Running... Completed output availibe at: \n${NC}"
+    echo -e "${BBlue}Running... Writing output to: ${NC}\n\t /tmp/.ansible-output/ \n"
     parallel \
         --delimiter "," \
         --tagstring '{}' \
-        --output-as-files \
+        --results /tmp/.ansible-output/{}/ \
         --joblog /tmp/.ansible-ws-test.log \
         run_ansible ::: "$INSTANCE_LIST" || true
 
@@ -91,10 +91,10 @@ else
     echo -e "${BBlue}Testing all instances... \n${NC}"
     echo "$ALL_INSTANCES"
     printf "\n"
-    echo -e "${BBlue}Running... Completed output availibe at: \n${NC}"
+    echo -e "${BBlue}Running... Writing output to: ${NC}\n\t /tmp/.ansible-output/ \n"
     parallel \
         --tagstring '{}' \
-        --output-as-files \
+        --results /tmp/.ansible-output/{}/ \
         --joblog /tmp/.ansible-ws-test.log \
         run_ansible ::: "$ALL_INSTANCES" || true
 
