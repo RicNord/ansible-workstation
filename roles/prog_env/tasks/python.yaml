@@ -78,18 +78,29 @@
     state: present
     reason: explicit
 
-- name: Install conda
-  ansible.builtin.get_url:
-    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    dest: "{{ home }}/repos/usr/.ansible/miniconda.sh"
-    mode: '644'
-    owner: "{{ user }}"
-    group: "{{ user }}"
+- name: Miniconda
+  block:
+    - name: Get stats miniconda.sh
+      check_mode: true
+      ansible.builtin.stat:
+        path: "{{ home }}/repos/usr/.ansible/miniconda.sh"
+        checksum_algorithm: "sha1"
+        get_checksum: true
+      register: miniconda_installer_file
 
-# TODO make a handler
-- name: Install miniconda
-  ansible.builtin.shell: |
-    bash {{ home }}/repos/usr/.ansible/miniconda.sh -b -u -p {{ home }}/miniconda
+    - name: Download miniconda installer
+      ansible.builtin.get_url:
+        url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        dest: "{{ home }}/repos/usr/.ansible/miniconda.sh"
+        mode: '644'
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      register: miniconda_installer_download
+
+    - name: Install miniconda
+      when: miniconda_installer_file.stat.checksum != miniconda_installer.checksum_dest
+      ansible.builtin.shell: |
+        bash {{ home }}/repos/usr/.ansible/miniconda.sh -b -u -p {{ home }}/miniconda
 
 - name: Update .bash_ansible
   ansible.builtin.blockinfile:
