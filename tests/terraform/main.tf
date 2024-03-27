@@ -70,6 +70,16 @@ resource "incus_profile" "test-profile" {
       network = incus_network.test-net.name
     }
   }
+
+  device {
+    name = "root"
+    type = "disk"
+    properties = {
+      path = "/"
+      pool = incus_storage_pool.test-pool.name
+      size = "30GB"
+    }
+  }
 }
 
 resource "incus_instance" "arch-vm" {
@@ -81,16 +91,6 @@ resource "incus_instance" "arch-vm" {
   ephemeral = true
   running   = true
   profiles  = [incus_profile.test-profile.name]
-
-  device {
-    name = "root"
-    type = "disk"
-    properties = {
-      path = "/"
-      pool = incus_storage_pool.test-pool.name
-      size = "30GB"
-    }
-  }
 
   config = {
     "boot.autostart"       = false
@@ -119,16 +119,6 @@ resource "incus_instance" "arch-container" {
   running   = true
   profiles  = [incus_profile.test-profile.name]
 
-  device {
-    name = "root"
-    type = "disk"
-    properties = {
-      path = "/"
-      pool = incus_storage_pool.test-pool.name
-      size = "30GB"
-    }
-  }
-
   config = {
     "boot.autostart"       = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
@@ -149,16 +139,6 @@ resource "incus_instance" "ubuntu-vm" {
   ephemeral = true
   running   = true
   profiles  = [incus_profile.test-profile.name]
-
-  device {
-    name = "root"
-    type = "disk"
-    properties = {
-      path = "/"
-      pool = incus_storage_pool.test-pool.name
-      size = "30GB"
-    }
-  }
 
   config = {
     "boot.autostart"       = false
@@ -187,15 +167,6 @@ resource "incus_instance" "ubuntu-container" {
   running   = true
   profiles  = [incus_profile.test-profile.name]
 
-  device {
-    name = "root"
-    type = "disk"
-    properties = {
-      path = "/"
-      pool = incus_storage_pool.test-pool.name
-      size = "30GB"
-    }
-  }
 
   config = {
     "boot.autostart"       = false
