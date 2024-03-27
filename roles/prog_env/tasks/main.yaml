@@ -13,3 +13,6 @@
 
 - name: Install dotnet runtime
   ansible.builtin.import_tasks: dotnet.yaml
+
+- name: Install tools
+  ansible.builtin.import_tasks: tools.yaml

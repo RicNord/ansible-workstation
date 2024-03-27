@@ -49,9 +49,3 @@
     executable: /bin/bash
   become_user: "{{ user }}"
   when: ansible_os_family == 'Debian'
-
-- name: Install Rust package
-  community.general.cargo:
-    name:
-      - stylua
-  become_user: "{{ user }}"
