@@ -1,0 +1,42 @@
+- name: Install yamlfmt
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: |
+    go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+
+- name: Install Rust package
+  community.general.cargo:
+    name:
+      - stylua # Lua code formatter
+  become_user: "{{ user }}"
+
+- name: Install markdownlint
+  community.general.npm:
+    name: markdownlint-cli
+    global: true
+    state: present
+
+- name: Install black
+  block:
+    - name: Black on arch
+      tags:
+        - Archlinux
+      when: ansible_os_family == 'Archlinux'
+      community.general.pacman:
+        name:
+          - rustup
+        state: present
+        reason: explicit
+      become: true
+      become_user: root
+
+    - name: Black on debian
+      tags:
+        - Debian
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        pkg:
+          - black
+        state: present
+      become: true
+      become_user: root

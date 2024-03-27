@@ -58,9 +58,3 @@
           - golang-go
         state: present
 
-# TODO move this
-- name: Install yamlfmt
-  become: true
-  become_user: "{{ user }}"
-  ansible.builtin.shell: |
-    go install github.com/google/yamlfmt/cmd/yamlfmt@latest
