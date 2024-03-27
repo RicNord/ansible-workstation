@@ -52,17 +52,17 @@
         state: present
 
     - name: Install pipenv
-      comunity.general.pipx:
+      community.general.pipx:
         name: pipenv
         state: present
 
     - name: Install virtualenv
-      comunity.general.pipx:
+      community.general.pipx:
         name: virtualenv
         state: present
 
     - name: Install tox
-      comunity.general.pipx:
+      community.general.pipx:
         name: tox
         state: present
 
