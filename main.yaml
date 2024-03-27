@@ -103,8 +103,9 @@
 - name: Wsl config
   tags:
     - wsl
-  when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
   hosts: all
   become: true
   roles:
-    - wsl
+    - role: wsl
+      when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
+
