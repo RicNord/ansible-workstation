@@ -1,4 +1,4 @@
-- name: Graphics driver
+- name: Xorg for Archlinux
   when: ansible_os_family == 'Archlinux'
   tags:
     - X
@@ -37,6 +37,8 @@
               - mesa
               - vulkan-intel
               - lib32-mesa
+          state: present
+          reason: explicit
 
         - name: Ensure absent intel pkgs
           community.general.pacman:
@@ -45,6 +47,37 @@
               - xf86-video-intel
               - intel-media-driver
             state: absent
+
+- name: Xorg for Debian
+  when: ansible_os_family == 'Debian'
+  tags:
+    - X
+    - Debian
+  block:
+    - name: Install debian X pkgs
+      ansible.builtin.apt:
+        pkg:
+          - xorg
+          # misc
+          - fonts-noto
+        state: present
+
+      # TODO Add AMD
+    - name: Intel graphics
+      when: '"Intel" in ansible_processor[0]'
+      block:
+        - name: Install intel graphics drivers
+          ansible.builtin.apt:
+            pkg:
+              - mesa-vulkan-drivers
+          state: present
+
+        - name: Ensure absent intel pkgs
+          ansible.builtin.apt:
+            pkg:
+              # These caused problems for electron applications and not recommended
+              - xserver-xorg-video-intel
+          state: absent
 
 - name: Ensures /etc/X11/xorg.conf.d dir exists
   ansible.builtin.file:
