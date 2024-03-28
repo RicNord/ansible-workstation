@@ -37,6 +37,7 @@ resource "incus_project" "project" {
     "images.auto_update_cached"   = true
     "images.auto_update_interval" = 168
     "images.default_architecture" = "x86_64"
+    "images.remote_cache_expiry"  = 7
   }
 }
 
@@ -62,6 +63,11 @@ resource "incus_storage_pool" "test-pool" {
 resource "incus_profile" "test-profile" {
   name    = "test-profile"
   project = incus_project.project.name
+
+  config = {
+    "boot.autostart"       = false
+    "security.secureboot"  = false
+  }
 
   device {
     name = "incus01"
@@ -93,8 +99,6 @@ resource "incus_instance" "arch-vm" {
   profiles  = [incus_profile.test-profile.name]
 
   config = {
-    "boot.autostart"       = false
-    "security.secureboot"  = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
   }
 
@@ -120,7 +124,6 @@ resource "incus_instance" "arch-container" {
   profiles  = [incus_profile.test-profile.name]
 
   config = {
-    "boot.autostart"       = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
   }
 
@@ -141,8 +144,6 @@ resource "incus_instance" "ubuntu-vm" {
   profiles  = [incus_profile.test-profile.name]
 
   config = {
-    "boot.autostart"       = false
-    "security.secureboot"  = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
   }
 
@@ -169,7 +170,6 @@ resource "incus_instance" "ubuntu-container" {
 
 
   config = {
-    "boot.autostart"       = false
     "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
   }
 
