@@ -180,6 +180,7 @@
       - libnotify-dev # Send desktop notifications
       - libreoffice
       - maim # take screenshots
+      - fonts-noto # Meta pkg of fonts
       - qbittorrent
       - redshift
       - slock

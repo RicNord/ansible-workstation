@@ -21,6 +21,10 @@
       - libnotify # Send desktop notifications
       - libreoffice-still
       - maim # take screenshots
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      - noto-fonts-extra
+      - noto-fonts
       - nsxiv # Suckless image viwer
       - qbittorrent
       - redshift
@@ -79,10 +83,6 @@
       - networkmanager-openconnect
       - networkmanager-openvpn
       - nmap
-      - noto-fonts-cjk # TODO maybe move large dependancy
-      - noto-fonts-emoji # TODO maybe move large dependancy
-      - noto-fonts-extra # TODO maybe move large dependancy
-      - noto-fonts # TODO maybe move large dependancy
       - npm # TODO move this
       - openconnect
       - openssh
