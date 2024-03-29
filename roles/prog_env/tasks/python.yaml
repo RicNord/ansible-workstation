@@ -102,6 +102,8 @@
       when: ( not miniconda_installer_file.stat.exists ) or ( miniconda_installer_download.changed )
       ansible.builtin.shell: |
         bash {{ home }}/repos/usr/.ansible/miniconda.sh -b -u -p {{ home }}/miniconda
+      become: true
+      become_user: "{{ user }}"
 
 - name: Update .bash_ansible
   ansible.builtin.blockinfile:
