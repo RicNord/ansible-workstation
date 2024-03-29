@@ -32,20 +32,49 @@
         executable: /bin/bash
       become_user: "{{ user }}"
 
-- name: Install Rust Debian
+- name: Install Rust Ubuntu < 24.04
   tags:
     - Debian
-  when: ansible_os_family == 'Debian'
-  community.general.snap:
-    name: rustup
-    state: present
-    classic: true
+  when: ansible_os_family == 'Debian' and ansible_distribution_version is version('24.04', '<')
+  block:
+    - name: Get stats rustup.sh
+      check_mode: true
+      ansible.builtin.stat:
+        path: "{{ home }}/repos/usr/.ansible/rustup.sh"
+        checksum_algorithm: "sha1"
+        get_checksum: true
+      register: rustup_installer_file
 
-- name: Rustup
-  tags: rust
-  ansible.builtin.shell: |
-    rustup default stable
-  args:
-    executable: /bin/bash
-  become_user: "{{ user }}"
-  when: ansible_os_family == 'Debian'
+    - name: Download rustup installer
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: "{{ home }}/repos/usr/.ansible/rustup.sh"
+        mode: '644'
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        force: false
+      register: rustup_installer_download
+
+    - name: Install rustup
+      when: ( not rustup_installer_file.stat.exists ) or ( rustup_installer_download.changed )
+      ansible.builtin.shell: |
+        bash {{ home }}/repos/usr/.ansible/rustup.sh -v -y --default-toolchain=stable
+
+- name: Install Rust Ubuntu >= 24.04
+  tags:
+    - Debian
+  when: ansible_os_family == 'Debian' and ansible_distribution_version is version('24.04', '>=')
+  block:
+    - name: Install rustup
+      ansible.builtin.apt:
+        pkg:
+          - rustup
+        state: present
+
+    - name: Rustup toolchain
+      tags: rust
+      ansible.builtin.shell: |
+        rustup default stable
+      args:
+        executable: /bin/bash
+      become_user: "{{ user }}"
