@@ -4,14 +4,30 @@
 
 - Arch (btw)
 - Ubuntu
+  - Included in test suite
+    - 22.04
 
 > Current [inventory](./inventory) file use `localhost` as target system
 
 ## Usage
 
-If this is the first time you clone the repo and you did not use
-`git clone --recurse-submodules`, then you need to run
-`git submodule update --init --recursive` to initialize fetch and checkout submodules.
+Default run command for all Ansible roles:
+
+```bash
+make install`
+```
+
+The playbooks will identify and run appropriate tasks depending on host
+platform. However, if you do not need a graphical environment and `X11` on the
+target host; you have the option exclude installing these dependencies with:
+
+```bash
+# Native installer
+./run-ansible.sh -x false
+
+# Or manually
+ansible-playbook --ask-become-pass --skip-tags=X main.yaml
+```
 
 Default User created in the set-up is `nord`, this can be changed in the
 [group_vars/workstations.yaml](./group_vars/workstations.yaml) file.
@@ -19,10 +35,6 @@ Default User created in the set-up is `nord`, this can be changed in the
 ### Install arch
 
 See arch installation [README](./install_arch/README.md).
-
-### Run ansible playbooks
-
-`make install`
 
 ## Dependencies
 
@@ -34,13 +46,18 @@ See arch installation [README](./install_arch/README.md).
 
 - incus
 - terraform
+- parallel
 
 ## Development
 
 *Optionally* use `pipenv` to manage python environment.
 
-### Run tests
+### Tests
 
-`make test`
+Complete test suite:
 
-See [tests](./tests/)
+```bash
+make test
+```
+
+See [tests](./tests/) for more granular test runner.
