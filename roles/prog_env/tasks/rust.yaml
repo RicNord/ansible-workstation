@@ -32,10 +32,29 @@
         executable: /bin/bash
       become_user: "{{ user }}"
 
+    - name: Ensures {{ home }}/.cargo/bin dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.cargo/bin/"
+        state: directory
+        group: "{{ user }}"
+        owner: "{{ user }}"
+        mode: '0755'
+
+    - name: Create a symbolic link for officall rustup.sh install script path for cargo
+      ansible.builtin.file:
+        src: /usr/bin/cargo
+        dest: "{{ home }}/.cargo/bin/cargo"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        force: true
+        state: link
+
 - name: Install Rust Ubuntu < 24.04
   tags:
     - Debian
   when: ansible_os_family == 'Debian' and ansible_distribution_version is version('24.04', '<')
+  become: true
+  become_user: "{{ user }}"
   block:
     - name: Get stats rustup.sh
       check_mode: true
@@ -58,18 +77,33 @@
     - name: Install rustup
       when: ( not rustup_installer_file.stat.exists ) or ( rustup_installer_download.changed )
       ansible.builtin.shell: |
-        bash {{ home }}/repos/usr/.ansible/rustup.sh -v -y --default-toolchain=stable
+        bash {{ home }}/repos/usr/.ansible/rustup.sh -v -y --no-modify-path --default-toolchain=stable
+
+    - name: Update .bash_ansible
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export PATH="{{ home }}/.cargo/bin:$PATH"
+        marker: "# <!--- {mark} CARGO ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '664'
+        owner: "{{ user }}"
+        group: "{{ user }}"
 
 - name: Install Rust Ubuntu >= 24.04
   tags:
     - Debian
   when: ansible_os_family == 'Debian' and ansible_distribution_version is version('24.04', '>=')
+  become: true
+  become_user: "{{ user }}"
   block:
     - name: Install rustup
       ansible.builtin.apt:
         pkg:
           - rustup
         state: present
+      become: true
+      become_user: root
 
     - name: Rustup toolchain
       tags: rust

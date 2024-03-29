@@ -5,10 +5,13 @@
     go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 - name: Install Rust package
+  become: true
+  become_user: "{{ user }}"
   community.general.cargo:
     name:
       - stylua # Lua code formatter
-  become_user: "{{ user }}"
+    executable: "{{ home }}/.cargo/bin/cargo"
+    state: present
 
 - name: Install markdownlint
   community.general.npm:
