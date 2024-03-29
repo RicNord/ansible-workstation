@@ -1,0 +1,35 @@
+- name: Incus set-up
+  block:
+    - name: Ensure existance of group incus-admin
+      ansible.builtin.group:
+        name: incus-admin
+        state: present
+
+    - name: Add {{ user }} to incus-admin
+      ansible.builtin.user:
+        name: "{{ user }}"
+        append: true
+        groups:
+          - incus-admin
+
+    - name: Add root to subuid
+      ansible.builtin.lineinfile:
+        path: /etc/subuid
+        regexp: '^root:1000000:1000000000$'
+        line: root:1000000:1000000000
+        owner: root
+        group: root
+        mode: '0644'
+        state: present
+        create: true
+
+    - name: Add root to subgid
+      ansible.builtin.lineinfile:
+        path: /etc/subuid
+        regexp: '^root:1000000:1000000000$'
+        line: root:1000000:1000000000
+        owner: root
+        group: root
+        mode: '0644'
+        state: present
+        create: true

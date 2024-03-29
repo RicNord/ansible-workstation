@@ -21,3 +21,6 @@
     - Archlinux
   ansible.builtin.import_tasks: aur.yaml
   when: ansible_os_family == 'Archlinux'
+
+- name: Incus
+  ansible.builtin.import_tasks: incus.yaml
