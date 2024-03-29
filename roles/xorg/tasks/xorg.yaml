@@ -37,8 +37,8 @@
               - mesa
               - vulkan-intel
               - lib32-mesa
-          state: present
-          reason: explicit
+            state: present
+            reason: explicit
 
         - name: Ensure absent intel pkgs
           community.general.pacman:
@@ -70,14 +70,14 @@
           ansible.builtin.apt:
             pkg:
               - mesa-vulkan-drivers
-          state: present
+            state: present
 
         - name: Ensure absent intel pkgs
           ansible.builtin.apt:
             pkg:
               # These caused problems for electron applications and not recommended
               - xserver-xorg-video-intel
-          state: absent
+            state: absent
 
 - name: Ensures /etc/X11/xorg.conf.d dir exists
   ansible.builtin.file:

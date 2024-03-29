@@ -27,7 +27,7 @@
     name: video
     state: present
 
-- name: Add {{ user }} to home
+- name: Add {{ user }} to video
   tags:
     - X
   ansible.builtin.user:
