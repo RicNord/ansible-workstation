@@ -14,6 +14,8 @@
     state: present
 
 - name: Install Snap packages classic
+  tags:
+    - X
   community.general.snap:
     name:
       - alacritty
