@@ -1,0 +1,52 @@
+- name: Node
+  become: true
+  become_user: "{{ user }}"
+  become_flags: "-i"
+  block:
+    - name: Get stats node.sh
+      check_mode: true
+      ansible.builtin.stat:
+        path: "{{ home }}/repos/usr/.ansible/node.sh"
+        checksum_algorithm: "sha1"
+        get_checksum: true
+      register: node_installer_file
+
+    - name: Download node installer
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh
+        dest: "{{ home }}/repos/usr/.ansible/node.sh"
+        mode: '644'
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        force: false
+      register: node_installer_download
+
+    - name: Install nvm
+      when: ( not node_installer_file.stat.exists ) or ( node_installer_download.changed )
+      ansible.builtin.shell: |
+        bash {{ home }}/repos/usr/.ansible/node.sh
+      args:
+        chdir: "{{ home }}"
+        creates: "{{ home }}/.nvm/nvm.sh"
+
+    - name: Update .bash_ansible
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+          [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        marker: "# <!--- {mark} NODE ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '664'
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
+    - name: Install node
+      ansible.builtin.shell: |
+        bash -lc "nvm install {{ item }}"
+      args:
+        chdir: "{{ home }}"
+        creates: "{{ home }}/.nvm/versions/node/v{{ item }}"
+      loop:
+        - 20.12.0

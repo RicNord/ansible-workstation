@@ -228,7 +228,6 @@
       - net-tools
       # - networkmanager?
       - nmap
-      - npm # TODO move this
       - openconnect
       - openssh-client
       - pandoc

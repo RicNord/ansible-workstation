@@ -83,7 +83,6 @@
       - networkmanager-openconnect
       - networkmanager-openvpn
       - nmap
-      - npm # TODO move this
       - openconnect
       - openssh
       - pandoc-cli

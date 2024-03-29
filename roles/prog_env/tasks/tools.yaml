@@ -13,11 +13,17 @@
     executable: "{{ home }}/.cargo/bin/cargo"
     state: present
 
-- name: Install markdownlint
+- name: Install npm pkg
+  become: true
+  become_user: "{{ user }}"
+  become_flags: "-i"
   community.general.npm:
-    name: markdownlint-cli
+    name: "{{ item }}"
     global: true
     state: present
+  loop:
+    - markdownlint-cli
+    - neovim
 
 - name: Install black
   block:
