@@ -14,6 +14,9 @@
 - name: Install dotnet runtime
   ansible.builtin.import_tasks: dotnet.yaml
 
+- name: Install lua
+  ansible.builtin.import_tasks: lua.yaml
+
 - name: Install node
   ansible.builtin.import_tasks: node.yaml
 
