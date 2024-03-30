@@ -58,3 +58,16 @@
           - golang-go
         state: present
 
+    - name: Update .bash_ansible
+      become: true
+      become_user: "{{ user }}"
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.bash_ansible"
+        block: |
+          export PATH="$HOME/go/bin:$PATH"
+        marker: "# <!--- {mark} GO ANSIBLE MANAGED BLOCK --->"
+        create: true
+        mode: '664'
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
