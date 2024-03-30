@@ -159,6 +159,26 @@
         group: root
         mode: '0644'
 
+# Zabbly (Incus)
+- name: Add zabbly/incus apt repository
+  when: ansible_distribution_version is version('24.04', '<')
+  block:
+    - name: Copy zabbly.pgp
+      ansible.builtin.copy:
+        src: zabbly.pgp
+        dest: /etc/apt/keyrings/zabbly.pgp
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Add Incus
+      ansible.builtin.template:
+        src: incus.sources.jinja
+        dest: /etc/apt/sources.list.d/incus.sources
+        owner: root
+        group: root
+        mode: '0644'
+
 ## Update and install packages
 - name: Run the equivalent of "apt-get update" as a separate step
   ansible.builtin.apt:
@@ -218,6 +238,7 @@
       - gzip
       - htop
       - jq
+      - incus
       - linux-headers-generic
       - lxc
       - macchanger
@@ -257,13 +278,6 @@
       - xsel # x clipboard
       - xterm
       - zip
-    state: present
-
-- name: Install apt packages 24.04+
-  when: ansible_distribution_version is version('24.04', '>=')
-  ansible.builtin.apt:
-    pkg:
-      - incus
     state: present
 
 - name: Install apt X packages 24.04+
