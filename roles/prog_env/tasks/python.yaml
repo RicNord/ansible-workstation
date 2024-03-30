@@ -51,20 +51,14 @@
           - pipx
         state: present
 
-    - name: Install pipenv
+    - name: Install pipx pkgs
       community.general.pipx:
-        name: pipenv
+        name: "{{ item }}"
         state: present
-
-    - name: Install virtualenv
-      community.general.pipx:
-        name: virtualenv
-        state: present
-
-    - name: Install tox
-      community.general.pipx:
-        name: tox
-        state: present
+      loop:
+        - pipenv
+        - virtualenv
+        - tox
 
 - name: Install python libs for arch
   tags:

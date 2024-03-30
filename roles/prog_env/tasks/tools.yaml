@@ -25,27 +25,29 @@
     - markdownlint-cli
     - neovim
 
-- name: Install black
+- name: Install python tools
   block:
-    - name: Black on arch
+    - name: Tools on Arch
       tags:
         - Archlinux
       when: ansible_os_family == 'Archlinux'
       community.general.pacman:
         name:
-          - rustup
+          - python-black
+          - python-isort
         state: present
         reason: explicit
       become: true
       become_user: root
 
-    - name: Black on debian
+    - name: Tools on debian
       tags:
         - Debian
       when: ansible_os_family == 'Debian'
       ansible.builtin.apt:
         pkg:
           - black
+          - isort
         state: present
       become: true
       become_user: root
