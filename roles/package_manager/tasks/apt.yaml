@@ -229,6 +229,7 @@
       - docker-compose-plugin # Docker engine
       - entr # Run arbitrary commands when files change
       - fd-find
+      - fswatch # Filesystem watcher recommended by neovim
       - fzf
       - gdb
       - git

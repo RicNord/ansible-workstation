@@ -17,6 +17,7 @@
   kewlfft.aur.aur:
     name:
       - neovim-git
+      - fswatch # Filesystem watcher recommended by neovim
     state: present
   become: true
   become_user: aur_builder
