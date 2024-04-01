@@ -220,26 +220,27 @@
       - bash-completion
       - bat
       - build-essential
+      - containerd.io # Docker engine
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
-      - docker-ce # Docker engine
-      - docker-ce-cli # Docker engine
-      - containerd.io # Docker engine
       - docker-buildx-plugin # Docker engine
+      - docker-ce-cli # Docker engine
+      - docker-ce # Docker engine
       - docker-compose-plugin # Docker engine
       - entr # Run arbitrary commands when files change
       - fd-find
       - fswatch # Filesystem watcher recommended by neovim
       - fzf
       - gdb
-      - git
       - gh
-      - libglib2.0-dev
+      - git
+      - gnome-keyring # Can be used by python-keyring, dep of eg. Twine
       - gnupg
       - gzip
       - htop
-      - jq
       - incus
+      - jq
+      - libglib2.0-dev
       - linux-headers-generic
       - lxc
       - macchanger
@@ -257,18 +258,18 @@
       - pass
       - pulsemixer
       - python3-pip
-      - tox
       - ranger
       - ripgrep
       - rsync
-      - sq # gpg alternative
       - shellcheck
       - shfmt
+      - sq # gpg alternative
       - terraform
       #      - terragrunt # TODO Manual install
       - thefuck
       - tldr
       - tmux
+      - tox
       - traceroute
       - tree
       - unifont # font pkg
