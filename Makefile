@@ -13,3 +13,9 @@ clean-instance:
 
 clean: clean-instance
 	bash -c "terraform -chdir=tests/terraform destroy -auto-approve"
+
+.PHONY: submodules
+submodules: ## Pull and update git submodules recursively
+	@echo "+ $@"
+	@git pull --recurse-submodules
+	@git submodule update --init --recursive
