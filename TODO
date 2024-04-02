@@ -1,4 +1,7 @@
 - Decide on submodules or git clone for consistency
-- changed in ubuntu run
-    - install minconda
-    - install rustup
+- Fix GNOME role
+- AMD equivalent for intel
+- Bluetooth optional dependancy?
+- Cleanup of auto installed recommended pkgs for APT
+- More verbose arch-install
+- test for individual roles?

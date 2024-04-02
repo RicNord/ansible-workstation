@@ -9,12 +9,14 @@
 
 > Current [inventory](./inventory) file use `localhost` as target system
 
+**NOTE:** Archlinux is currently the primarily maintained option.
+
 ## Usage
 
 Default run command for all Ansible roles:
 
 ```bash
-make install`
+make install
 ```
 
 The playbooks will identify and run appropriate tasks depending on host

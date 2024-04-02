@@ -29,7 +29,7 @@ If you wish to enable `Secure Boot`, reboot you system and put secure boot into
 
 - UEFI
 
-## Design decisions
+# Design decisions
 
 - Partitioning (LVM)
   - /efi
