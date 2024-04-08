@@ -56,8 +56,8 @@
         name: "{{ item }}"
         state: present
       loop:
-        - pipenv
         - virtualenv
+        - pipenv
         - tox
 
 - name: Install python libs for arch
