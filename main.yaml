@@ -107,5 +107,5 @@
   become: true
   roles:
     - role: wsl
-      when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
+      when: ansible_facts['os_family'] == "Debian" and "WSL2" in ansible_facts['kernel']
 
