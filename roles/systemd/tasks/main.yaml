@@ -28,13 +28,13 @@
       ansible.builtin.service_facts:
 
     - name: Enable NetworkManager
-      when: ansible_os_family == "Archlinux"
       tags:
         - Archlinux
       ansible.builtin.systemd:
         name: NetworkManager
         state: started
         enabled: true
+      when: "'NetworkManager' in services and ansible_os_family == 'Archlinux'"
 
     - name: Disable bluetooth
       ansible.builtin.systemd:
@@ -48,3 +48,4 @@
         name: systemd-timesyncd.service
         state: started
         enabled: true
+      when: "'systemd-timesyncd' in services"

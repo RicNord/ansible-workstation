@@ -27,3 +27,10 @@
   become: true
   become_user: "{{ user }}"
   ansible.builtin.import_tasks: meta_root.yaml
+
+- name: Recursively make home/bin executable
+  ansible.builtin.file:
+    path: "{{ home }}/bin"
+    state: directory
+    recurse: yes
+    mode: "0764"

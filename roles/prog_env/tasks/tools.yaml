@@ -3,6 +3,8 @@
   become_user: "{{ user }}"
   ansible.builtin.shell: |
     go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+  args:
+    creates: "{{ home }}/go/bin/yamlfmt"
 
 - name: Install Rust package
   become: true
