@@ -1,4 +1,4 @@
-- name: Run the equivalent of "apt update"
+- name: apt update
   become: true
   become_user: root
   ansible.builtin.apt:
