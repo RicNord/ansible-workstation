@@ -1,0 +1,6 @@
+- name: Run the equivalent of "apt update"
+  become: true
+  become_user: root
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 0

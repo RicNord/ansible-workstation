@@ -35,154 +35,162 @@
     group: root
     mode: '0644'
 
-# Adding additional repositorys to APT
-# Microsoft
-- name: Add microsoft apt repository
+- name: Add additional repos to apt
+  notify: apt update
   block:
-    - name: Copy microsoft.pgp
-      ansible.builtin.copy:
-        src: microsoft.pgp
-        dest: /etc/apt/keyrings/microsoft.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # Microsoft
+    - name: Add microsoft apt repository
+      block:
+        - name: Copy microsoft.pgp
+          ansible.builtin.copy:
+            src: microsoft.pgp
+            dest: /etc/apt/keyrings/microsoft.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add azure-cli
-      ansible.builtin.template:
-        src: azure-cli.sources.jinja
-        dest: /etc/apt/sources.list.d/azure-cli.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add azure-cli
+          ansible.builtin.template:
+            src: azure-cli.sources.jinja
+            dest: /etc/apt/sources.list.d/azure-cli.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-    - name: Add vscode
-      ansible.builtin.template:
-        src: vscode.sources.jinja
-        dest: /etc/apt/sources.list.d/vscode.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add vscode
+          tags:
+            - X
+          ansible.builtin.template:
+            src: vscode.sources.jinja
+            dest: /etc/apt/sources.list.d/vscode.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-## Google
-- name: Add google apt repository
-  block:
-    - name: Copy google.pgp
-      ansible.builtin.copy:
-        src: google.pgp
-        dest: /etc/apt/keyrings/google.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    ## Google
+    - name: Add google apt repository
+      block:
+        - name: Copy google.pgp
+          ansible.builtin.copy:
+            src: google.pgp
+            dest: /etc/apt/keyrings/google.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
 
-    - name: Add google-chrome
-      ansible.builtin.template:
-        src: google-chrome.sources.jinja
-        dest: /etc/apt/sources.list.d/google-chrome.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add google-chrome
+          tags:
+            - X
+          ansible.builtin.template:
+            src: google-chrome.sources.jinja
+            dest: /etc/apt/sources.list.d/google-chrome.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-# Docker
-- name: Add docker apt repository
-  block:
-    - name: Copy docker.pgp
-      ansible.builtin.copy:
-        src: docker.pgp
-        dest: /etc/apt/keyrings/docker.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # Docker
+    - name: Add docker apt repository
+      block:
+        - name: Copy docker.pgp
+          ansible.builtin.copy:
+            src: docker.pgp
+            dest: /etc/apt/keyrings/docker.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add docker
-      ansible.builtin.template:
-        src: docker.sources.jinja
-        dest: /etc/apt/sources.list.d/docker.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add docker
+          ansible.builtin.template:
+            src: docker.sources.jinja
+            dest: /etc/apt/sources.list.d/docker.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-# Hashicorp
-- name: Add hashicorp apt repository
-  block:
-    - name: Copy hashicorp.pgp
-      ansible.builtin.copy:
-        src: hashicorp.pgp
-        dest: /etc/apt/keyrings/hashicorp.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # Hashicorp
+    - name: Add hashicorp apt repository
+      block:
+        - name: Copy hashicorp.pgp
+          ansible.builtin.copy:
+            src: hashicorp.pgp
+            dest: /etc/apt/keyrings/hashicorp.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add hashicorp
-      ansible.builtin.template:
-        src: hashicorp.sources.jinja
-        dest: /etc/apt/sources.list.d/hashicorp.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add hashicorp
+          ansible.builtin.template:
+            src: hashicorp.sources.jinja
+            dest: /etc/apt/sources.list.d/hashicorp.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-# Spotify
-- name: Add spotify apt repository
-  block:
-    - name: Copy spotify.pgp
-      ansible.builtin.copy:
-        src: spotify.pgp
-        dest: /etc/apt/keyrings/spotify.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # Spotify
+    - name: Add spotify apt repository
+      tags:
+        - X
+      block:
+        - name: Copy spotify.pgp
+          ansible.builtin.copy:
+            src: spotify.pgp
+            dest: /etc/apt/keyrings/spotify.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add spotify
-      ansible.builtin.template:
-        src: spotify.sources.jinja
-        dest: /etc/apt/sources.list.d/spotify.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add spotify
+          ansible.builtin.template:
+            src: spotify.sources.jinja
+            dest: /etc/apt/sources.list.d/spotify.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-# github
-- name: Add github apt repository
-  block:
-    - name: Copy github.pgp
-      ansible.builtin.copy:
-        src: github.pgp
-        dest: /etc/apt/keyrings/github.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # github
+    - name: Add github apt repository
+      block:
+        - name: Copy github.pgp
+          ansible.builtin.copy:
+            src: github.pgp
+            dest: /etc/apt/keyrings/github.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add github-cli
-      ansible.builtin.template:
-        src: github-cli.sources.jinja
-        dest: /etc/apt/sources.list.d/github-cli.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add github-cli
+          ansible.builtin.template:
+            src: github-cli.sources.jinja
+            dest: /etc/apt/sources.list.d/github-cli.sources
+            owner: root
+            group: root
+            mode: '0644'
 
-# Zabbly (Incus)
-- name: Add zabbly/incus apt repository
-  when: ansible_distribution_version is version('24.04', '<')
-  block:
-    - name: Copy zabbly.pgp
-      ansible.builtin.copy:
-        src: zabbly.pgp
-        dest: /etc/apt/keyrings/zabbly.pgp
-        owner: root
-        group: root
-        mode: '0755'
+    # Zabbly (Incus)
+    - name: Add zabbly/incus apt repository
+      when: ansible_distribution_version is version('24.04', '<')
+      block:
+        - name: Copy zabbly.pgp
+          ansible.builtin.copy:
+            src: zabbly.pgp
+            dest: /etc/apt/keyrings/zabbly.pgp
+            owner: root
+            group: root
+            mode: '0755'
 
-    - name: Add Incus
-      ansible.builtin.template:
-        src: incus.sources.jinja
-        dest: /etc/apt/sources.list.d/incus.sources
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Add Incus
+          ansible.builtin.template:
+            src: incus.sources.jinja
+            dest: /etc/apt/sources.list.d/incus.sources
+            owner: root
+            group: root
+            mode: '0644'
 
 ## Update and install packages
-- name: Run the equivalent of "apt-get update" as a separate step
-  ansible.builtin.apt:
-    update_cache: true
+- name: Force all notified handlers to run, (apt update)
+  ansible.builtin.meta: flush_handlers
+
 - name: Install apt X packages
   tags:
     - X
