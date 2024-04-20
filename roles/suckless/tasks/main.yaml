@@ -181,6 +181,3 @@
 
 - name: Install batstat
   ansible.builtin.import_tasks: batstat.yaml
-
-- name: Install nnn and plugins
-  ansible.builtin.import_tasks: nnn.yaml

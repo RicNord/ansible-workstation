@@ -100,6 +100,12 @@
   roles:
     - systemd
 
+- name: Cli tooling
+  hosts: all
+  become: true
+  roles:
+    - cli_tooling
+
 - name: Wsl config
   tags:
     - wsl
