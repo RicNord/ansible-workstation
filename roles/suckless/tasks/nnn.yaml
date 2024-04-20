@@ -1,0 +1,30 @@
+- name: Install nnn
+  block:
+    - name: Install nnn pacman
+      when: ansible_os_family == 'Archlinux'
+      tags:
+        - Archlinux
+      community.general.pacman:
+        name: nnn
+        state: present
+        reason: explicit
+      become: true
+      become_user: root
+
+    - name: Install nnn APT
+      when: ansible_os_family == 'Debian'
+      tags:
+        - Debian
+      ansible.builtin.apt:
+        name: nnn
+        state: present
+      become: true
+      become_user: root
+
+    - name: Install nnn plugins
+      ansible.builtin.shell: |
+        sh -c "$(curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs)"
+      args:
+        creates: "{{ home }}/.config/nnn/plugins/nuke" # One of many plugins
+      become: true
+      become_user: "{{ user }}"

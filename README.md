@@ -9,7 +9,7 @@
 
 > Current [inventory](./inventory) file use `localhost` as target system
 
-**NOTE:** Archlinux is currently the primarily maintained option.
+**NOTE:** Arch linux is currently the primarily maintained option.
 
 ## Usage
 
