@@ -36,7 +36,5 @@
     - name: Temporary Install latest preview-tui
       ansible.builtin.shell: |
         sh -c "$(curl 'https://raw.githubusercontent.com/jarun/nnn/master/plugins/preview-tui' -o {{ home }}/.config/nnn/plugins/preview-tui)"
-      args:
-        creates: "{{ home }}/.config/nnn/plugins/preview-tui"
       become: true
       become_user: "{{ user }}"
