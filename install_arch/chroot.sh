@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Bash "stric mode"
+set -euo pipefail
+
 DISK=$1
 
 # Colors
@@ -59,7 +62,7 @@ echo -e "${BBlue}mkinitcpio ${NC}"
 mkinitcpio -p linux
 
 echo -e "${BBlue}GRUB set-up ${NC}"
-pacman -S grub efibootmgr
+pacman -S grub efibootmgr --noconfirm
 
 UUID=$(cryptsetup luksDump "${DISK}p3" | grep UUID | awk '{print $2}')
 GRUBCMD="\"cryptdevice=UUID=$UUID:cryptlvm root=/dev/vg/root cryptkey=rootfs:$LUKS_KEYS\""
@@ -70,3 +73,6 @@ grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 chmod 700 /boot
+
+echo -e "${BBlue}Set root password\n${NC}"
+passwd

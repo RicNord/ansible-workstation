@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Bash "stric mode"
+set -euo pipefail
+
 # Colors
 BBlue='\033[1;34m'
 NC='\033[0m' # NO COLOR
@@ -55,7 +58,7 @@ echo -e "${BBlue}Create a LUKS partition $DISK\n${NC}"
 sgdisk --new=3:1130496:"$(sgdisk --end-of-largest "$DISK")" --typecode=3:8309 "$DISK"
 
 echo -e "${BBlue}Encrypt LUKS partition $DISK\n${NC}"
-cryptsetup luksFormat -q --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 3000 --use-random --type luks1 "${DISK}p3"
+cryptsetup -v luksFormat -q --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 3000 --use-random --type luks1 "${DISK}p3"
 
 echo -e "${BBlue}Open LUKS partition $DISK\n${NC}"
 cryptsetup -v luksOpen "${DISK}p3" "$CRYPT_NAME"
@@ -68,16 +71,16 @@ lvcreate --verbose -l 100%FREE vg -n root
 
 echo -e "${BBlue}Make filesystems root and swap $DISK\n${NC}"
 mkfs.ext4 /dev/vg/root
-mkswap /dev/vg/swap
+mkswap --verbose /dev/vg/swap
 
 echo -e "${BBlue}Mount filesystems root and swap $DISK\n${NC}"
 mount --verbose /dev/vg/root /mnt
-swapon /dev/vg/swap
+swapon --verbose /dev/vg/swap
 
 echo -e "${BBlue}Make filesystem efi and mount $DISK\n${NC}"
-mkfs.fat -F32 /dev/"$DISK"p2
+mkfs.fat -F32 "$DISK"p2
 mkdir --verbose /mnt/efi
-mount --verbose /dev/"$DISK"p2 /mnt/efi
+mount --verbose "$DISK"p2 /mnt/efi
 
 echo -e "${BBlue}Get archlinux-keyring $DISK\n${NC}"
 pacman -Sy archlinux-keyring --noconfirm
@@ -90,7 +93,7 @@ genfstab -pU /mnt >>/mnt/etc/fstab
 
 echo -e "${BBlue}arch-chroot /mnt and execute ./chroot.sh $DISK\n${NC}"
 # CHROOT!
-cp ./chroot.sh /mnt \
+cp --verbose ./chroot.sh /mnt \
     && chmod +x /mnt/chroot.sh
 
 arch-chroot /mnt /bin/bash ./chroot.sh "$DISK"
