@@ -5,7 +5,9 @@
       tags:
         - Archlinux
       community.general.pacman:
-        name: nnn
+        name:
+          - nnn
+          - chafa # image preview
         state: present
         reason: explicit
       become: true
@@ -16,7 +18,9 @@
       tags:
         - Debian
       ansible.builtin.apt:
-        name: nnn
+        pkg:
+          - nnn
+          - chafa # image preview
         state: present
       become: true
       become_user: root
