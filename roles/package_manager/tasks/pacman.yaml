@@ -50,6 +50,7 @@
       - base-devel
       - bash-completion
       - bat
+      - bind # DNS tool. eg nslookup
       - bluez # Bluetooth, TODO make optional
       - bluez-utils # Bluetooth, TODO make optional
       - curl

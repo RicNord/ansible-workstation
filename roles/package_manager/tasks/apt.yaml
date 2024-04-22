@@ -231,6 +231,7 @@
       - containerd.io # Docker engine
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
+      - dnsutils # nslookup etc
       - docker-buildx-plugin # Docker engine
       - docker-ce-cli # Docker engine
       - docker-ce # Docker engine
