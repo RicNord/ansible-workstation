@@ -22,7 +22,7 @@ echo -e "${BBlue}Grub install with secureboot options ${NC}"
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
 
 echo -e "${BBlue}Install sbctl ${NC}"
-pacman -S sbctl
+pacman -S sbctl --noconfirm
 
 echo -e "${BBlue}sbctl status ${NC}"
 sbctl status
@@ -41,4 +41,4 @@ sbctl sign -s /boot/vmlinuz-linux
 sbctl sign -s /efi/EFI/GRUB/grubx64.efi
 
 printf "Secure boot setup completed now verify secureboot is activated in UEFI firmware setup \n\t%s\n" "systemctl reboot --firmware"
-printf "Make sure to password protect firmware setup, aka BIOS"
+printf "Make sure to password protect firmware setup, aka BIOS \nAt next boot run \n\t%s\n" "sbctl status"
