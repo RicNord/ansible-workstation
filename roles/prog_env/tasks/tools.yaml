@@ -12,6 +12,7 @@
   community.general.cargo:
     name:
       - stylua # Lua code formatter
+      - xidlehook # Auto screenlocker
     executable: "{{ home }}/.cargo/bin/cargo"
     state: present
 

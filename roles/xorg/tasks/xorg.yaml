@@ -14,6 +14,7 @@
           - xorg-apps
           # misc
           - noto-fonts
+          - xautolock
         state: present
         reason: explicit
 
@@ -60,6 +61,7 @@
           - xorg
           # misc
           - fonts-noto
+          - xautolock
         state: present
 
       # TODO Add AMD
