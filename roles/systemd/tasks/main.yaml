@@ -1,8 +1,8 @@
 - name: slock
   ansible.builtin.import_tasks: slock.yaml
 
-- name: xidlehook
-  ansible.builtin.import_tasks: xidlehook.yaml
+  #- name: xidlehook
+  #  ansible.builtin.import_tasks: xidlehook.yaml
 
 - name: Logind config
   ansible.builtin.import_tasks: logind.yaml
