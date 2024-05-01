@@ -32,11 +32,12 @@
 
     - name: Cargo install xidlehook
       become: true
-      become_user: "{{ user }}"
+      become_user: root
       community.general.cargo:
         name:
           - xidlehook # Auto screenlocker
         executable: "{{ home }}/.cargo/bin/cargo"
+        path: /usr/local
         state: present
 
 - name: Systemd xidlehook activate

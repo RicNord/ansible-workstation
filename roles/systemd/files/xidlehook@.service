@@ -6,7 +6,7 @@ User=%i
 Type=simple
 Environment=DISPLAY=:0
 Environment=XIDLEHOOK_SOCK=%t/xidlehook.socket
-ExecStart=xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --socket $XIDLEHOOK_SOCK --timer 540 'notify-send --expire-time=20000 --urgency=critical "Locking screen in 60 sec"' '' --timer 60 'slock' ''
+ExecStart=/usr/local/xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --socket $XIDLEHOOK_SOCK --timer 540 'notify-send --expire-time=20000 --urgency=critical "Locking screen in 60 sec"' '' --timer 60 'slock' ''
 
 [Install]
 WantedBy=multi-user.target
