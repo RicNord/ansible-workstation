@@ -6,13 +6,12 @@
   args:
     creates: "{{ home }}/go/bin/yamlfmt"
 
-- name: Install Rust package
+- name: Cargo install
   become: true
   become_user: "{{ user }}"
   community.general.cargo:
     name:
       - stylua # Lua code formatter
-      - xidlehook # Auto screenlocker
     executable: "{{ home }}/.cargo/bin/cargo"
     state: present
 

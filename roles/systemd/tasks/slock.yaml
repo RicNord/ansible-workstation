@@ -1,0 +1,20 @@
+- name: Systemd Slock
+  tags:
+    - X
+    - systemd
+  block:
+    - name: Copy slock on sleep unit file
+      ansible.builtin.copy:
+        src: slock@.service
+        dest: /etc/systemd/system/slock@.service
+        owner: root
+        group: root
+      become: true
+      become_user: root
+
+    - name: Enable Slock service
+      ansible.builtin.systemd:
+        name: slock@{{ user }}.service
+        enabled: true
+        daemon_reload: true
+

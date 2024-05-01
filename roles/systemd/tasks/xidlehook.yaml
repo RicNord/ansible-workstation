@@ -1,0 +1,64 @@
+- name: Xidlehook install
+  tags:
+    - X
+    - systemd
+  block:
+    - name: Pre-reqs on debian
+      tags:
+        - Debian
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        pkg:
+          - libxss-dev
+          - libxcb-screensaver0-dev
+          - libpulse-dev
+        state: present
+      become: true
+      become_user: root
+
+    - name: Pre-reqs for arch
+      tags:
+        - Archlinux
+      when: ansible_os_family == "Archlinux"
+      community.general.pacman:
+        name:
+          - libxss
+          - libxcb
+          - libpulse
+        state: present
+        reason: explicit
+      become: true
+      become_user: root
+
+    - name: Cargo install xidlehook
+      become: true
+      become_user: "{{ user }}"
+      community.general.cargo:
+        name:
+          - xidlehook # Auto screenlocker
+        executable: "{{ home }}/.cargo/bin/cargo"
+        state: present
+
+- name: Systemd xidlehook activate
+  tags:
+    - X
+    - systemd
+  block:
+    - name: Copy xidlehook.service
+      ansible.builtin.copy:
+        src: xidlehook.service
+        dest: "{{ home }}/.config/systemd/user/xidlehook.service"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Enable xidlehook service
+      ansible.builtin.systemd:
+        name: xidlehook.service
+        enabled: true
+        daemon_reload: true
+        scope: user
+      become: true
+      become_user: "{{ user }}"
+      become_method: machinectl
