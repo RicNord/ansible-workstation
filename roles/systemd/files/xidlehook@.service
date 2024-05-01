@@ -2,6 +2,7 @@
 Description=Automatic Screen Locker after 10 min
 
 [Service]
+User=%i
 Type=simple
 Environment=DISPLAY=:0
 Environment=XIDLEHOOK_SOCK=%t/xidlehook.socket

@@ -46,19 +46,16 @@
   block:
     - name: Copy xidlehook.service
       ansible.builtin.copy:
-        src: xidlehook.service
-        dest: "{{ home }}/.config/systemd/user/xidlehook.service"
-        owner: "{{ user }}"
-        group: "{{ user }}"
+        src: xidlehook@.service
+        dest: /etc/systemd/system/xidlehook@.service
+        owner: root
+        group: root
       become: true
-      become_user: "{{ user }}"
+      become_user: root
 
     - name: Enable xidlehook service
       ansible.builtin.systemd:
-        name: xidlehook.service
+        name: xidlehook@{{ user }}.service
         enabled: true
         daemon_reload: true
-        scope: user
-      become: true
-      become_user: "{{ user }}"
-      become_method: machinectl
+
