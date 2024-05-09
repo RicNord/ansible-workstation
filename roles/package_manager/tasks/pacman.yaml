@@ -72,6 +72,7 @@
       - gzip
       - htop
       - incus
+      - inetutils # hostname, whois, telnet etc.
       - jq
       - linux-headers
       - lxc
