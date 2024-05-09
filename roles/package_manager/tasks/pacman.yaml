@@ -104,7 +104,6 @@
       - shfmt
       - terraform
       - terragrunt
-      - thefuck
       - tldr
       - tmux
       - traceroute
