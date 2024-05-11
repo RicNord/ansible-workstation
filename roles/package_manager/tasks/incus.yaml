@@ -25,7 +25,7 @@
 
     - name: Add root to subgid
       ansible.builtin.lineinfile:
-        path: /etc/subuid
+        path: /etc/subgid
         regexp: '^root:1000000:1000000000$'
         line: root:1000000:1000000000
         owner: root
