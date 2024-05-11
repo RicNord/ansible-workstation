@@ -30,6 +30,9 @@ done
 shift $((OPTIND - 1))
 
 terraform_apply() {
+
+    terraform -chdir="${_CURRENT_DIR}/terraform" init
+
     if [ -n "${INSTANCE_LIST}" ]; then
         FORMATTED_INSTANCE_LIST=\"${INSTANCE_LIST//,/\",\"}\"
     else
