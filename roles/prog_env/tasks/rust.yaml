@@ -30,6 +30,7 @@
         rustup default stable
       args:
         executable: /bin/bash
+      become: true
       become_user: "{{ user }}"
 
     - name: Ensures {{ home }}/.cargo/bin dir exists
@@ -111,4 +112,5 @@
         rustup default stable
       args:
         executable: /bin/bash
+      become: true
       become_user: "{{ user }}"

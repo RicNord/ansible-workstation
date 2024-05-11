@@ -29,6 +29,7 @@
         clone: true
         update: true
       register: batstat
+      become: true
       become_user: "{{ user }}"
 
     - name: Check if batstat exists
