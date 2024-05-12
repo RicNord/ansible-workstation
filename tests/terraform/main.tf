@@ -65,8 +65,8 @@ resource "incus_profile" "test-profile" {
   project = incus_project.project.name
 
   config = {
-    "boot.autostart"       = false
-    "security.secureboot"  = false
+    "boot.autostart"      = false
+    "security.secureboot" = false
   }
 
   device {
@@ -137,7 +137,7 @@ resource "incus_instance" "ubuntu-vm" {
   count     = contains(var.instance-list, "ubuntu-vm") || length(var.instance-list) == 0 ? 1 : 0
   name      = "ubuntu-vm"
   project   = incus_project.project.name
-  image     = "images:ubuntu/jammy/cloud"
+  image     = "images:ubuntu/22.04/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
@@ -162,7 +162,7 @@ resource "incus_instance" "ubuntu-container" {
   count     = contains(var.instance-list, "ubuntu-container") || length(var.instance-list) == 0 ? 1 : 0
   name      = "ubuntu-container"
   project   = incus_project.project.name
-  image     = "images:ubuntu/jammy/cloud"
+  image     = "images:ubuntu/22.04/cloud"
   type      = "container"
   ephemeral = true
   running   = true
