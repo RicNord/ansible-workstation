@@ -67,6 +67,7 @@
       - glib2 # Low level core lib
       - gnome-keyring # Can be used by python-keyring, dep of eg. Twine
       - gnupg
+      - gptfdisk # {,s,c}gdisk (GPT fdisk)
       - grub # Possibly remove for here
       - gvim
       - gzip

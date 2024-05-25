@@ -241,6 +241,7 @@
       - fswatch # Filesystem watcher recommended by neovim
       - fzf
       - gdb
+      - gdisk # GPT disk partitioning
       - gh
       - git
       - gnome-keyring # Can be used by python-keyring, dep of eg. Twine
