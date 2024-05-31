@@ -47,6 +47,7 @@
       - acpi # Power Managment - reacts to events
       - alacritty
       - alsa-utils # Sound utils, TODO remove
+      - azure-cli
       - base-devel
       - bash-completion
       - bat
