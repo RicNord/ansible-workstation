@@ -252,6 +252,7 @@
       - jq
       - libglib2.0-dev
       - linux-headers-generic
+      - lsof # List Open files
       - lxc
       - macchanger
       - make
