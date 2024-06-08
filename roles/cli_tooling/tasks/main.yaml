@@ -1,2 +1,5 @@
 - name: Install nnn and plugins
   ansible.builtin.import_tasks: nnn.yaml
+
+- name: Install aws-cli
+  ansible.builtin.import_tasks: aws.yaml

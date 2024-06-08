@@ -1,0 +1,50 @@
+- name: Install AWS CLI
+  block:
+    - name: Download AWS cli
+      ansible.builtin.shell: |
+        sh -c "$(curl -Ls https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o {{ home }}/.ansible/awscliv2.zip)"
+      args:
+        creates: "{{ home }}/.ansible/awscliv2.zip"
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Download AWS cli sig
+      ansible.builtin.shell: |
+        sh -c "$(curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig -o {{ home }}/.ansible/awscliv2.sig)"
+      args:
+        creates: "{{ home }}/.ansible/awscliv2.sig"
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Copy aws-cli.gpg
+      ansible.builtin.copy:
+        src: aws-cli.gpg
+        dest: "{{ home }}/.ansible/aws-cli.gpg"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0755'
+
+    - name: Verify signature
+      ansible.builtin.shell: |
+        sh -c "gpg --no-default-keyring --keyring {{ home }}/.ansible/aws-cli.gpg --verify awscliv2.sig awscliv2.zip"
+      args:
+        chdir: "{{ home }}/.ansible/"
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Unarchive zip
+      ansible.builtin.unarchive:
+        src: "{{ home }}/.ansible/awscliv2.zip"
+        dest: "{{ home }}/.ansible/"
+        creates: "{{ home }}/.ansible/aws"
+        remote_src: yes
+      become: true
+      become_user: "{{ user }}"
+
+    - name: Install cli
+      ansible.builtin.shell: |
+        sh -c "{{ home }}/.ansible/aws/install"
+      args:
+        creates: "/usr/local/bin/aws"
+      become: true
+      become_user: "root"
