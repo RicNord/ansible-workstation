@@ -114,3 +114,20 @@
         executable: /bin/bash
       become: true
       become_user: "{{ user }}"
+
+    - name: Ensures {{ home }}/.cargo/bin dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.cargo/bin/"
+        state: directory
+        group: "{{ user }}"
+        owner: "{{ user }}"
+        mode: '0755'
+
+    - name: Create a symbolic link for officall rustup.sh install script path for cargo
+      ansible.builtin.file:
+        src: /usr/bin/cargo
+        dest: "{{ home }}/.cargo/bin/cargo"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        force: true
+        state: link
