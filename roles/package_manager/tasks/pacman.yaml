@@ -75,6 +75,7 @@
       - htop
       - incus
       - inetutils # hostname, whois, telnet etc.
+      - iperf3 # speed test tool for network
       - jq
       - linux-headers
       - lsof # List Open files
@@ -105,6 +106,7 @@
       - sequoia-sq # gpg alternative
       - shellcheck
       - shfmt
+      - socat # Multipurpose relay
       - terraform
       - terragrunt
       - tldr

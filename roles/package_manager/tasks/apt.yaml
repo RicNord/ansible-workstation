@@ -249,6 +249,7 @@
       - gzip
       - htop
       - incus
+      - iperf3 # speed test tool for network
       - jq
       - libglib2.0-dev
       - linux-headers-generic
@@ -274,6 +275,7 @@
       - rsync
       - shellcheck
       - shfmt
+      - socat # Multipurpose relay
       - sq # gpg alternative
       - terraform
       #      - terragrunt # TODO Manual install
