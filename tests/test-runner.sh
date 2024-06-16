@@ -23,7 +23,7 @@ EOF
 }
 
 # Parse args
-while getopts "iu:" opt; do
+while getopts "i:u:" opt; do
     case "${opt}" in
         i) INSTANCE_LIST=$OPTARG ;;
         u) UBUNTU_VERSIONS=$OPTARG ;;
@@ -87,15 +87,14 @@ export -f run_ansible
 
 if [ -n "${INSTANCE_LIST}" ]; then
     echo -e "${BBlue}Testing selected instances... \n${NC}"
-    echo "$INSTANCE_LIST"
+    echo "$ALL_INSTANCES"
     printf "\n"
     echo -e "${BBlue}Running... Writing output to: ${NC}\n\t /tmp/.ansible-output/ \n"
     parallel \
-        --delimiter "," \
         --tagstring '{}' \
         --results /tmp/.ansible-output/{}/ \
         --joblog /tmp/.ansible-ws-test.log \
-        run_ansible ::: "$INSTANCE_LIST" || true
+        run_ansible ::: "$ALL_INSTANCES" || true
 
     printf "\n"
     echo -e "${BBlue}Test result log: ${NC}"
