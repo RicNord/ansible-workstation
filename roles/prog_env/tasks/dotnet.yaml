@@ -17,7 +17,6 @@
     - dotnet
   ansible.builtin.apt:
     pkg:
-      - dotnet-runtime-7.0
       - dotnet-runtime-8.0
     state: present
   become: true
