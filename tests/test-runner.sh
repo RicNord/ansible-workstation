@@ -4,6 +4,7 @@
 set -euo pipefail
 
 INSTANCE_LIST=''
+UBUNTU_VERSIONS='22.04,24.04'
 _CURRENT_DIR="$(dirname "$0")"
 
 # Colors
@@ -15,15 +16,17 @@ function usage() {
     Usage: $0 [ -i instance1,instance2... ]
 
     -i    comma separeated list of instances
+    -u    comma separeated list of ubuntu versions (default: 22.04,24.04)
 
 EOF
     exit 1
 }
 
 # Parse args
-while getopts "i:" opt; do
+while getopts "iu:" opt; do
     case "${opt}" in
         i) INSTANCE_LIST=$OPTARG ;;
+        u) UBUNTU_VERSIONS=$OPTARG ;;
         *) usage ;;
     esac
 done
@@ -33,19 +36,26 @@ terraform_apply() {
 
     terraform -chdir="${_CURRENT_DIR}/terraform" init -upgrade
 
+    args=()
+
     if [ -n "${INSTANCE_LIST}" ]; then
         FORMATTED_INSTANCE_LIST=\"${INSTANCE_LIST//,/\",\"}\"
-    else
-        FORMATTED_INSTANCE_LIST=
+        args+=("-var='instance-list=[${FORMATTED_INSTANCE_LIST}]'")
     fi
-    eval terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve -var="'instance-list=[${FORMATTED_INSTANCE_LIST}]'"
+
+    if [ -n "${UBUNTU_VERSIONS}" ]; then
+        FORMATTED_UBUNTU_LIST=\"${UBUNTU_VERSIONS//,/\",\"}\"
+        args+=("-var='ubuntu-versions=[${FORMATTED_UBUNTU_LIST}]'")
+    fi
+
+    eval terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve "${args[*]}"
 }
 
 run_ansible() {
     args=()
     args=('-v')
     # Check for container
-    [[ "$1" == *"container"* ]] && args+=('-x false')
+    [[ "$1" == *"cont"* ]] && args+=('-x false')
 
     incus exec "$1" --project ansible-ws -- bash -c "\
         rm -rf /tmp/ansible-workstation
@@ -65,13 +75,13 @@ run_ansible() {
         /tmp/ansible-workstation/run-ansible.sh ${args[*]}"
 }
 
-get_projects() {
+get_project_instances() {
     ALL_INSTANCES=$(incus list --project ansible-ws --format csv --columns n)
 }
 
 terraform_apply
 
-get_projects
+get_project_instances
 
 export -f run_ansible
 

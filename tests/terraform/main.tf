@@ -89,8 +89,8 @@ resource "incus_profile" "test-profile" {
 }
 
 resource "incus_instance" "arch-vm" {
-  count     = contains(var.instance-list, "arch-vm") || length(var.instance-list) == 0 ? 1 : 0
-  name      = "arch-vm"
+  for_each  = toset(local.arch-vms)
+  name      = each.key
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
   type      = "virtual-machine"
@@ -108,14 +108,14 @@ resource "incus_instance" "arch-vm" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.arch-vm[0].name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.key} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
 
 resource "incus_instance" "arch-container" {
-  count     = contains(var.instance-list, "arch-container") || length(var.instance-list) == 0 ? 1 : 0
-  name      = "arch-container"
+  for_each  = toset(local.arch-containers)
+  name      = each.key
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
   type      = "container"
@@ -128,16 +128,15 @@ resource "incus_instance" "arch-container" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.arch-container[0].name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.key} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
-
 resource "incus_instance" "ubuntu-vm" {
-  count     = contains(var.instance-list, "ubuntu-vm") || length(var.instance-list) == 0 ? 1 : 0
-  name      = "ubuntu-vm"
+  for_each  = local.ubuntu-vm-map
+  name      = each.value.instance-name
   project   = incus_project.project.name
-  image     = "images:ubuntu/22.04/cloud"
+  image     = "images:ubuntu/${each.value.version}/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
@@ -148,7 +147,7 @@ resource "incus_instance" "ubuntu-vm" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.ubuntu-vm[0].name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.value.instance-name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 
@@ -159,10 +158,10 @@ resource "incus_instance" "ubuntu-vm" {
 }
 
 resource "incus_instance" "ubuntu-container" {
-  count     = contains(var.instance-list, "ubuntu-container") || length(var.instance-list) == 0 ? 1 : 0
-  name      = "ubuntu-container"
+  for_each  = local.ubuntu-cont-map
+  name      = each.value.instance-name
   project   = incus_project.project.name
-  image     = "images:ubuntu/22.04/cloud"
+  image     = "images:ubuntu/${each.value.version}/cloud"
   type      = "container"
   ephemeral = true
   running   = true
@@ -174,7 +173,7 @@ resource "incus_instance" "ubuntu-container" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${incus_instance.ubuntu-container[0].name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.value.instance-name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }
