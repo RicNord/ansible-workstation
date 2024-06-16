@@ -5,6 +5,7 @@
 - Arch (btw)
 - Ubuntu
   - Included in test suite
+    - 24.04
     - 22.04
 
 > Current [inventory](./inventory) file use `localhost` as target system

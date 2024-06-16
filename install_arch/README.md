@@ -34,11 +34,11 @@ Dependencies:
 3. Run `bash base.sh`
     - This will in turn run `chroot.sh`
 
-Now you have a base installation Arch Linux that is bootable.
+Now you have a base installation of Arch Linux that is bootable.
 
 > Note: Some lenovo laptops need `sof-firmware` for sound to work properly
 
-**Optional (Recommended)**
+**Optionally enable Secure Boot (Recommended)**
 
 If you wish to enable `Secure Boot`, reboot you system. Open UEFI and put
 secure boot into `setup mode`. Now boot from GRUB. Connect to network eg.
