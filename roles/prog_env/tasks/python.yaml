@@ -56,6 +56,7 @@
       community.general.pipx:
         name: "{{ item }}"
         state: present
+        executable: "/usr/bin/pipx"
       loop:
         - pipenv
         - tox
