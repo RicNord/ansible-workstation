@@ -89,6 +89,28 @@ get_project_instances() {
     ALL_INSTANCES=$(incus list --project ansible-ws --format csv --columns n)
 }
 
+colorize_exitval() {
+    local RED='\033[0;31m'
+    local NC='\033[0m' # No Color
+
+    awk -v red="$RED" -v nc="$NC" '
+      BEGIN {
+        OFS = "\t"
+      }
+      NR == 1 {
+        # Print the header line
+        print
+        next
+      }
+      {
+        # Check the value of the Exitval column (7th column)
+        if ($7 != 0) {
+          $7 = red $7 nc
+        }
+        print
+      }' | column -t
+}
+
 terraform_apply
 
 get_project_instances
@@ -109,4 +131,5 @@ parallel \
 
 printf "\n"
 echo -e "${BBlue}Test result log: ${NC}"
-column -t /tmp/.ansible-ws-test.log
+
+colorize_exitval </tmp/.ansible-ws-test.log
