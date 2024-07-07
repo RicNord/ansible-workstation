@@ -77,6 +77,7 @@
       - inetutils # hostname, whois, telnet etc.
       - iperf3 # speed test tool for network
       - jq
+      - libcap-ng # analyse system for apps that have too much privleges
       - linux-headers
       - lsof # List Open files
       - lxc
@@ -92,6 +93,7 @@
       - nmap
       - openconnect
       - openssh
+      - openssl
       - pandoc-cli
       - parallel
       - pass
@@ -113,6 +115,7 @@
       - tmux
       - traceroute
       - tree
+      - unbound # dns resolver, build dependancy of OVN
       - unrar
       - unzip
       - wget

@@ -251,6 +251,7 @@
       - incus
       - iperf3 # speed test tool for network
       - jq
+      - libcap-ng # analyse system for apps that have too much privleges
       - libglib2.0-dev
       - linux-headers-generic
       - lsof # List Open files
@@ -265,6 +266,7 @@
       - nmap
       - openconnect
       - openssh-client
+      - openssl
       - pandoc
       - parallel
       - pass
@@ -284,6 +286,7 @@
       - tox
       - traceroute
       - tree
+      - unbound # dns resolver, build dependancy of OVN
       - unifont # font pkg
       - unrar
       - unzip
