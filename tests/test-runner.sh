@@ -5,7 +5,7 @@ set -euo pipefail
 
 INSTANCE_LIST=''
 UBUNTU_VERSIONS='22.04,24.04'
-LOCAL_FILES=false
+LOCAL_FILES=true
 _CURRENT_DIR="$(dirname "$0")"
 
 # Colors
@@ -14,22 +14,22 @@ NC='\033[0m' # NO COLOR
 
 function usage() {
     cat <<EOF
-    Usage: $0 [ -i instance1,instance2... ] [ -u version1,version2... ] [ -l ]
+    Usage: $0 [ -i instance1,instance2... ] [ -u version1,version2... ] [ -g ]
 
     -i    comma separeated list of instances
     -u    comma separeated list of ubuntu versions (default: 22.04,24.04)
-    -l    use local version of files instead of current branch in git remote
+    -g    use current branch in git remote instead of local files
 
 EOF
     exit 1
 }
 
 # Parse args
-while getopts "i:u:l" opt; do
+while getopts "i:u:g" opt; do
     case "${opt}" in
         i) INSTANCE_LIST=$OPTARG ;;
         u) UBUNTU_VERSIONS=$OPTARG ;;
-        l) LOCAL_FILES=true ;;
+        g) LOCAL_FILES=false ;;
         *) usage ;;
     esac
 done
