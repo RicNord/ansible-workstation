@@ -109,6 +109,7 @@
       - shellcheck
       - shfmt
       - socat # Multipurpose relay
+      - speedtest-cli
       - terraform
       - terragrunt
       - tldr

@@ -278,6 +278,7 @@
       - shellcheck
       - shfmt
       - socat # Multipurpose relay
+      - speedtest-cli
       - sq # gpg alternative
       - terraform
       #      - terragrunt # TODO Manual install
