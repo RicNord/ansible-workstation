@@ -8,11 +8,42 @@
     - 24.04
     - 22.04
 
-> Current [inventory](./inventory) file use `localhost` as target system
+**NOTE:** Arch Linux is currently the primarily maintained option.
 
-**NOTE:** Arch linux is currently the primarily maintained option.
+## Scope
+
+This projects intends to configure everything for a complete end-user
+experience that is ready to be used. It only assumes a bare-minimum and
+bootable systemd based distribution of Linux already exists. Included in the
+Ansible roles are (but **not limited** too):
+
+- Create user (added to the `sudo` group and the user which all opinionated
+  configurations will be applied for)
+- Install Dotfiles
+- Installation of notable software:
+  - Programming languages
+    - Python
+    - Go
+    - Rust
+    - Lua
+    - Java
+    - Dotnet
+    - Node
+  - Neovim with LSP support
+  - Networkmanager
+  - Pulseaudio
+  - (+) Lots of popular cli tools
+- (*optional*) graphical environment support with Xorg
+  - Suckless software
+    - dwm (dynamic window manager)
+    - slock (screen locker)
+    - slstatus (status bar)
+    - dmenu
+  - Browser etc.
 
 ## Usage
+
+> The [inventory](./inventory) file uses `localhost` as the target system.
 
 Default run command for all Ansible roles:
 
