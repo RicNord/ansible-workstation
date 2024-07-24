@@ -237,6 +237,7 @@
       - docker-ce # Docker engine
       - docker-compose-plugin # Docker engine
       - entr # Run arbitrary commands when files change
+      - ethtool # util for network drivers and hardware, nic
       - fd-find
       - fswatch # Filesystem watcher recommended by neovim
       - fzf

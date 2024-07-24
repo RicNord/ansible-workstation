@@ -60,6 +60,7 @@
       - docker-compose
       - efibootmgr
       - entr # Run arbitrary commands when files change
+      - ethtool # util for network drivers and hardware, nic
       - fd # Find alternative
       - fzf
       - gdb
