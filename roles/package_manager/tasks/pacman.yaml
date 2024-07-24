@@ -76,6 +76,7 @@
       - incus
       - inetutils # hostname, whois, telnet etc.
       - iperf3 # speed test tool for network
+      - iptraf-ng # Network monitor tool
       - jq
       - libcap-ng # analyse system for apps that have too much privleges
       - linux-headers
