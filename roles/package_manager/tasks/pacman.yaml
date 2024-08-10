@@ -118,6 +118,7 @@
       - tmux
       - traceroute
       - tree
+      - trivy
       - unbound # dns resolver, build dependancy of OVN
       - unrar
       - unzip

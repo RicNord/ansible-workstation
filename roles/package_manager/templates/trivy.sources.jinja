@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://aquasecurity.github.io/trivy-repo/deb
+Suites: {{ ansible_distribution_release }}
+Components: main
+Architectures: {{ dpkg_architecture.stdout }}
+Signed-By: /etc/apt/keyrings/trivy.pgp

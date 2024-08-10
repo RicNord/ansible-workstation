@@ -187,6 +187,25 @@
             group: root
             mode: '0644'
 
+    # Trivy
+    - name: Add trivy apt repository
+      block:
+        - name: Copy trivy.pgp
+          ansible.builtin.copy:
+            src: trivy.pgp
+            dest: /etc/apt/keyrings/trivy.pgp
+            owner: root
+            group: root
+            mode: '0755'
+
+        - name: Add trivy
+          ansible.builtin.template:
+            src: trivy.sources.jinja
+            dest: /etc/apt/sources.list.d/trivy.sources
+            owner: root
+            group: root
+            mode: '0644'
+
 ## Update and install packages
 - name: Force all notified handlers to run, (apt update)
   ansible.builtin.meta: flush_handlers
@@ -289,6 +308,7 @@
       - tox
       - traceroute
       - tree
+      - trivy
       - unbound # dns resolver, build dependancy of OVN
       - unifont # font pkg
       - unrar
