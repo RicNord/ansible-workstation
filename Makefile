@@ -5,8 +5,13 @@ gen-req:
 install:
 	/bin/bash ./run-ansible.sh
 
+scan:
+	trivy fs .
+
 test:
 	bash -c "tests/test-runner.sh"
+
+ci: scan test
 
 clean-instance:
 	bash -c "incus list --project ansible-ws --format csv --columns n | xargs incus delete --force --project ansible-ws"
