@@ -1,17 +1,3 @@
-terraform {
-  required_providers {
-    incus = {
-      source  = "lxc/incus"
-      version = "0.1.1"
-    }
-  }
-}
-
-provider "incus" {
-  generate_client_certificates = false
-  accept_remote_certificate    = false
-}
-
 resource "incus_project" "project" {
   name        = "ansible-ws"
   description = "Test ansible ws"
@@ -41,7 +27,7 @@ resource "incus_project" "project" {
   }
 }
 
-resource "incus_network" "test-net" {
+resource "incus_network" "test_net" {
   name = "ansibleTestNet"
   type = "bridge"
 
@@ -51,7 +37,7 @@ resource "incus_network" "test-net" {
   }
 }
 
-resource "incus_storage_pool" "test-pool" {
+resource "incus_storage_pool" "test_pool" {
   name    = "ansible-test-pool"
   project = incus_project.project.name
   driver  = "dir"
@@ -60,7 +46,7 @@ resource "incus_storage_pool" "test-pool" {
   }
 }
 
-resource "incus_profile" "test-profile" {
+resource "incus_profile" "test_profile" {
   name    = "test-profile"
   project = incus_project.project.name
 
@@ -73,7 +59,7 @@ resource "incus_profile" "test-profile" {
     name = "incus01"
     type = "nic"
     properties = {
-      network = incus_network.test-net.name
+      network = incus_network.test_net.name
     }
   }
 
@@ -82,21 +68,21 @@ resource "incus_profile" "test-profile" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.test-pool.name
+      pool = incus_storage_pool.test_pool.name
       size = "30GB"
     }
   }
 }
 
-resource "incus_instance" "arch-vm" {
-  for_each  = toset(local.arch-vms)
+resource "incus_instance" "arch_vm" {
+  for_each  = toset(local.arch_vms)
   name      = each.key
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
-  profiles  = [incus_profile.test-profile.name]
+  profiles  = [incus_profile.test_profile.name]
 
   config = {
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
@@ -113,15 +99,15 @@ resource "incus_instance" "arch-vm" {
   }
 }
 
-resource "incus_instance" "arch-container" {
-  for_each  = toset(local.arch-containers)
+resource "incus_instance" "arch_container" {
+  for_each  = toset(local.arch_containers)
   name      = each.key
   project   = incus_project.project.name
   image     = "images:archlinux/cloud"
   type      = "container"
   ephemeral = true
   running   = true
-  profiles  = [incus_profile.test-profile.name]
+  profiles  = [incus_profile.test_profile.name]
 
   config = {
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
@@ -132,22 +118,22 @@ resource "incus_instance" "arch-container" {
     interpreter = ["/bin/bash", "-c"]
   }
 }
-resource "incus_instance" "ubuntu-vm" {
-  for_each  = local.ubuntu-vm-map
-  name      = each.value.instance-name
+resource "incus_instance" "ubuntu_vm" {
+  for_each  = local.ubuntu_vm_map
+  name      = each.value.instance_name
   project   = incus_project.project.name
   image     = "images:ubuntu/${each.value.version}/cloud"
   type      = "virtual-machine"
   ephemeral = true
   running   = true
-  profiles  = [incus_profile.test-profile.name]
+  profiles  = [incus_profile.test_profile.name]
 
   config = {
     "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${each.value.instance-name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.value.instance_name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 
@@ -157,15 +143,15 @@ resource "incus_instance" "ubuntu-vm" {
   }
 }
 
-resource "incus_instance" "ubuntu-container" {
-  for_each  = local.ubuntu-cont-map
-  name      = each.value.instance-name
+resource "incus_instance" "ubuntu_container" {
+  for_each  = local.ubuntu_cont_map
+  name      = each.value.instance_name
   project   = incus_project.project.name
   image     = "images:ubuntu/${each.value.version}/cloud"
   type      = "container"
   ephemeral = true
   running   = true
-  profiles  = [incus_profile.test-profile.name]
+  profiles  = [incus_profile.test_profile.name]
 
 
   config = {
@@ -173,7 +159,7 @@ resource "incus_instance" "ubuntu-container" {
   }
 
   provisioner "local-exec" {
-    command     = "incus exec ${each.value.instance-name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
+    command     = "incus exec ${each.value.instance_name} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
   }
 }

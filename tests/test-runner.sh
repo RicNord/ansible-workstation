@@ -43,12 +43,12 @@ terraform_apply() {
 
     if [ -n "${INSTANCE_LIST}" ]; then
         FORMATTED_INSTANCE_LIST=\"${INSTANCE_LIST//,/\",\"}\"
-        args+=("-var='instance-list=[${FORMATTED_INSTANCE_LIST}]'")
+        args+=("-var='instance_list=[${FORMATTED_INSTANCE_LIST}]'")
     fi
 
     if [ -n "${UBUNTU_VERSIONS}" ]; then
         FORMATTED_UBUNTU_LIST=\"${UBUNTU_VERSIONS//,/\",\"}\"
-        args+=("-var='ubuntu-versions=[${FORMATTED_UBUNTU_LIST}]'")
+        args+=("-var='ubuntu_versions=[${FORMATTED_UBUNTU_LIST}]'")
     fi
 
     eval terraform -chdir="${_CURRENT_DIR}/terraform" apply -auto-approve "${args[*]}"

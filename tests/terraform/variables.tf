@@ -1,32 +1,32 @@
-variable "instance-list" {
+variable "instance_list" {
   default     = ["arch-vm", "arch-cont", "ubuntu-vm", "ubuntu-cont"]
   type        = list(string)
   description = "List of instances to deploy"
   validation {
-    condition     = alltrue([for instance in var.instance-list : contains(["arch-vm", "arch-cont", "ubuntu-vm", "ubuntu-cont"], instance)])
+    condition     = alltrue([for instance in var.instance_list : contains(["arch-vm", "arch-cont", "ubuntu-vm", "ubuntu-cont"], instance)])
     error_message = "Valid instance are arch-vm, arch-cont, ubuntu-vm, ubuntu-cont"
   }
 }
 
-variable "ubuntu-versions" {
+variable "ubuntu_versions" {
   default     = ["22.04", "24.04"]
   type        = list(string)
   description = "List of ubuntu versions to include"
 }
 
 locals {
-  ubuntu-input             = [for instance in var.instance-list : instance if strcontains(instance, "ubuntu")]
-  ubuntu-full-version-list = setproduct(local.ubuntu-input, var.ubuntu-versions)
-  ubuntu-map               = [for l in local.ubuntu-full-version-list : { "name" : l[0], "version" : l[1], "instance-name" : replace("${l[0]}${l[1]}", ".", "") }]
-  ubuntu-vm                = [for instance in local.ubuntu-map : instance if strcontains(instance.name, "vm")]
-  ubuntu-vm-map            = { for k, v in local.ubuntu-vm : v.instance-name => v }
-  ubuntu-containers        = [for instance in local.ubuntu-map : instance if strcontains(instance.name, "cont")]
-  ubuntu-cont-map          = { for k, v in local.ubuntu-containers : v.instance-name => v }
+  ubuntu_input             = [for instance in var.instance_list : instance if strcontains(instance, "ubuntu")]
+  ubuntu_full_version_list = setproduct(local.ubuntu_input, var.ubuntu_versions)
+  ubuntu_map               = [for l in local.ubuntu_full_version_list : { "name" : l[0], "version" : l[1], "instance_name" : replace("${l[0]}${l[1]}", ".", "") }]
+  ubuntu_vm                = [for instance in local.ubuntu_map : instance if strcontains(instance.name, "vm")]
+  ubuntu_vm_map            = { for k, v in local.ubuntu_vm : v.instance_name => v }
+  ubuntu_containers        = [for instance in local.ubuntu_map : instance if strcontains(instance.name, "cont")]
+  ubuntu_cont_map          = { for k, v in local.ubuntu_containers : v.instance_name => v }
 }
 
 
 locals {
-  arch-input      = [for instance in var.instance-list : instance if strcontains(instance, "arch")]
-  arch-vms        = [for instance in local.arch-input : instance if strcontains(instance, "vm")]
-  arch-containers = [for instance in local.arch-input : instance if strcontains(instance, "cont")]
+  arch_input      = [for instance in var.instance_list : instance if strcontains(instance, "arch")]
+  arch_vms        = [for instance in local.arch_input : instance if strcontains(instance, "vm")]
+  arch_containers = [for instance in local.arch_input : instance if strcontains(instance, "cont")]
 }
