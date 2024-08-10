@@ -17,6 +17,7 @@ function usage() {
     Usage: $0 [ -i instance1,instance2... ] [ -u version1,version2... ] [ -g ]
 
     -i    comma separeated list of instances
+                (valid instance names: arch-{cont,vm}, ubuntu-{cont,vm})
     -u    comma separeated list of ubuntu versions (default: 22.04,24.04)
     -g    use current branch in git remote instead of local files
 
