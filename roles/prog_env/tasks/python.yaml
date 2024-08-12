@@ -59,6 +59,7 @@
         executable: "/usr/bin/pipx"
       loop:
         - pipenv
+        - poetry
         - tox
 
 - name: Install python libs for arch
@@ -68,9 +69,10 @@
   community.general.pacman:
     name:
       - python-pipenv
+      - python-pipx
+      - python-poetry
       - python-tox
       - python-virtualenv
-      - python-pipx
     state: present
     reason: explicit
 
