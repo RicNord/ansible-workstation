@@ -40,6 +40,16 @@
         owner: "{{ user }}"
         group: "{{ user }}"
 
+- name: Install python libs for Debian
+  tags:
+    - Debian
+  when: ansible_os_family == "Debian"
+  ansible.builtin.apt:
+    pkg:
+      - python3-hatchling
+      - python3-virtualenv
+    state: present
+
 - name: Pipx for Debian
   when: ansible_os_family == 'Debian'
   tags:
@@ -48,7 +58,6 @@
     - name: Install pipx
       ansible.builtin.apt:
         pkg:
-          - python3-virtualenv
           - pipx
         state: present
 
@@ -68,6 +77,7 @@
   when: ansible_os_family == "Archlinux"
   community.general.pacman:
     name:
+      - python-hatch
       - python-pipenv
       - python-pipx
       - python-poetry
