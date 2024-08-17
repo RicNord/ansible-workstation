@@ -7,6 +7,7 @@ INSTANCE_LIST=''
 UBUNTU_VERSIONS='22.04,24.04'
 LOCAL_FILES=true
 _CURRENT_DIR="$(dirname "$0")"
+ONLY_INFRA=false
 
 # Colors
 BBlue='\033[1;34m'
@@ -14,23 +15,25 @@ NC='\033[0m' # NO COLOR
 
 function usage() {
     cat <<EOF
-    Usage: $0 [ -i instance1,instance2... ] [ -u version1,version2... ] [ -g ]
+    Usage: $0 [ -i instance1,instance2... ] [ -u version1,version2... ] [ -g ] [ -b ]
 
     -i    comma separeated list of instances
                 (valid instance names: arch-{cont,vm}, ubuntu-{cont,vm})
     -u    comma separeated list of ubuntu versions (default: 22.04,24.04)
     -g    use current branch in git remote instead of local files
+    -b    bare infrastructure. Creates incus infra but does not run ansible playbooks
 
 EOF
     exit 1
 }
 
 # Parse args
-while getopts "i:u:g" opt; do
+while getopts "i:u:gb" opt; do
     case "${opt}" in
         i) INSTANCE_LIST=$OPTARG ;;
         u) UBUNTU_VERSIONS=$OPTARG ;;
         g) LOCAL_FILES=false ;;
+        b) ONLY_INFRA=true ;;
         *) usage ;;
     esac
 done
@@ -114,7 +117,14 @@ colorize_exitval() {
 
 terraform_apply
 
-get_project_instances
+get_project_instances # sets ALL_INSTANCES
+
+if [ "$ONLY_INFRA" == true ]; then
+    echo -e "${BBlue}Created only infra for: \n${NC}"
+    echo "$ALL_INSTANCES"
+    printf "\n"
+    exit 0
+fi
 
 export LOCAL_FILES
 export -f run_ansible
