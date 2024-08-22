@@ -91,11 +91,42 @@
   become: true
   become_user: root
 
+- name: Ensures /etc/modules-load.d dir exists
+  ansible.builtin.file:
+    path: /etc/modules-load.d
+    state: directory
+    group: root
+    owner: root
+    mode: '0755'
+  become: true
+  become_user: root
+
 - name: Block TTY and killing of X server
   tags:
     - X
   ansible.builtin.copy:
     src: 10-x-hardening.conf
     dest: "/etc/X11/xorg.conf.d/10-x-hardening.conf"
+  become: true
+  become_user: root
+
+# Ubuntu is suppose to have some nice official driver, TODO
+- name: Arch displaylink evdi xorg conf
+  tags:
+    - X
+    - Archlinux
+  ansible.builtin.copy:
+    src: 21-evdi-displaylink.conf
+    dest: "/etc/X11/xorg.conf.d/21-evdi-displaylink.conf"
+  become: true
+  become_user: root
+
+- name: Arch displaylink udl kernel module at boot
+  tags:
+    - X
+    - Archlinux
+  ansible.builtin.copy:
+    src: udl.conf
+    dest: "/etc/modules-load.d/udl.conf"
   become: true
   become_user: root
