@@ -7,6 +7,7 @@
         creates: "{{ home }}/.ansible/awscliv2.zip"
       become: true
       become_user: "{{ user }}"
+      register: aws_cli_download
 
     - name: Download AWS cli sig
       ansible.builtin.shell: |
@@ -15,6 +16,7 @@
         creates: "{{ home }}/.ansible/awscliv2.sig"
       become: true
       become_user: "{{ user }}"
+      register: aws_cli_sig_download
 
     - name: Copy aws-cli.gpg
       ansible.builtin.copy:
@@ -23,6 +25,7 @@
         owner: "{{ user }}"
         group: "{{ user }}"
         mode: '0755'
+      register: aws_cli_gpg_copy
 
     - name: Verify signature
       ansible.builtin.shell: |
@@ -31,6 +34,9 @@
         chdir: "{{ home }}/.ansible/"
       become: true
       become_user: "{{ user }}"
+      # Mby always run to be extra careful
+      when:
+        - aws_cli_download.changed or aws_cli_sig_download.changed or aws_cli_gpg_copy.changed
 
     - name: Unarchive zip
       ansible.builtin.unarchive:
