@@ -7,9 +7,10 @@
     executable: /bin/bash
     creates: "{{ home }}/go/bin/{{ item.name }}"
   loop:
-    - {name: "yamlfmt", path: "github.com/google/yamlfmt/cmd/yamlfmt@latest"}
+    - {name: "goimports", path: "golang.org/x/tools/cmd/goimports@latest"}
     - {name: "gotestsum", path: "gotest.tools/gotestsum@latest"}
-    - {name: "staticcheck", path: "honnef.co/go/tools/cmd/staticcheck@latest",}
+    - {name: "staticcheck", path: "honnef.co/go/tools/cmd/staticcheck@latest"}
+    - {name: "yamlfmt", path: "github.com/google/yamlfmt/cmd/yamlfmt@latest",}
 
 - name: Cargo install
   become: true
