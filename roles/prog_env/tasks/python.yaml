@@ -10,14 +10,37 @@
         - Debian
       ansible.builtin.apt:
         pkg:
-          - libffi-dev
+          - build-essential
+          - curl
+          - git
           - libbz2-dev
-          - libncurses5-dev
-          - libreadline-dev
+          - libffi-dev
           - liblzma-dev
-          - libsqlite3-dev
+          - libncursesw5-dev
+          - libreadline-dev
           - libsasl2-dev
+          - libsqlite3-dev
+          - libssl-dev
+          - libxml2-dev
+          - libxmlsec1-dev
+          - tk-dev
+          - xz-utils
+          - zlib1g-dev
         state: present
+
+    - name: Pyenv pacman packages for building new version
+      tags:
+        - Archlinux
+      when: ansible_os_family == "Archlinux"
+      community.general.pacman:
+        name:
+          - base-devel
+          - openssl
+          - tk
+          - xz
+          - zlib
+        state: present
+        reason: explicit
 
     - name: Clone repo
       ansible.builtin.git:
