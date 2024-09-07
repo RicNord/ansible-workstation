@@ -9,6 +9,8 @@
   loop:
     - {name: "dlv", path: "github.com/go-delve/delve/cmd/dlv@latest"}
     - {name: "goimports", path: "golang.org/x/tools/cmd/goimports@latest"}
+    - {name: "golangci-lint", path: "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"} # not recommended, but do it anyway to avoid AUR and snap
+    - {name: "go-licenses", path: "github.com/google/go-licenses@latest"}
     - {name: "gotestsum", path: "gotest.tools/gotestsum@latest"}
     - {name: "staticcheck", path: "honnef.co/go/tools/cmd/staticcheck@latest"}
     - {name: "yamlfmt", path: "github.com/google/yamlfmt/cmd/yamlfmt@latest",}
