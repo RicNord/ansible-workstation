@@ -85,6 +85,8 @@
         state: present
 
     - name: Install pipx pkgs
+      become: true
+      become_user: "{{ user }}"
       community.general.pipx:
         name: "{{ item }}"
         state: present
