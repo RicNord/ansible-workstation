@@ -97,3 +97,5 @@ cp --verbose ./chroot.sh /mnt \
     && chmod +x /mnt/chroot.sh
 
 arch-chroot /mnt /bin/bash ./chroot.sh "$DISK"
+
+rm /mnt/chroot.sh
