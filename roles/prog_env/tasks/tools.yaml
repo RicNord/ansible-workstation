@@ -46,6 +46,7 @@
         name:
           - python-black
           - python-isort
+          - ruff
         state: present
         reason: explicit
       become: true
