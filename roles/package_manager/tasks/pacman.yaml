@@ -81,6 +81,7 @@
       - jq
       - libcap-ng # analyse system for apps that have too much privleges
       - linux-headers
+      - lshw # list hardware
       - lsof # List Open files
       - lxc
       - macchanger

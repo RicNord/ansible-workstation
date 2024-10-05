@@ -275,6 +275,7 @@
       - libcap-ng-dev # analyse system for apps that have too much privleges
       - libglib2.0-dev
       - linux-headers-generic
+      - lshw # list hardware
       - lsof # List Open files
       - lxc
       - macchanger
