@@ -74,12 +74,14 @@
       - gvim
       - gzip
       - htop
+      - ifuse # Mount iOS
       - incus
       - inetutils # hostname, whois, telnet etc.
       - iperf3 # speed test tool for network
       - iptraf-ng # Network monitor tool
       - jq
       - libcap-ng # analyse system for apps that have too much privleges
+      - libimobiledevice # collection of cli for iOS devices, eg, idevicebackup2
       - linux-headers
       - lshw # list hardware
       - lsof # List Open files

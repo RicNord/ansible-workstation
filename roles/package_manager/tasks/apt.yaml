@@ -268,12 +268,14 @@
       - gnupg
       - gzip
       - htop
+      - ifuse # Mount iOS
       - incus
       - iperf3 # speed test tool for network
       - iptraf-ng # Network monitor tool
       - jq
       - libcap-ng-dev # analyse system for apps that have too much privleges
       - libglib2.0-dev
+      - libimobiledevice-utils # collection of cli for iOS devices, eg, idevicebackup2
       - linux-headers-generic
       - lshw # list hardware
       - lsof # List Open files
