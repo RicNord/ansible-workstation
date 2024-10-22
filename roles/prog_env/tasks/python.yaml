@@ -73,7 +73,7 @@
       - python3-virtualenv
     state: present
 
-- name: Pipx for Debian
+- name: Install python libs for Debian
   when: ansible_os_family == 'Debian'
   tags:
     - Debian
@@ -95,6 +95,15 @@
         - pipenv
         - poetry
         - tox
+        - ruff
+
+    - name: Install tools from apt on debian
+      ansible.builtin.apt:
+        pkg:
+          - black
+          - isort
+        state: present
+
 
 - name: Install python libs for arch
   tags:
@@ -102,12 +111,15 @@
   when: ansible_os_family == "Archlinux"
   community.general.pacman:
     name:
+      - python-black
       - python-hatch
+      - python-isort
       - python-pipenv
       - python-pipx
       - python-poetry
       - python-tox
       - python-virtualenv
+      - ruff
     state: present
     reason: explicit
 
