@@ -1,4 +1,4 @@
-- name: Install dotnet runtime
+- name: Install dotnet
   tags:
     - Archlinux
     - dotnet
@@ -6,11 +6,12 @@
   community.general.pacman:
     name:
       - dotnet-runtime
+      - dotnet-sdk
     state: present
     reason: explicit
   become: true
 
-- name: Install dotnet runtime
+- name: Install dotnet
   when: ansible_os_family == 'Debian'
   tags:
     - Debian
@@ -18,5 +19,6 @@
   ansible.builtin.apt:
     pkg:
       - dotnet-runtime-8.0
+      - dotnet-sdk-8.0
     state: present
   become: true
