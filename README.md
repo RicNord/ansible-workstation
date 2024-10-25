@@ -13,15 +13,15 @@
 ## Scope
 
 This projects intends to configure everything for a complete end-user
-experience that is ready to be used. It only assumes a bare-minimum and
-bootable systemd based distribution of Linux already exists. Included in the
-Ansible roles are (but **not limited** too):
+experience. It only assumes that a bare-minimum and bootable systemd based
+distribution of Linux already exists. Included in the Ansible roles are (but
+**not limited** too):
 
 - Create user (added to the `sudo` group and the user which all opinionated
   configurations will be applied for)
 - Install Dotfiles
 - Installation of notable software:
-  - Programming languages
+  - Programming languages / runtimes
     - Python
     - Go
     - Rust
@@ -51,9 +51,9 @@ Default run command for all Ansible roles:
 make install
 ```
 
-The playbooks will identify and run appropriate tasks depending on host
+The playbooks will identify and run appropriate tasks depending on the host
 platform. However, if you do not need a graphical environment and `X11` on the
-target host; you have the option exclude installing these dependencies with:
+target host; you have the option to exclude installing these dependencies with:
 
 ```bash
 # Native installer
