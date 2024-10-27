@@ -6,6 +6,7 @@
   kewlfft.aur.aur:
     name:
       - google-chrome
+      - visual-studio-code-bin # MS release
     state: present
   become: true
   become_user: aur_builder

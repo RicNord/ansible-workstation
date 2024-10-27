@@ -11,7 +11,6 @@
     name:
       - arandr # Frontend for xrandr
       - autorandr # Auto detect connected displays
-      - code # Bloat
       - discord
       - dmenu
       - dunst # Notification deamon
