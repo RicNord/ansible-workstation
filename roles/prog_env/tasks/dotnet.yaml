@@ -1,15 +1,26 @@
-- name: Install dotnet
+- name: Install dotnet host arch aur
   tags:
     - Archlinux
     - dotnet
-  when: ansible_os_family == 'Archlinux'
-  community.general.pacman:
+  kewlfft.aur.aur:
     name:
-      - dotnet-runtime
-      - dotnet-sdk
+      - dotnet-host-bin
     state: present
-    reason: explicit
   become: true
+  become_user: aur_builder
+
+- name: Install dotnet arch aur
+  tags:
+    - Archlinux
+    - dotnet
+  kewlfft.aur.aur:
+    name:
+      - aspnet-runtime-bin
+      - dotnet-runtime-bin
+      - dotnet-sdk-bin
+    state: present
+  become: true
+  become_user: aur_builder
 
 - name: Install dotnet
   when: ansible_os_family == 'Debian'
