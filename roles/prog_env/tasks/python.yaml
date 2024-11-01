@@ -94,8 +94,9 @@
       loop:
         - pipenv
         - poetry
-        - tox
+        - pre-commit
         - ruff
+        - tox
 
     - name: Install tools from apt on debian
       ansible.builtin.apt:
@@ -111,6 +112,7 @@
   when: ansible_os_family == "Archlinux"
   community.general.pacman:
     name:
+      - pre-commit
       - python-black
       - python-hatch
       - python-isort
