@@ -1,4 +1,5 @@
 - name: Install dotnet host arch aur
+  when: ansible_os_family == "Archlinux"
   tags:
     - Archlinux
     - dotnet
@@ -10,6 +11,7 @@
   become_user: aur_builder
 
 - name: Install dotnet arch aur
+  when: ansible_os_family == "Archlinux"
   tags:
     - Archlinux
     - dotnet
