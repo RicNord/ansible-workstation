@@ -6,3 +6,10 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Install wsl pkgs
+  when: ansible_os_family == 'Debian'
+  ansible.builtin.apt:
+    pkg:
+      - wslu # wsl utils, example can open links in windows browser with xdg-open
+    state: present
