@@ -267,6 +267,7 @@
       - gnome-keyring # Can be used by python-keyring, dep of eg. Twine
       - gnupg
       - gzip
+      - hping3
       - htop
       - ifuse # Mount iOS
       - incus

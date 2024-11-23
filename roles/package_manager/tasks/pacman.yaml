@@ -72,6 +72,7 @@
       - grub # Possibly remove for here
       - gvim
       - gzip
+      - hping
       - htop
       - ifuse # Mount iOS
       - incus
