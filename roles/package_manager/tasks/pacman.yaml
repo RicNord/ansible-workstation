@@ -54,6 +54,7 @@
       - bind # DNS tool. eg nslookup
       - bluez # Bluetooth, TODO make optional
       - bluez-utils # Bluetooth, TODO make optional
+      - conntrack-tools
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
       - docker

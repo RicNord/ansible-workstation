@@ -248,6 +248,7 @@
       - bash-completion
       - bat
       - build-essential
+      - conntrack
       - containerd.io # Docker engine
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
