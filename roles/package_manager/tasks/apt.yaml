@@ -234,6 +234,7 @@
       - spotify-client
       - torbrowser-launcher
       - virt-viewer # Used by incus for RDP to consol
+      - wireshark
       # Missing in ubuntu pkg manager - wmname # Set the name of your window manager
       - zathura
       - zathura-pdf-poppler
@@ -288,6 +289,7 @@
       - ncdu # Ncurses disk analyser
       - net-tools
       # - networkmanager?
+      - ngrep
       - nmap
       - openconnect
       - openssh-client
@@ -305,6 +307,7 @@
       - socat # Multipurpose relay
       - speedtest-cli
       - sq # gpg alternative
+      - tcpdump
       - terraform
       #      - terragrunt # TODO Manual install
       - tldr
@@ -313,6 +316,7 @@
       - traceroute
       - tree
       - trivy
+      - tshark # wireshark
       - unbound # dns resolver, build dependancy of OVN
       - unifont # font pkg
       - unrar

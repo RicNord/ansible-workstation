@@ -31,6 +31,7 @@
       - torbrowser-launcher
       - virt-viewer # Used by incus for RDP to consol
       - vlc
+      - wireshark-qt
       - wmname # Set the name of your window manager
       - zathura
       - zathura-pdf-poppler
@@ -95,6 +96,7 @@
       - networkmanager
       - networkmanager-openconnect
       - networkmanager-openvpn
+      - ngrep # network grep
       - nmap
       - openconnect
       - openssh
@@ -115,6 +117,7 @@
       - shfmt
       - socat # Multipurpose relay
       - speedtest-cli
+      - tcpdump
       - terraform
       - terragrunt
       - tldr
@@ -126,6 +129,7 @@
       - unrar
       - unzip
       - wget
+      - wireshark-cli
       - xclip # x clipboard
       - xsel # x clipboard
       - xterm
