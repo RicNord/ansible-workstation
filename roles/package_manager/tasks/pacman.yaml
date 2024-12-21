@@ -92,6 +92,7 @@
       - make
       - man-db
       - moreutils
+      - mtr
       - ncdu # Ncurses disk analyser
       - net-tools
       - networkmanager
