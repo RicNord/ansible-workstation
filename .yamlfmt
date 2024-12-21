@@ -1,0 +1,4 @@
+exclude:
+  - tests/terraform/cloud-init-arch.yaml
+formatter:
+  retain_line_breaks: true
