@@ -244,12 +244,14 @@
   ansible.builtin.apt:
     pkg:
       - acpi # Power Managment - reacts to events
+      - apt-utils
       - azure-cli
       - bash-completion
       - bat
       - build-essential
       - conntrack
       - containerd.io # Docker engine
+      - cron
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
       - dnsutils # nslookup etc
@@ -260,6 +262,7 @@
       - entr # Run arbitrary commands when files change
       - ethtool # util for network drivers and hardware, nic
       - fd-find
+      - file
       - fswatch # Filesystem watcher recommended by neovim
       - fzf
       - gdb
@@ -269,13 +272,16 @@
       - gnome-keyring # Can be used by python-keyring, dep of eg. Twine
       - gnupg
       - gzip
+      - hdparm
       - hping3
       - htop
       - ifuse # Mount iOS
       - incus
+      - inetutils-tools
       - iperf3 # speed test tool for network
       - iptraf-ng # Network monitor tool
       - jq
+      - less
       - libcap-ng-dev # analyse system for apps that have too much privleges
       - libglib2.0-dev
       - libimobiledevice-utils # collection of cli for iOS devices, eg, idevicebackup2
@@ -286,6 +292,7 @@
       - macchanger
       - make
       - man-db
+      - manpages
       - moreutils
       - mtr
       - ncdu # Ncurses disk analyser
@@ -299,6 +306,7 @@
       - pandoc
       - parallel
       - pass
+      - patch
       - pulsemixer
       - python3-pip
       - ranger
@@ -315,7 +323,6 @@
       - tldr
       - tmux
       - tox
-      - traceroute
       - tree
       - trivy
       - tshark # wireshark

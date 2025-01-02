@@ -55,6 +55,7 @@
       - bluez # Bluetooth, TODO make optional
       - bluez-utils # Bluetooth, TODO make optional
       - conntrack-tools
+      - cronie
       - curl
       - dkms # Dynamic Kernel Module Support, used by eg. viritual box
       - docker
@@ -74,6 +75,7 @@
       - grub # Possibly remove for here
       - gvim
       - gzip
+      - hdparm
       - hping
       - htop
       - ifuse # Mount iOS
@@ -91,6 +93,7 @@
       - macchanger
       - make
       - man-db
+      - man-pages
       - moreutils
       - mtr
       - ncdu # Ncurses disk analyser
