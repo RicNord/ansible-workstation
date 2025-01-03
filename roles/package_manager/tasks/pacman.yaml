@@ -134,6 +134,7 @@
       - unrar
       - unzip
       - wget
+      - wikiman # offline wiki, also install arch-wiki-docs manually (its 160MB)
       - wireshark-cli
       - xclip # x clipboard
       - xsel # x clipboard
