@@ -90,6 +90,10 @@ resource "incus_instance" "arch_vm" {
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
   }
 
+  wait_for {
+    type = "agent"
+  }
+
   provisioner "local-exec" {
     command     = "incus exec ${each.key} --project ${incus_project.project.name} -- cloud-init status --long --wait || if [ $? -ne 1 ]; then echo \"cloud-init exit $?\"; exit 0; else echo \"cloud-init exit $?\"; exit 1; fi"
     interpreter = ["/bin/bash", "-c"]
@@ -129,6 +133,10 @@ resource "incus_instance" "ubuntu_vm" {
     "limits.cpu"           = 6
     "limits.memory"        = "8GB"
     "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
+  }
+
+  wait_for {
+    type = "agent"
   }
 
   provisioner "local-exec" {
