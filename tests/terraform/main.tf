@@ -85,12 +85,9 @@ resource "incus_instance" "arch_vm" {
   profiles  = [incus_profile.test_profile.name]
 
   config = {
+    "limits.cpu"           = 6
+    "limits.memory"        = "8GB"
     "cloud-init.user-data" = file("${path.module}/cloud-init-arch.yaml")
-  }
-
-  limits = {
-    cpu    = 6
-    memory = "8GB"
   }
 
   provisioner "local-exec" {
@@ -129,6 +126,8 @@ resource "incus_instance" "ubuntu_vm" {
   profiles  = [incus_profile.test_profile.name]
 
   config = {
+    "limits.cpu"           = 6
+    "limits.memory"        = "8GB"
     "cloud-init.user-data" = file("${path.module}/cloud-init-ubuntu.yaml")
   }
 
@@ -137,10 +136,6 @@ resource "incus_instance" "ubuntu_vm" {
     interpreter = ["/bin/bash", "-c"]
   }
 
-  limits = {
-    cpu    = 6
-    memory = "8GB"
-  }
 }
 
 resource "incus_instance" "ubuntu_container" {
