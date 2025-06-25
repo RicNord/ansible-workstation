@@ -106,6 +106,7 @@
       - openconnect
       - openssh
       - openssl
+      - opentofu
       - pandoc-cli
       - parallel
       - pass
