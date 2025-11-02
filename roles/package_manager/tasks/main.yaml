@@ -24,3 +24,6 @@
 
 - name: Incus
   ansible.builtin.import_tasks: incus.yaml
+
+- name: Docker
+  ansible.builtin.import_tasks: docker.yaml
