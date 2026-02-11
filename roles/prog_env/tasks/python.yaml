@@ -92,6 +92,7 @@
         state: present
         executable: "/usr/bin/pipx"
       loop:
+        - cookiecutter
         - pipenv
         - poetry
         - pre-commit
@@ -114,6 +115,7 @@
     name:
       - pre-commit
       - python-black
+      - python-cookiecutter
       - python-hatch
       - python-isort
       - python-pipenv
