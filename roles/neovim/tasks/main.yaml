@@ -56,7 +56,9 @@
 
     - name: Install pynvim
       community.general.pacman:
-        name: python-pynvim
+        name:
+          - python-pynvim
+          - tree-sitter-cli # TODO add for APT when bump
         state: present
       become: true
       become_user: root
