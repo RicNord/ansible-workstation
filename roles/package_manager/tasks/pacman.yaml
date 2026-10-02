@@ -103,6 +103,7 @@
       - networkmanager-openvpn
       - ngrep # network grep
       - nmap
+      - opencode
       - openconnect
       - openssh
       - openssl
