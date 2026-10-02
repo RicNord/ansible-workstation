@@ -19,6 +19,7 @@
     name:
       - neovim-git
       - fswatch # Filesystem watcher recommended by neovim
+      - github-copilot-cli
     state: present
   become: true
   become_user: aur_builder
