@@ -144,3 +144,5 @@ printf "\n"
 echo -e "${BBlue}Test result log: ${NC}"
 
 colorize_exitval </tmp/.ansible-ws-test.log
+
+echo "End time: $(date +%T)"
